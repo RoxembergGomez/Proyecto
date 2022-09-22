@@ -1,0 +1,75 @@
+<div class="container">
+
+  <?php //debería ir a un herper
+    switch ($msg) {
+      case '1':
+        $mensaje="Gracias por usar el sistema";
+        break;
+
+      case '2':
+        $mensaje="* Error de usuario o contraseña";
+        break;
+      case '3':
+        $mensaje="Acceso no válido favor inicie sesión";
+        break;
+      case '4':
+        $mensaje="Ingrese su usuario y su nueva contraseña";
+       break;
+      
+      default:
+        $mensaje="Vacío, ingrese el usuario y contraseña";
+        break;
+    }
+  ?>
+
+  <div  class="login_wrapper">
+  <div class="animate form login_form  ">
+    <section class="login_content">
+      <?php
+          echo form_open_multipart('Usuarios/validar',array('id'=>'form1')); //nombre del método, apertura del form
+        ?>
+      <div id="aw" class="container md-3">
+        <div id="identified1" class="card-body ">
+          <h1>INICIAR SESIÓN</h1>
+          <br>
+          <p class="text-center"><?php echo $mensaje; ?></p>
+          <div class="col-md-12 form-group has-feedback">
+            <input type="text" class="form-control has-feedback-left" name="usuario" placeholder="Usuario" autocomplete="off" required >
+            <span class="fa fa-user form-control-feedback left" aria-hidden="true">
+            </span>
+          </div>
+          <div class="col-md-12 form-group has-feedback">
+            <span class="fa fa-key form-control-feedback left" aria-hidden="true">
+            </span>
+            <input type="password" class="form-control has-feedback-left" name="contrasena" placeholder="Contraseña" autocomplete="off"  required>
+          </div>
+            
+          <div>
+            <button class="col-md-12 form-group btn btn-dark" type="submit">
+              <i class="fa fa-sign-in"></i> Ingresar
+            </button>
+          </div>
+          
+          <div class="clearfix"></div>
+          <div class="separator">
+            <div class="clearfix"></div>
+            <div>
+              <h1> Sistema de Auditoría Interna</h1>
+            </div>
+          </div>
+            </div>
+      </div>
+          <?php
+          echo form_close();
+          ?>         
+      
+    </section>
+  </div>
+</div>
+
+
+       
+   
+
+
+

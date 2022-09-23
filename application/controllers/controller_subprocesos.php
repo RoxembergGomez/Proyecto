@@ -27,14 +27,15 @@ class controller_subprocesos extends CI_Controller {
 	public function agregarprevio()
 	{
 		$idProceso=$_POST ['idProceso'];
-	
+		$data['infoid']=$this->Subprocesos_Model->recuperaridproceso($idProceso);
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_subprocesos',$idProceso);
+		$this->load->view('create/add_subprocesos',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
+
 	}
 	
 	public function agregar()

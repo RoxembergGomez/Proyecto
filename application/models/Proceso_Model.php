@@ -26,7 +26,7 @@ class Proceso_Model extends CI_Model {
 	}
 
 	//Modelo para Agregar a base de datos
-	public function agregaractividad($data)
+	public function agregarproceso($data)
 	{
 		$this->db->insert('proceso',$data);
 	}

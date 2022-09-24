@@ -6,7 +6,7 @@
       foreach ($infoid->result() as $row)
         {
         ?>
-        <input type="hidden" name="idProceso" value="<?php echo $row->idProceso; ?>" required>
+        <input type="text" name="idProceso" value="<?php echo $row->idProceso; ?>" required>
        <?php
         }
       echo form_open_multipart('controller_subprocesos/agregar');

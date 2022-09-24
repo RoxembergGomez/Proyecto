@@ -23,50 +23,32 @@ class controller_procesos extends CI_Controller {
 		}
 	}
 
-	public function guest()
-	{
-		if($this->session->userdata('tipo')=='auditado')
-		{
-			$listaactividades=$this->Plan_Model->actividades();
-			$data['plan_anual']=$listaactividades;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('panelprincipal',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-	}
-
 	public function agregar()
 	{
+		$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+		$data['unidadnegocio']=$listaun;
+
+		$listaac=$this->PlanAnualTrabajo_Model->actividades();
+		$data['actividad']=$listaac;
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('add_actividad');
+		$this->load->view('create/add_proceso',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
 
 	public function agregarbdd()
 	{	
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+		$data['descripcionProceso']=$_POST ['proceso'];
+		$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+		$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		$this->PlanAnualTrabajo_Model->agregaractividad($data);
+		$this->Proceso_Model->agregarproceso($data);
 
-		redirect('controller_actividades/index','refresh');
+		redirect('controller_procesos/index','refresh');
 	}
 
 		

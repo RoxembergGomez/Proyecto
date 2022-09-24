@@ -58,20 +58,20 @@
                 </li>
               <?php }
               if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
-                <li><a><i class="fa fa-line-chart"></i>Análisis de Riesgos<span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu">
-                    <li>
-                      <?php echo form_open_multipart('controller_procesos/index');?>
-                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Procesos</button>
-                      <?php echo form_close();?>
-                    </li>
-                  </ul>
-                </li>
                 <li><a><i class="fa fa-list"></i>Planificación<span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li>
                       <?php echo form_open_multipart('controller_actividades/index');?>
                         <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades</button>
+                      <?php echo form_close();?>
+                    </li>
+                  </ul>
+                </li>
+                <li><a><i class="fa fa-line-chart"></i>Análisis de Riesgos<span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li>
+                      <?php echo form_open_multipart('controller_procesos/index');?>
+                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Procesos</button>
                       <?php echo form_close();?>
                     </li>
                   </ul>

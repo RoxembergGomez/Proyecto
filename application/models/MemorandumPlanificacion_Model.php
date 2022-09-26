@@ -5,7 +5,7 @@ class MemorandumPlanificacion_Model extends CI_Model {
 
 	public function mpa()
 	{
-		$this->db->select('m.idMemorandumPlanificacion,m.numeroInforme,
+		$this->db->select('m.idMemorandumPlanificacion,m.idPlanAnualTrabajo,m.numeroInforme,
 			a.informe,a.fechaInicio,a.fechaConclusion,e.nombres,e.primerApellido,e.segundoApellido,e.idEmpleado');
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');

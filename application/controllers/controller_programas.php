@@ -1,19 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class controller_actividades extends CI_Controller {
+class controller_programas extends CI_Controller {
 
 	public function index()
 	{
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		if($this->session->userdata('tipo')=='jefe')
 		{
-			$listaactividades=$this->PlanAnualTrabajo_Model->actividades();
-			$data['plananualtrabajo']=$listaactividades;
+			$listaempleados=$this->Empleados_Model->empleados();
+			$data['empleados']=$listaempleados;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_actividades',$data);
+			$this->load->view('read/view_empleados',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 		}
@@ -23,145 +23,109 @@ class controller_actividades extends CI_Controller {
 		}
 	}
 
-	public function guest()
-	{
-		if($this->session->userdata('tipo')=='auditado')
-		{
-			$listaactividades=$this->Plan_Model->actividades();
-			$data['plan_anual']=$listaactividades;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('panelprincipal',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-	}
-
 	public function agregar()
 	{
+
+		$idproceso=$_POST ['idPlanAnual'];
+		$subprocesos=$this->Programas_Model->selectsubproceso($idproceso);
+		$data['infoidplan']=$subprocesos;
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_actividad');
+		$this->load->view('create/add_programatrabajo',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
 
 	public function agregarbdd()
-	{	
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-
-		$this->PlanAnualTrabajo_Model->agregaractividad($data);
-
-		redirect('controller_actividades/index','refresh');
+	{
+		$dataPost = json_decode(file_get_contents('php://input'));
+		$data['data']=$dataPost->data;
+		
+		$response = $this->Programas_Model->agregarprograma($data);
+		if($response){	
+			
+			echo json_encode(["status" => true]);
+		}else{
+			echo json_encode(["status" => false]);
+		}
 	}
 
-		
 	public function modificar()
 	{
-		$idPlan=$_POST ['idPlan'];
-		$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
+		$idEmpleado=$_POST ['idEmpleado'];
+		$data['infoempleado']=$this->Empleados_Model->recuperarempleado($idEmpleado);
+		
+		$listacargo=$this->Empleados_Model->seleccion();
+		$data['seleccion']=$listacargo;
 
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('update/modificar_actividad',$data);
+		$this->load->view('update/modificar_empleado',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
 
 	public function modificarbd()
 	{
-		$idPlan=$_POST ['idPlan'];
+		$idEmpleado=$_POST ['idEmpleado'];
 
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+		$data['nombres']=mb_strtoupper($_POST ['nombres'],'UTF-8');
+		$data['primerApellido']=mb_strtoupper($_POST ['primerApellido'],'UTF-8');
+		$data['segundoApellido']=mb_strtoupper($_POST ['segundoApellido'],'UTF-8');
+		$data['ci']=$_POST ['ci'];
+		$data['expedicion']=$_POST ['expedicion'];
+		$data['celular']=$_POST ['celular'];
+		$data['telefonoInterno']=$_POST ['telefonoInterno'];
+		$data['correoInstitucional']=strtolower($_POST ['correoInstitucional']);
+		$data['idCargo']=$_POST ['idCargo'];
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-
-		//formato en que se guarda los archivos
-		$nombrearchivo=$idPlan.".pdf";
-		//ruta donde se guardan los archivos
-		$config['upload_path']='./uploads';
-		//nombre del archivo
-		$config['file_name']=$nombrearchivo;
-
-		$direccion="./uploads/".$nombrearchivo;
-
-		if (file_exists($direccion)) {
-			unlink($direccion);
-		}
-
-		$config['allowed_types']='pdf'; //para agregar otro formato se separa con barra |tipo archivo
-		$this->load->library('upload',$config);
-
-		if (!$this->upload->do_upload()) {
-			$data['error']=$this->upload->display_errors();
-		}
-		else{
-			$data['docInforme']=$nombrearchivo;
-		}
-
-
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 		
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-		$this->upload->data();
-		redirect('controller_actividades/index','refresh');
+		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
+		redirect('controller_empleados/index','refresh');
 	}
 
 	public function eliminarbd()
 	{
-		$idPlan=$_POST ['idPlan'];
+		$idEmpleado=$_POST ['idEmpleado'];
 		$data['estado']='0';
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
+		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
 
-		redirect('controller_actividades/index','refresh');
+		redirect('controller_Empleados/index','refresh');
 	}
 
 	public function eliminados()
 	{
-		$listaactividades=$this->PlanAnualTrabajo_Model->actividadeseliminadas();
-		$data['plananualtrabajo']=$listaactividades;
+		$listaempleados=$this->Empleados_Model->empleadoseliminados();
+		$data['empleados']=$listaempleados;
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('delete/view_ActividadesEliminadas',$data);
+		$this->load->view('delete/view_EmpleadosEliminados',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
 
 	public function recuperarbd()
 	{
-		$IdPlan=$_POST ['idPlan'];
+		$idEmpleado=$_POST ['idEmpleado'];
 		$data['estado']='1';
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
-		redirect('controller_actividades/eliminados','refresh');
+		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
+		redirect('controller_empleados/eliminados','refresh');
 
 	}
 
 
 }
+

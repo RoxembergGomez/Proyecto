@@ -57,7 +57,12 @@
                             <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
                             </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                              <?php echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
+                                <?php echo form_open_multipart('controller_programas/agregar');?>        
+                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                                <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
+                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
+                              <?php echo form_close(); 
+                              echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
                                 <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                               <?php echo form_close(); 
@@ -74,7 +79,7 @@
                     </td>
                   </tr> <?php
                 } 
-                else{ if ($this->session->userdata('empleado')==$row->idEmpleado) {
+                else {if ($this->session->userdata('empleado')==$row->idEmpleado) {
                   ?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
@@ -85,7 +90,7 @@
                   </tr>
                     <?php
                   }
-                }
+                } 
               $indice++;
               }
             ?>

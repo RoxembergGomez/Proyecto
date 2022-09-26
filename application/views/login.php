@@ -41,7 +41,11 @@
           <div class="col-md-12 form-group has-feedback">
             <span class="fa fa-key form-control-feedback left" aria-hidden="true">
             </span>
-            <input type="password" class="form-control has-feedback-left" name="contrasena" placeholder="Contraseña" autocomplete="off"  required>
+            <input type="password" class="form-control has-feedback-left" name="contrasena" placeholder="Contraseña" autocomplete="off" id="password1"  required>
+            <span class=" form-control-feedback right" style="cursor: pointer;"  onclick="hideshow()" >
+              <i id="slash" class="fa fa-eye-slash"></i>
+              <i id="eye" class="fa fa-eye"></i>
+          </span>
           </div>
             
           <div>
@@ -66,6 +70,26 @@
     </section>
   </div>
 </div>
+
+<script>
+    function hideshow(){
+      var password = document.getElementById("password1");
+      var slash = document.getElementById("slash");
+      var eye = document.getElementById("eye");
+      
+      if(password.type === 'password'){
+        password.type = "text";
+        slash.style.display = "block";
+        eye.style.display = "none";
+      }
+      else{
+        password.type = "password";
+        slash.style.display = "none";
+        eye.style.display = "block";
+      }
+
+    }
+  </script>
 
 
        

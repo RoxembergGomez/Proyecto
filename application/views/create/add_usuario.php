@@ -48,7 +48,11 @@
         </div>
         <div class="col-md-6">
           <label class="float-left" style="font-weight: bold;">* Contraseña:</label> <br>
-          <input type="password" name="contrasena" class="col-md-12 form-control" placeholder="Ingrese la contraseña" autocomplete="off">
+          <input type="password" name="contrasena" class="col-md-12 form-control" placeholder="Ingrese la contraseña" autocomplete="off" id="password1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}" title="Mínimo 8 caracteres, incluidas letras mayúsculas y minúsculas, un número y un carácter único" required >
+          <span style="position: absolute; display: block; bottom: .8rem; right: 1.5rem; user-select: none; cursor: pointer;" onclick="hideshow()" >
+            <i id="slash" class="fa fa-eye-slash"></i>
+            <i id="eye" class="fa fa-eye"></i>
+          </span>
           <?php if($msg=='2'){?>
               <p id="validar" >  (*) Agregue otra contraseña </p>
           <?php } ?>
@@ -66,3 +70,23 @@
     </div>
   </div>
 </div>
+
+<script>
+    function hideshow(){
+      var password = document.getElementById("password1");
+      var slash = document.getElementById("slash");
+      var eye = document.getElementById("eye");
+      
+      if(password.type === 'password'){
+        password.type = "text";
+        slash.style.display = "block";
+        eye.style.display = "none";
+      }
+      else{
+        password.type = "password";
+        slash.style.display = "none";
+        eye.style.display = "block";
+      }
+
+    }
+  </script>

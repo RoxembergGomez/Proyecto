@@ -7,7 +7,7 @@
         foreach ($infousuario->result() as $row) {
         echo form_open_multipart('controller_usuarios/modificarbd');
         ?>
-        <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario; ?>"required>
+        <input type="hidden" name="idUsuario" value="<?php echo $row->idEmpleado; ?>"required>
       <div class="row">
         <div class="col-md-6">
          <label class="float-left" style="font-weight: bold;">* Nombre(s) y Apellido(s):</label><br>

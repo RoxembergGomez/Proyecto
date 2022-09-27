@@ -37,7 +37,7 @@
       <div class="row" id="dist">
       	<div class="col-md-6">
          <label class="float-left" style="font-weight: bold;">* Tipo:</label><br>
-          <select name="tipo" class="col-md-12 form-control" required autocomplete="off">
+          <select name="tipo" class="col-md-12 form-control" id="rol" autocomplete="off">
             <option >Seleccione un tipo de usuario</option>
             <option value="jefe">Jefe</option>
             <option value="ejecutor">Ejecutor</option>

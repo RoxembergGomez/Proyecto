@@ -54,4 +54,22 @@ class Empleados_Model extends CI_Model {
 		$this->db->join('cargo c','e.idCargo=c.idCargo');
 		return $this->db->get();
 	}
+
+
+
+	public function validarusuario($usuario)
+	{
+		$this->db->select('usuario');
+		$this->db->from('empleado');
+		$this->db->where('usuario',$usuario);
+		return $this->db->get();
+	}
+
+	public function validarcontrasena($contrasena)
+	{
+		$this->db->select('contrasena');
+		$this->db->from('empleado');
+		$this->db->where('contrasena',$contrasena);
+		return $this->db->get();
+	}
 }

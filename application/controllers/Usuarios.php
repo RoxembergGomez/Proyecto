@@ -85,10 +85,9 @@ class Usuarios extends CI_Controller {
 			//tenemos una validación efectiva
 			foreach ($consulta->result() as $row) 
 			{
-				$this->session->set_userdata('idUsuario',$row->idUsuario);
+				$this->session->set_userdata('idUsuario',$row->idEmpleado);
 				$this->session->set_userdata('usuario',$row->usuario);
 				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('empleado',$row->idEmpleado);
 				$this->session->set_userdata('estado',$row->estado);
 
 				redirect('usuarios/panel','refresh');
@@ -107,10 +106,9 @@ class Usuarios extends CI_Controller {
 			//tenemos una validación efectiva
 			foreach ($consulta->result() as $row) 
 			{
-				$this->session->set_userdata('idUsuario',$row->idUsuario);
+				$this->session->set_userdata('idUsuario',$row->idEmpleado);
 				$this->session->set_userdata('usuario',$row->usuario);
 				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('empleado',$row->idEmpleado);
 				$this->session->set_userdata('estado',$row->estado);
 
 				redirect('usuarios/index','refresh');

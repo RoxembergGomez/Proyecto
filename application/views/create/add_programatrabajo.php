@@ -33,7 +33,7 @@ table tr td:first-child::before
         </div>
         <div class="col-md-8">
          <select name="idsubproceso" id="subproceso" class="col-md-12 form-control" autocomplete="off">
-            <option value="0">Selecione un subproceso</option>
+            <option value="0">Selecione...</option>
                 <?php
                  foreach ($infoidplan->result() as  $row)
               {?> <option value="<?php echo $row->idSubProceso;?>">
@@ -90,9 +90,8 @@ document.getElementById("btnEnviar").addEventListener("click",function(){
 	console.log(baseUrl);
 		let elementos = tabla.children[1].children;
 		for(let i = 0; i<elementos.length;i++){
-			actividadArray.push({actividad:elementos[i].children[1].innerHTML,subproceso:subproceso.value});
+			actividadArray.push({actividad:elementos[i].children[1].innerHTML,subproceso:subproceso.value,mpa:mpa.value});
 		} 
-
 
 		if(actividadArray.length>0){
 			fetch("<?php echo base_url(); ?>" + "index.php/controller_programas/agregarbdd",{
@@ -162,7 +161,7 @@ function agregarActividad(){
 		validate = false;
 	}
 	if(validate){
-		let data = {actividad:txtActividad.value,subproceso:cbxSubproceso.value}
+		let data = {actividad:txtActividad.value,subproceso:cbxSubproceso.value,mpa:mpa.value}
 		tabla.children[1].insertRow(-1).innerHTML = '<td class="text-center" ></td><td>'+ data.actividad +'</td><td class="text-rigth"><button type="button" class="btn btn-danger btn-sm borrar float-right" onclick="eliminarActividad(this);"><i class="fa fa-trash"></i> Eliminar</button><button type="button" class="btn btn-warning btn-sm modificar float-right" onclick="modificarActividad(this);"><i class="fa fa-pencil-square-o"></i>Modificar</button></td>'
 		txtActividad.value = "";
 	}

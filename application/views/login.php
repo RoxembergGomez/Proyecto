@@ -41,7 +41,7 @@
           <div class="col-md-12 form-group has-feedback">
             <span class="fa fa-key form-control-feedback left" aria-hidden="true">
             </span>
-            <input type="password" class="form-control has-feedback-left" name="contrasena" placeholder="Contraseña" autocomplete="off" id="password1"  required>
+            <input type="password" class="form-control has-feedback-left" name="contrasena" placeholder="Contraseña" autocomplete="off" id="password1">
             <span class=" form-control-feedback right" style="cursor: pointer;"  onclick="hideshow()" >
               <i id="slash" class="fa fa-eye-slash"></i>
               <i id="eye" class="fa fa-eye"></i>

@@ -114,7 +114,7 @@ class controller_usuarios extends CI_Controller {
 		$data['usuario']=strtolower($_POST ['usuario']);
 		$data['contrasena']=MD5($_POST ['contrasena']);
 		$data['tipo']=strtolower($_POST ['tipo']);
-		$data['estado']='2';
+		$data['estado']='1';
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		
 		$this->Usuario_Model->modificarusuario($idUsuario,$data);

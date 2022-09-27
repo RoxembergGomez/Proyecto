@@ -26,7 +26,8 @@ class Programas_Model extends CI_Model {
 
 	public function selectsubproceso($plan)
 	{
-		$this->db->select('p.idProceso,p.idPlanAnualTrabajo,s.idSubProceso,s.descripcionSubProceso,s.estado');
+		$this->db->select('p.idProceso,p.idPlanAnualTrabajo,s.idSubProceso,
+			s.descripcionSubProceso,s.estado,s.idProceso');
 		$this->db->from('proceso p');
 		$this->db->where('p.idPlanAnualTrabajo',$plan);
 		$this->db->where('s.estado','1');
@@ -40,11 +41,9 @@ class Programas_Model extends CI_Model {
 		foreach ($data['data'] as  $value) {
 			$this->db->insert('programatrabajo', array(      
 				'actividad' => $value->actividad,      
-				//'verificacionActividad' => $data['verificacionActividad'],
-				//'respaldo' => $data['respaldo'],
 				'idUsuario' => $this->session->userdata('idUsuario'),       
-				'idSubProceso' => $value->subproceso,      
-				//'estado' => 1    
+				'idSubProceso' => $value->subproceso,
+				'idMemorandumPlanificacion' => $value->mpa,         
 			));  
 		}
 	   if ($this->db->trans_status() === FALSE){      

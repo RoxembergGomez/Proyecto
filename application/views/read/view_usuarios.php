@@ -60,11 +60,11 @@
                         </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
                           <?php echo form_open_multipart('controller_usuarios/modificar');?>        
-                            <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>" >
+                            <input type="hidden" name="idUsuario" value="<?php echo $row->idEmpleado;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close(); 
                           echo form_open_multipart('controller_usuarios/eliminarbd');?>    
-                            <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
+                            <input type="hidden" name="idUsuario" value="<?php echo $row->idEmpleado;?>">
                             <button type="submit" name="botton" value="Deshabilitar" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
                           <?php echo form_close();?>
                           </div>

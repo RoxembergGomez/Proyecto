@@ -1148,7 +1148,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 	className: 'buttons-excel buttons-flash',
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.excel', 'Excel' );
+		return dt.i18n( 'buttons.excel', 'Exc' );
 	},
 
 	action: function ( e, dt, button, config ) {

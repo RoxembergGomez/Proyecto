@@ -2196,7 +2196,7 @@ function init_DataTables() {
                 dom: "Blfrtip",
                 buttons: [
                     {
-                        extend: "copy",
+                        extend: "co",
                         className: "btn-sm"
                     },
                     {

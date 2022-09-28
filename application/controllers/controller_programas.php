@@ -7,13 +7,13 @@ class controller_programas extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$listaempleados=$this->Empleados_Model->empleados();
-			$data['empleados']=$listaempleados;
+			$listaprogramas=$this->Programas_Model->programas();
+			$data['programatrabajo']=$listaprogramas;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_empleados',$data);
+			$this->load->view('read/view_programatrabajo',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 		}

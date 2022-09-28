@@ -3,17 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Programas_Model extends CI_Model {
 
-	/*public function empleados()
+	public function programas()
 	{
-		$this->db->select('e.idEmpleado,e.ci,e.expedicion,e.nombres,e.primerApellido,e.segundoApellido,
-			c.denominacionCargo,e.celular,e.telefonoInterno,e.correoInstitucional');
-		$this->db->from('empleado e');
-		$this->db->where('e.estado','1');
-		$this->db->or_where('e.estado','2');
-		$this->db->join('cargo c','e.idCargo=c.idCargo');
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
 		return $this->db->get();
-	}*/
-
+	}
 
 	public function recuperarid($idmpa)
 	{

@@ -154,7 +154,7 @@ $(document).ready(function () {
         // fix for some div with hardcoded fix class
         if ($BOX_PANEL.attr('style')) {
             $BOX_CONTENT.slideToggle(200, function () {
-                $BOX_PANEL.removeAttr('style');
+                //$BOX_PANEL.removeAttr('style');
             });
         } else {
             $BOX_CONTENT.slideToggle(200);

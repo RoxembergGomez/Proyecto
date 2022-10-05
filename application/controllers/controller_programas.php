@@ -52,6 +52,20 @@ class controller_programas extends CI_Controller {
 		}
 	}
 
+	public function actividades()
+	{
+
+			$listaactividades=$this->Programas_Model->actividades($_POST ['idmpa']);
+			$data['actividades']=$listaactividades;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_ejecucionactividades',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+	}
+
 	public function modificar()
 	{
 		$idEmpleado=$_POST ['idEmpleado'];

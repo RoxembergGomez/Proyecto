@@ -82,8 +82,8 @@
                  <?php
                 if($this->session->userdata('tipo')=='jefe')
                 {?> 
-                  <td class="text-center">
-                    <ul>
+                  <td >
+                    <ul class="col text-center">
                       <li class="nav-item dropdown open text-center" style="list-style:none;">
                          <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
                         </a>

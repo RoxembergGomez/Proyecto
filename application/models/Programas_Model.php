@@ -14,6 +14,18 @@ class Programas_Model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function actividades($idmpa)
+	{
+		$this->db->select('*');
+		$this->db->from('programatrabajo p');
+		$this->db->where('p.estado','1');
+		$this->db->where('p.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('subproceso s','s.idSubProceso=p.idSubProceso');
+		$this->db->order_by('s.clasificacionCriticidad');
+		return $this->db->get();
+	}
+
 	public function recuperarid($idmpa)
 	{
 		$this->db->select('*');

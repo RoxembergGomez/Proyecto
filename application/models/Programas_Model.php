@@ -26,6 +26,16 @@ class Programas_Model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function vistaejecucion($idPrograma)
+	{
+		$this->db->select('*');
+		$this->db->from('programatrabajo pt');
+		$this->db->where('pt.estado','1');
+		$this->db->where('pt.idProgramaTrabajo',$idPrograma);
+		$this->db->join('subproceso sp','sp.idSubProceso=pt.idSubProceso');
+		return $this->db->get();
+	}
+
 	public function recuperarid($idmpa)
 	{
 		$this->db->select('*');
@@ -66,7 +76,17 @@ class Programas_Model extends CI_Model {
 	   }  
 	}
 
-	
+	public function modificarprograma($idprograma,$data)
+	{
+		$this->db->where('idProgramaTrabajo',$idprograma); 
+		$this->db->update('programatrabajo',$data);
+	}
+
+	public function agregarobservacion($dataobs)
+	{
+		$this->db->insert('hallazgo',$dataobs);
+	}
+
 	/*public function recuperarempleado($idEmpleado)
 	{
 		$this->db->select('e.idEmpleado,e.ci,e.expedicion,e.nombres,e.primerApellido,e.segundoApellido,

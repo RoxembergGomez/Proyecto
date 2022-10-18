@@ -8,7 +8,7 @@
         ?>
       <div id="aw" class="container md-3">
         <div id="identified1" class="card-body ">
-          <h1 style="margin:5px;">ACTUALIZAR CONTRASEÑA</h1>
+          <h1 style="margin:5px;">CAMBIO DE CLAVE</h1>
           <br>
          
         <input type="hidden" name="idUsuario" value="<?php echo $this->session->userdata('idUsuario');?>">

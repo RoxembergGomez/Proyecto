@@ -35,7 +35,8 @@
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>
                     <td ><?php echo $row->informe;?></td>
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
-                    <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>  
+                    <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
+                      
                     <td>
                         <?php echo form_open_multipart('controller_programas/actividades');?> 
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">

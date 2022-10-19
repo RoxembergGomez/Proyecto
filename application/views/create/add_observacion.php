@@ -31,8 +31,8 @@
       echo form_open_multipart('controller_programas/agregarObservacion');
       ?>
         
-      <input type="text" name="idprograma" value="<?php echo $_POST ['idprograma'];?>">
-      <input type="text" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
+      <input type="hidden" name="idprograma" value="<?php echo $_POST ['idprograma'];?>">
+      <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
         <div class="row">
           <div class="col-md-12">
             <label>OBSERVACIÓN</label>
@@ -51,7 +51,15 @@
         </div>
         <div class="col-md-4">
           <label>EMPLEADO RESPONSABLE</label>
-          <input type="text" class="col-md-12 form-control" name="idEmpleado"> 
+           <select name="idEmpleado" class="col-md-12 form-control" required autocomplete="off">
+            <option>Selecione un responsable</option>
+                <?php
+                 foreach ($seleccion->result() as  $row)
+              {?> <option value="<?php echo $row->idEmpleado;?>">
+                <?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?>
+                </option><?php
+                }?>
+          </select> <br><br><br>  
         </div>
         <div class="col-md-4">
           <label>ANEXO</label>
@@ -59,7 +67,7 @@
         </div>
         </div>
         <hr>
-        <button type="submit" class="btn btn-success"><i class="fa fa-database"></i>  Ejecutar</button>
+        <button type="submit" class="btn btn-success"><i class="fa fa-database"></i>  Guardar</button>
       <?php 
       echo form_close();
       ?>

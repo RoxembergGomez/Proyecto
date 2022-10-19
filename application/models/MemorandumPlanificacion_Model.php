@@ -17,7 +17,7 @@ class MemorandumPlanificacion_Model extends CI_Model {
 
 	public function seleccion()
 	{
-		$this->db->select('e.idEmpleado,e.nombres,e.primerApellido,e.segundoApellido');
+		$this->db->select('*');
 		$this->db->from('empleado e');
 		$this->db->where('e.estado','1');
 		$this->db->join('cargo c','e.idCargo=c.idCargo');

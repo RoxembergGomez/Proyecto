@@ -124,7 +124,7 @@ class Observacion extends CI_Controller {
 		$obs=$obs->result(); //convertir a array bidemencional
 
 		$this->pdf=new Pdf();
-		$this->pdf->addPage();
+		$this->pdf->addPage('L','letter');
 		$this->pdf->AliasNbPages();
 		$this->pdf->SetTitle("Observaciones"); //título en el encabezado
 		//$this->pdf->SetTopMargin(0);

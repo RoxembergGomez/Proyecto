@@ -65,7 +65,7 @@
               ?> 
                   <td>
                     <ul >
-                      <li   class="nav-item dropdown open text-center" style="list-style:none;">
+                      <li   class="nav-item dropdown open" style="list-style:none;">
                         <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
                         </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">

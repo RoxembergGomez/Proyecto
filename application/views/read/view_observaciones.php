@@ -67,10 +67,6 @@
                                 <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion; ?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i> Accion Correctiva</button>
                               <?php echo form_close();
-                              echo form_open_multipart('controller_requerimientoinformacion/agregar');?>        
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Requerimiento</button>
-                              <?php echo form_close();
                               echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
                                 <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>

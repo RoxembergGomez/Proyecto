@@ -3,26 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class controller_requerimientoinformacion extends CI_Controller {
 
-	public function index()
-	{
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
-		{
-			$listampa=$this->MemorandumPlanificacion_Model->mpa();
-			$data['memorandumplanificacion']=$listampa;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_requerimientoinformacion',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-		}
-		else
-		{
-			redirect('usuarios/panel','refresh');
-		}
-	}
-
 	public function agregar()
 	{
 		$unidadnegocio=$this->UnidadNegocio_Model->unidadnegocio();
@@ -39,18 +19,177 @@ class controller_requerimientoinformacion extends CI_Controller {
 
 	public function agregarbdd()
 	{
+		
 		$dataPost = json_decode(file_get_contents('php://input'));
 		$data['data']=$dataPost->data;
-		
-		$response = $this->RequerimientoInformacion_Model->agregarrequerimiento($data);
+		$response = $this->RequerimientoInformacion_Model->agregarRequerimiento($data);
 		if($response){	
-			
 			echo json_encode(["status" => true]);
 		}else{
 			echo json_encode(["status" => false]);
 		}
+		
 	}
 
+
+	public function index()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$req=$this->RequerimientoInformacion_Model->vistaRequerimiento();
+			$data['requerimiento']=$req;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_requerimientoinformacion',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+
+	public function unidadRequerimiento()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$reque=$this->RequerimientoInformacion_Model->unidadRequerimiento($_POST['idmpa']);
+			$data['detallereq']=$reque;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_detallerequerimiento',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+	public function detallerequerimiento()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$reque=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
+			$data['reportereq']=$reque;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_reporterequerimiento',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+
+	public function reportepdf()
+	{
+		
+	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+	{
+
+		$req=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
+		$req=$req->result(); //convertir a array bidemencional
+
+		$this->pdf=new Pdf();
+		$this->pdf->addPage('P','letter');
+		$this->pdf->AliasNbPages();
+		$this->pdf->SetTitle("Observaciones"); //título en el encabezado
+		
+		$this->pdf->SetLeftMargin(20); //margen izquierdo
+		$this->pdf->SetRightMargin(20); //margen derecho
+		$this->pdf->SetFillColor(210,210,210); //color de fondo
+		$this->pdf->SetFont('Arial','B',11); //tipo de letra
+		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+		$actividad=$actividad->result();
+		foreach ($actividad as $rowa) {
+			$act=$rowa->informe;
+		}
+		$this->pdf->Cell(0,10,utf8_decode($act),0,1,'C',1);
+
+		
+		$this->pdf->Ln(5);
+		$this->pdf->Cell(15,7,utf8_decode('Fecha:'),0,0,'L',0);
+		$this->pdf->SetFont('Arial','',11);
+		$this->pdf->Cell(160,7,utf8_decode(date("d/m/Y")),0,1,'L',0);
+		$this->pdf->SetFont('Arial','B',11);
+		$this->pdf->Cell(15,7,utf8_decode('Para:'),0,0,'L',0);
+		$unidad=$this->UnidadNegocio_Model->recuperarunidadnegocio($_POST ['idunidad']);
+		$unidad=$unidad->result();
+		foreach ($unidad as $rowu) {
+			$uni=$rowu->lineaNegocio;
+		}
+		$this->pdf->SetFont('Arial','',11);
+		$this->pdf->Cell(175,7,utf8_decode($uni),0,1,'L',0);
+		$this->pdf->SetFont('Arial','B',11);
+		$this->pdf->Cell(15,7,utf8_decode('De:'),0,0,'L',0);
+		$this->pdf->SetFont('Arial','',11);
+		$this->pdf->Cell(160,7,utf8_decode('UNIDAD DE AUDITORÍA INTERNA'),0,1,'L',0);
+		//$this->pdf->Cell(0,10,'DETALLE DE OBSERVACIONES',0,0,'C',1);
+		//ANCHO/ALTO/TEXTO/BORDE/ORDEN SIG CELDA/ALINEACIÓN PUEDE SER L IQUIERDA, C CENTRO, R DERECHA/FILL 0NO 1SI
+		//ORDEN SIG CELDA 0 DERE, 1 SIG LINEA, 2 DEBAJO
+		$this->pdf->Ln(5);
+		$this->pdf->MultiCell(0,5,utf8_decode('En cumplimiento del Plan Anual de Auditoría Interna se requiere la siguiente información:'),0,'J',0);
+
+		$this->pdf->SetFont('Arial','B',11);
+		$this->pdf->Ln(5);
+		$this->pdf->Cell(0,5,utf8_decode('DETALLE DE REQUERIMIENTO DE INFORMACIÓN'),0,0,'C',false);
+
+		$this->pdf->Ln(8); //margin para el espaciado
+		$this->pdf->SetFont('Arial','B',10);
+
+		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+		$this->pdf->Cell(165,8,utf8_decode('Requerimiento'),1,1,'C',0);
+
+		
+		$num=1;
+		foreach ($req as $row) {
+
+			$descripcion=$row->requerimientoInformacion;
+          
+          $this->pdf->SetFont('Arial','',10);
+          $this->pdf->Cell(10,5,$num,1,0,'C',0);
+          $this->pdf->Cell(165,5,utf8_decode($descripcion),1,0,'L',false);
+                  
+          $this->pdf->Ln();
+
+          $num++;
+		}
+
+		$this->pdf->Ln(5);
+		$this->pdf->MultiCell(0,5,utf8_decode('Nota: la información puede ser entregada en físico o digital, lo que sea de su conveniencia.'),0,'J',0);
+		$this->pdf->Ln(5);
+		$this->pdf->MultiCell(0,5,utf8_decode('De acuerdo con nuestro compromiso de confidencialidad en vigor, podemos asegurarles que el uso de la información requerida se limita a los objetivos del trabajo de auditoría.'),0,'J',0);
+
+		$this->pdf->Ln(5);
+		$this->pdf->MultiCell(0,5,utf8_decode('Atentamente:'),0,'J',0);
+
+		$this->pdf->Ln(5);
+		$this->pdf->SetFont('Arial','B',10);
+		$this->pdf->MultiCell(0,5,utf8_decode('SUBGERENCIA NACIONAL DE AUDITORÍA INTERNA:'),0,'J',0);
+
+		$this->pdf->Output("DetalleRequerimiento.pdf","D");
+		}
+		else
+		{
+			redirect('controller_requerimientoinformacion/index','refresh');
+		}
+
+	}
+
+	
 
 	public function eliminarbd()
 	{

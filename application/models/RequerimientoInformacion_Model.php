@@ -3,26 +3,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class RequerimientoInformacion_Model extends CI_Model {
 
-	public function programas()
+	public function vistaRequerimiento()
 	{
 		$this->db->select('*');
-		$this->db->from('memorandumplanificacion m');
-		$this->db->where('m.estado','1');
-		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
-		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->from('requerimientoinformacion r');
+		$this->db->where('r.estado','1');
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=r.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('unidadnegocio u','u.idUnidadNegocio=r.idUnidadNegocio');
 		$this->db->group_by('m.numeroInforme');
 		return $this->db->get();
 	}
 
-	public function actividades($idmpa)
+	public function unidadRequerimiento($idmpa)
 	{
 		$this->db->select('*');
-		$this->db->from('programatrabajo p');
-		$this->db->where('p.estado','1');
-		$this->db->where('p.idMemorandumPlanificacion',$idmpa);
-		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
-		$this->db->join('subproceso s','s.idSubProceso=p.idSubProceso');
-		$this->db->order_by('s.clasificacionCriticidad');
+		$this->db->from('requerimientoinformacion r');
+		$this->db->where('r.estado','1');
+		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=r.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('unidadnegocio u','u.idUnidadNegocio=r.idUnidadNegocio');
+		$this->db->group_by('u.lineaNegocio');
+		return $this->db->get();
+	}
+
+	public function reporteRequerimiento($idunidadnegocio,$idmpa)
+	{
+		$this->db->select('*');
+		$this->db->from('requerimientoinformacion r');
+		$this->db->where('r.estado','1');
+		$this->db->where('u.idUnidadNegocio',$idunidadnegocio);
+		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=r.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('unidadnegocio u','u.idUnidadNegocio=r.idUnidadNegocio');
+		//$this->db->group_by('u.lineaNegocio');
 		return $this->db->get();
 	}
 
@@ -56,15 +72,16 @@ class RequerimientoInformacion_Model extends CI_Model {
 		return $this->db->get();
 	}
 
-	public function agregarrequerimiento($data)
+	public function agregarRequerimiento($data)
 	{
-		$this->db->trans_begin(); 
+	   $this->db->trans_begin();    
 		foreach ($data['data'] as  $value) {
 			$this->db->insert('requerimientoinformacion', array(      
-				'requerimientoInformacion' => $value->actividad,      
-				'idUsuario' => $this->session->userdata('idUsuario'),       
-				'idUnidadNegocio' => $value->subproceso,
-				'idMemorandumPlanificacion' => $value->mpa,         
+				'requerimientoInformacion' => $value->subProceso,      
+				'idUnidadNegocio' => $value->gradoCriticidad,
+				'idUsuario' => $this->session->userdata('idUsuario'),     
+				'idMemorandumPlanificacion' => $value->proceso,      
+				'estado' => 1   
 			));  
 		}
 	   if ($this->db->trans_status() === FALSE){      

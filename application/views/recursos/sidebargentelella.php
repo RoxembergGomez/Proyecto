@@ -3,7 +3,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="<?php echo base_url(); ?>gentelella/Production/index.html" class="site_title"><span>SAIB-RISK</span></a>
+            <a href="<?php echo base_url()."index.php/controller_panelprincipal/index";?>" class="site_title"><span>SAIB-RISK</span></a>
           </div>
 
           <div class="clearfix"></div>

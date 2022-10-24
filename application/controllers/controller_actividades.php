@@ -163,4 +163,55 @@ class controller_actividades extends CI_Controller {
 	}
 
 
+
+	// ----------------------REPORTES -------------------------------
+
+	
+	public function ejecutadas()
+	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$actividadesejecutadas=$this->PlanAnualTrabajo_Model->ejecutadas();
+			$data['ejecutadas']=$actividadesejecutadas;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('reportes/view_actividadesejecutadas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+	
+
+
+
+
+	public function pendientes()
+	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$actividadespendientes=$this->PlanAnualTrabajo_Model->pendientes();
+			$data['pendientes']=$actividadespendientes;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('reportes/view_actividadespendientes',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+
+
 }

@@ -124,14 +124,9 @@ class Usuarios extends CI_Controller {
 	{
 		if($this->session->userdata('usuario') AND $this->session->userdata('estado')=='1')
 		{
-			if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+			if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado')
 			{
-				redirect('controller_actividades/index','refresh'); //el usuario ya esta logueado
-			}
-			else
-			{
-				//cargo el guest
-				redirect('controller_actividades/guest','refresh'); //debe redirigir a métodos completos
+				redirect('controller_panelprincipal/index','refresh'); //el usuario ya esta logueado
 			}
 		}  
 		else {

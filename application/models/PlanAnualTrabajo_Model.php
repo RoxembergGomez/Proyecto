@@ -43,4 +43,38 @@ class PlanAnualTrabajo_Model extends CI_Model {
 		$this->db->where('estado','0');
 		return $this->db->get();
 	}
+
+	//------------------------------REPORTES---------------------------------------- 
+
+	public function actividadescerradas()//select
+    {
+        $this->db->from('plananualtrabajo'); //tabla producto
+        $this->db->where('estadoEjecucion','2'); //condición where estado = 1
+        //si se gusta añadir una especie de AND de SQL se puede repetir nuevamente la línea previa a este comentario. ($this->db->where('estado','0');)
+        return $this->db->count_all_results(); //devolucion del resultado de la consulta
+    }
+
+    public function actividadespendientes()//select
+    {
+        $this->db->from('plananualtrabajo'); //tabla producto
+        $this->db->where('estadoEjecucion','1'); //condición where estado = 1
+        //si se gusta añadir una especie de AND de SQL se puede repetir nuevamente la línea previa a este comentario. ($this->db->where('estado','0');)
+        return $this->db->count_all_results(); //devolucion del resultado de la consulta
+    }
+
+    public function pendientes()
+	{
+		$this->db->select('*');
+		$this->db->from('plananualtrabajo');
+		$this->db->where('estadoEjecucion','1');
+		return $this->db->get();
+	}
+
+	public function ejecutadas()
+	{
+		$this->db->select('*');
+		$this->db->from('plananualtrabajo');
+		$this->db->where('estadoEjecucion','2');
+		return $this->db->get();
+	}
 }

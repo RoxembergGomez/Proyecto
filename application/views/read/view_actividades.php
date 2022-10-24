@@ -1,3 +1,4 @@
+
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
@@ -13,16 +14,25 @@
                 ?>
                     <button type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-database"></i> Agregar Actividad</button>
                 <?php
-                  } 
+                  
                 echo form_close();
+
+                echo form_open_multipart('controller_actividades/pendientes');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-list-alt"></i> Actividades Pendientes</button>
+                <?php echo form_close();
+
+                echo form_open_multipart('controller_actividades/ejecutadas');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-check-square-o"></i> Actividades Ejecutadas</button>
+                <?php echo form_close();
 
                 echo form_open_multipart('controller_actividades/eliminados');?>
                     <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-trash"></i> Actividades Eliminadas</button>
-                <?php echo form_close();?>
+                <?php echo form_close();
+                } ?>
 
               </div>  
     
-            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>
                   <th class="text-center">Nro.</th>

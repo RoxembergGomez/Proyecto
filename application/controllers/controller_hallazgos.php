@@ -5,7 +5,7 @@ class controller_hallazgos extends CI_Controller {
 
 	public function index()
 	{
-		if($this->session->userdata('tipo')=='jefe')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
 			$listaprogramas=$this->Programas_Model->programas();
 			$data['programatrabajo']=$listaprogramas;

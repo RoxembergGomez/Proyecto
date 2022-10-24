@@ -37,23 +37,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>bootstrap/css/validar.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>bootstrap/css/login.css">
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+    <!-- PARA GRÁFICOS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    <script>
-            
-            $(function(){
-                // Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
-                $("#adicional").on('click', function(){
-                    $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
-                });
-             
-                // Evento que selecciona la fila y la elimina 
-                $(document).on("click",".eliminar",function(){
-                    var parent = $(this).parents().get(0);
-                    $(parent).remove();
-                });
-            });
-    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
     
   </head>
 

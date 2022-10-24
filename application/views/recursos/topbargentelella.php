@@ -18,7 +18,7 @@
                   <font style="font-weight: bold; color: #636364; font-size: 17px"><?php echo $this->session->userdata('usuario');?></font>
                 </a>
                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="<?php echo base_url(); ?>gentelella/javascript:;"> Inicio</a>
+                  <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_panelprincipal/index";?>" > Inicio</a>
                   <?php echo form_open_multipart('usuarios/logout');//CONTROL PARA CERRAR SESIÓN ?> 
                         <button type="submit" class="dropdown-item"  ><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</button>
                     <?php echo form_close();?>

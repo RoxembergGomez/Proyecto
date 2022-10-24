@@ -9,7 +9,7 @@
           <div class="card-box table-responsive">
               <div class="row float-left">
                 <?php echo form_open_multipart('controller_actividades/index');?>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-list-ol"></i>  Lista de Actividades Activas</button>
+                    <button type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-list-ol"></i>  Lista de Actividades Activas</button>
                 <?php echo form_close();?>
               </div>  
     

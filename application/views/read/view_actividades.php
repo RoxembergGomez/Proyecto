@@ -1,3 +1,10 @@
+<style type="text/css">
+  
+   #reporte:hover {
+    background-color: #2AAAB4;
+   }
+
+</style>
 
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
@@ -7,31 +14,41 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div class="row float-left">
+          
+              
+              <div class="row float-left">
                 <?php echo form_open_multipart('controller_actividades/agregar');
                   if($this->session->userdata('tipo')=='jefe')
                   {
                 ?>
-                    <button type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-database"></i> Agregar Actividad</button>
+                    <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-database"></i> Agregar Actividad</button>
                 <?php
-                  
-                echo form_close();
+                }
+                echo form_close();?>
+                </div>
 
-                echo form_open_multipart('controller_actividades/pendientes');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-list-alt"></i> Actividades Pendientes</button>
+              <div class="btn-group row float-right" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list">   Reportes de Actividades</i></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <?php echo form_open_multipart('controller_actividades/pendientes');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-list-alt"></i> Pendientes</button>
                 <?php echo form_close();
 
                 echo form_open_multipart('controller_actividades/ejecutadas');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-check-square-o"></i> Actividades Ejecutadas</button>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-check-square-o"></i> Ejecutadas</button>
+                <?php echo form_close();
+
+                echo form_open_multipart('controller_actividades/ejecutadas');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-check-square-o"></i> Por Empleados</button>
                 <?php echo form_close();
 
                 echo form_open_multipart('controller_actividades/eliminados');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-trash"></i> Actividades Eliminadas</button>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminadas</button>
                 <?php echo form_close();
-                } ?>
-
-              </div>  
-    
+                ?>
+                </div>
+              </div>
+              
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>

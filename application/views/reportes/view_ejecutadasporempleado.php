@@ -2,7 +2,7 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES EJECUTADAS</h5> 
+        <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES EJECUTADAS POR EMPLEADOS</h5> 
     </div>
     <div class="x_content">
       <div class="row">
@@ -13,7 +13,7 @@
             <?php echo form_close();?>
           </div>
           <div class="float-rigth">
-            <?php echo form_open_multipart('controller_actividades/ejecutadaspdf');?>
+            <?php echo form_open_multipart('controller_actividades/porempleadopdf');?>
               <button type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-file-pdf-o"></i>  Reporte PDF</button>
             <?php echo form_close();?>
          </div>
@@ -22,9 +22,9 @@
               <thead>
                 <tr>
                   <th class="text-center">Nro.</th>
+                  <th class="text-center">Nombre(s) y Apellido(s)</th>
                   <th class="text-center">Nro. Informe</th>
                   <th class="text-center">Informe</th>
-                  <th class="text-center">Objetivos</th>
                   <th class="text-center">Fecha de Inicio</th>
                   <th class="text-center">Fecha de Conclusión</th>
                   <th class="text-center">Grado de Priorización</th>
@@ -40,9 +40,9 @@
               ?>
                  <tr>
                   <td class="text-center"><?php echo $indice;?></td>
+                  <td ><?php echo ucwords($row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido);?></td>
                   <td ><?php echo $row->numeroInforme;?></td>
                   <td ><?php echo $row->informe;?></td>
-                  <td><?php echo $row->objetivo;?></td>
                   <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>

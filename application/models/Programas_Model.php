@@ -114,4 +114,18 @@ class Programas_Model extends CI_Model {
 		$this->db->join('cargo c','e.idCargo=c.idCargo');
 		return $this->db->get();
 	}*/
+
+//----------------REPORTES ---------------------
+	public function programasrevision()
+    {
+        $this->db->from('memorandumplanificacion');
+        $this->db->where('estadoPrograma','2');
+        return $this->db->count_all_results();
+    }
+    public function programasaprobados()
+    {
+        $this->db->from('memorandumplanificacion');
+        $this->db->where('estadoPrograma','3');
+        return $this->db->count_all_results();
+    }
 }

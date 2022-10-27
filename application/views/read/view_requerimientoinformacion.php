@@ -23,7 +23,8 @@
               <?php
               $indice=1;
               foreach ($requerimiento->result() as  $row)
-              {?>
+              {
+                if (($this->session->userdata('idUsuario')==$row->idEmpleado && $this->session->userdata('tipo') =='jefe') || $this->session->userdata('idUsuario')==$row->idEmpleado) {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>
@@ -42,6 +43,7 @@
                     </td>
                   </tr> 
                     <?php
+                  }
               $indice++;
               }
             ?>

@@ -45,6 +45,7 @@ class Observaciones_Model extends CI_Model {
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');
 		$this->db->where('m.estadoProceso','4');
+		$this->db->where('a.estadoEjecucion','2');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->group_by('m.numeroInforme');
@@ -155,4 +156,20 @@ class Observaciones_Model extends CI_Model {
 		$this->db->join('cargo c','e.idCargo=c.idCargo');
 		return $this->db->get();
 	}*/
+
+
+	//---------------------REPORTES----------------------
+
+	public function hallazgosrevision()
+    {
+        $this->db->from('memorandumplanificacion');
+        $this->db->where('estadoProceso','2');
+        return $this->db->count_all_results();
+    }
+    public function hallazgosenviados()
+    {
+        $this->db->from('memorandumplanificacion');
+        $this->db->where('estadoPrograma','3');
+        return $this->db->count_all_results();
+    }
 }

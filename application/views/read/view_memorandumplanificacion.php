@@ -25,11 +25,11 @@
                   if($this->session->userdata('tipo')=='jefe')
                   {
                   ?> 
-                    <th class="text-center">Responsable de Ejecución</th>
-                    <th class="text-center">Acciones</th> 
+                    <th class="text-center">Responsable de Ejecución</th>                   
                 <?php
                   }
                 ?>
+                <th class="text-center">Acciones</th> 
                 </tr>
               </thead>
               <tbody>
@@ -62,10 +62,6 @@
                                 <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
                               <?php echo form_close();
-                              echo form_open_multipart('controller_requerimientoinformacion/agregar');?>        
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Requerimiento</button>
-                              <?php echo form_close();
                               echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
                                 <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
@@ -90,7 +86,7 @@
 
                   </tr> <?php
                 } 
-                else {if ($this->session->userdata('empleado')==$row->idEmpleado) {
+                else {if ($this->session->userdata('idUsuario')==$row->idEmpleado) {
                   ?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
@@ -98,6 +94,21 @@
                     <td ><?php echo $row->informe;?></td>
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
+                    <td>
+                        <ul >
+                          <li   class="nav-item dropdown open text-center" style="list-style:none;">
+                            <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
+                            </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
+                                <?php echo form_open_multipart('controller_programas/agregar');?>        
+                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                                <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
+                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
+                              <?php echo form_close();?>
+                              </div>
+                            </li>
+                        </ul>
+                    </td>
                   </tr>
                     <?php
                   }

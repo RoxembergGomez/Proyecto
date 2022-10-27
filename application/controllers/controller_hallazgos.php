@@ -33,7 +33,7 @@ class controller_hallazgos extends CI_Controller {
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_hallazgos',$data);
+			$this->load->view('read/view_hallazgosrevision',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 		}
@@ -306,7 +306,7 @@ class controller_hallazgos extends CI_Controller {
 		
 		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enrevision','refresh');
+		redirect('controller_hallazgos/enviado','refresh');
         break;
       case '4':
         $data['estadoProceso']='4';
@@ -315,7 +315,13 @@ class controller_hallazgos extends CI_Controller {
 		
 		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enviado','refresh');
+		$data2['estadoEjecucion']='2';
+		$data2['idUsuario']=$this->session->userdata('idUsuario');
+		$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idpat'],$data2);
+
+		redirect('controller_hallazgos/enrevision','refresh');
        break;
       
       default:

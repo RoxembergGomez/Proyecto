@@ -5,7 +5,7 @@ class controller_programas extends CI_Controller {
 
 	public function index()
 	{
-		if($this->session->userdata('tipo')=='jefe')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
 			$listaprogramas=$this->Programas_Model->programas();
 			$data['programatrabajo']=$listaprogramas;
@@ -25,16 +25,23 @@ class controller_programas extends CI_Controller {
 
 	public function actividades()
 	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
 
-		$listaactividades=$this->Programas_Model->actividades($_POST ['idmpa']);
-		$data['actividades']=$listaactividades;
+			$listaactividades=$this->Programas_Model->actividades($_POST ['idmpa']);
+			$data['actividades']=$listaactividades;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_ejecucionactividades',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_ejecucionactividades',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 
@@ -311,6 +318,47 @@ class controller_programas extends CI_Controller {
 		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
 		redirect('controller_empleados/eliminados','refresh');
 
+	}
+
+
+
+	public function revision()
+	{
+		$estado= $_POST ['proceso'];
+		switch ($estado) {
+      case '1':
+        $data['estadoPrograma']='1';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_programas/index','refresh');
+        break;
+
+      case '2':
+        $data['estadoPrograma']='2';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_programas/index','refresh');
+        break;
+      case '3':
+        $data['estadoPrograma']='3';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_programas/index','refresh');
+       break;
+      
+      default:
+        break;
+    }
+		
 	}
 
 

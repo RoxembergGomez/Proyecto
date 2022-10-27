@@ -30,7 +30,8 @@
               <?php
               $indice=1;
               foreach ($programatrabajo->result() as  $row)
-              {?>
+              {
+                if ($this->session->userdata('idUsuario')==$row->idEmpleado) {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>
@@ -42,20 +43,10 @@
                       ?>
                       <div class="btn-group">
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                        <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value=" ">Seleccione...</option>
-                          <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoProceso=='2'){?>
-                          <option value="1">Devolver</option>
-                          <option value="3">Descargos</option>
-                          <option value="4">Cerrar</option>
-                          <?php }
-                          if(($this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='jefe') && $row->estadoProceso=='1' ){?>
                           <option value="2">Revisión</option>
-                          <?php }
-                          if($this->session->userdata('tipo')=='auditado' && $row->estadoProceso=='3'){?>
-                            <option value="2">Devolver</option>
-                          <?php } ?>
-                          
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 
@@ -71,7 +62,7 @@
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                             <div class="col text-center">
                             <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Detalle de Observaciones">
-                            <i class="fa fa-eye"></i>
+                            <i class="fa fa-desktop"></i>
                             </button>
                         </div>
                         <?php echo form_close();?>
@@ -79,7 +70,7 @@
               				echo form_open_multipart('controller_hallazgos/reportepdf');
               				?>
               				  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-              				  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reporte PDF" ><i class="fa fa-file-pdf-o"></i></button>
+              				  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reporte PDF" formtarget="_blank" ><i class="fa fa-file-pdf-o"></i></button>
                       </div>
               				<?php 
               				echo form_close();
@@ -89,6 +80,7 @@
 
                   </tr> 
                     <?php
+                  }
               $indice++;
               }
             ?>

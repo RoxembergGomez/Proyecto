@@ -31,6 +31,7 @@
               $indice=1;
               foreach ($actividades->result() as  $row)
               {?>
+                <?php if($row->estadoPrograma!='2' || $this->session->userdata('tipo')!='ejecutor'){?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td ><?php echo $row->descripcionSubProceso;?></td>
@@ -80,6 +81,7 @@
                     </td>
                   </tr> 
                     <?php
+                    }
               $indice++;
               }
             ?>

@@ -1,14 +1,22 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
-    <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >HALLAZGOS</h5> 
+    
+    <div class="x_title col-md-12">
+      <div class="row float-left " >
+      <?php 
+                echo form_open_multipart('controller_hallazgos/pendiente');?>
+                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+                            <i class="glyphicon glyphicon-arrow-left"></i>
+      <?php echo form_close();?>
+      </div>
+        <h5 style="font-weight: bold; color: #000000; " class="text-center" >HALLAZGOS</h5> 
     </div>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
               <div class="row float-left">
-                <?php 
-                echo form_open_multipart('controller_programatrabajo/eliminados');?>
+                
+                <?php echo form_open_multipart('controller_programatrabajo/eliminados');?>
                     <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> Observaciones Eliminadas</button>
                 <?php echo form_close();?>
               </div>  
@@ -30,7 +38,9 @@
               <?php
               $indice=1;
               foreach ($observaciones->result() as  $row)
-              {?>
+              {
+                if ($this->session->userdata('tipo') =='jefe' || $this->session->userdata('ejecutor'))
+                  {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td><?php echo $row->descripcionHallazgo;?></td>
@@ -81,6 +91,7 @@
                     </td>
                   </tr> 
                     <?php
+                  }
               $indice++;
               }
             ?>

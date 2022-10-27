@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class controller_hallazgos extends CI_Controller {
 
-	public function index()
+	public function pendiente()
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$listaprogramas=$this->Programas_Model->programas();
-			$data['programatrabajo']=$listaprogramas;
+			$hallazgos=$this->Observaciones_Model->pendientes();
+			$data['programatrabajo']=$hallazgos;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
@@ -22,6 +22,68 @@ class controller_hallazgos extends CI_Controller {
 			redirect('usuarios/panel','refresh');
 		}
 	}
+
+	public function enrevision()
+	{
+		if($this->session->userdata('tipo')=='jefe' )
+		{
+			$hallazgos=$this->Observaciones_Model->revision();
+			$data['programatrabajo']=$hallazgos;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_hallazgos',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+	public function enviado()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado' )
+		{
+			$hallazgos=$this->Observaciones_Model->enviados();
+			$data['programatrabajo']=$hallazgos;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_hallazgosenviados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+	public function concluidos()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado' )
+		{
+			$hallazgos=$this->Observaciones_Model->concluidos();
+			$data['programatrabajo']=$hallazgos;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_hallazgosconcluidos',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+
 
 	public function observaciones()
 	{
@@ -210,6 +272,56 @@ class controller_hallazgos extends CI_Controller {
 		$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
 		redirect('controller_actividades/eliminados','refresh');
 
+	}
+
+
+
+	public function revision()
+	{
+		$estado= $_POST ['proceso'];
+		switch ($estado) {
+      case '1':
+        $data['estadoProceso']='1';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_hallazgos/enrevision','refresh');
+        break;
+
+      case '2':
+        $data['estadoProceso']='2';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_hallazgos/pendiente','refresh');
+        break;
+      case '3':
+        $data['estadoProceso']='3';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_hallazgos/enrevision','refresh');
+        break;
+      case '4':
+        $data['estadoProceso']='4';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_hallazgos/enviado','refresh');
+       break;
+      
+      default:
+        break;
+    }
+		
 	}
 
 

@@ -80,7 +80,7 @@
                               </button>
                               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadas";?>" id="reporte"><i class="fa fa-list"></i> Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a>  
+                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>  
                               </div>
                             </div>
                         </td>
@@ -106,7 +106,7 @@
                   <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>   Reportes</button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                       <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasporempleado";?>" id="reporte"><i class="fa fa-list"></i> Sistema</a>
-                      <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/porempleadopdf";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a>  
+                      <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/porempleadopdf";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>  
                     </div>
                 </div>
               <div class="card-body">

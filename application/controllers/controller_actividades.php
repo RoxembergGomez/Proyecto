@@ -23,25 +23,6 @@ class controller_actividades extends CI_Controller {
 		}
 	}
 
-	public function guest()
-	{
-		if($this->session->userdata('tipo')=='auditado')
-		{
-			$listaactividades=$this->PlanAnualTrabajo_Model->actividades();
-			$data['plananualtrabajo']=$listaactividades;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_actividades',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-	}
 
 	public function agregar()
 	{
@@ -313,7 +294,7 @@ class controller_actividades extends CI_Controller {
 		$this->pdf=new Pdf();
 		$this->pdf->addPage('P','letter');
 		$this->pdf->AliasNbPages();
-		$this->pdf->SetTitle("Observaciones"); //título en el encabezado
+		$this->pdf->SetTitle("EjecutadasPorEmpleado"); //título en el encabezado
 		
 		$this->pdf->SetLeftMargin(20); //margen izquierdo
 		$this->pdf->SetRightMargin(20); //margen derecho
@@ -387,7 +368,7 @@ class controller_actividades extends CI_Controller {
 		$this->pdf->SetFont('Arial','B',10);
 		$this->pdf->MultiCell(0,5,utf8_decode('SUBGERENCIA NACIONAL DE AUDITORÍA INTERNA:'),0,'J',0);
 
-		$this->pdf->Output("DetalleRequerimiento.pdf","D");
+		$this->pdf->Output("EjecutadasPorEmpleado.pdf","I");
 		}
 		else
 		{
@@ -449,7 +430,7 @@ class controller_actividades extends CI_Controller {
 			$this->pdf=new Pdf();
 			$this->pdf->addPage('L','letter');
 			$this->pdf->AliasNbPages();
-			$this->pdf->SetTitle("Observaciones");
+			$this->pdf->SetTitle("Ejecutadas Por Empleado");
 			
 			$this->pdf->SetLeftMargin(15);
 			$this->pdf->SetRightMargin(15);
@@ -488,7 +469,7 @@ class controller_actividades extends CI_Controller {
 	          $num++;
 			}
 
-			$this->pdf->Output("DetallePorEmpleado.pdf","I");
+			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas_por_Empleados.pdf","I");
 			}
 			else
 			{

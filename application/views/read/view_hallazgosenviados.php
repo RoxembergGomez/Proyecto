@@ -18,10 +18,15 @@
                 <tr>
                     <th class="text-center">Nro.</th>
                     <th class="text-center">Nro Informe</th>
-                    <th class="text-center">Actividad</th> 
+                    <th class="text-center">Actividad</th>
+                    <?php if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor'){?> 
                     <th class="text-center">Fecha de Inicio</th>
                     <th class="text-center">Fecha de Conclusión</th>
+                    <?php 
+                    } 
+                    if($this->session->userdata('tipo')=='auditado'){?>
                     <th class="text-center">Seguimiento de Hallazgos</th>
+                    <?php } ?>
                     <th class="text-center">Hallazgos</th> 
                 </tr>
               </thead>
@@ -37,25 +42,17 @@
                     <td ><?php echo $row->informe;?></td>
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
+                    <?php
+                    if($this->session->userdata('tipo')=='auditado' && $row->estadoProceso!='4'){?>
                     <td class="text-center">
-                    <?php  echo form_open_multipart('controller_hallazgos/revision');
+                      <?php 
+                      echo form_open_multipart('controller_hallazgos/revision');
                       ?>
                       <div class="btn-group">
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value=" ">Seleccione...</option>
-                          <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoProceso=='2'){?>
-                          <option value="1">Devolver</option>
-                          <option value="3">Descargos</option>
-                          <option value="4">Cerrar</option>
-                          <?php }
-                          if(($this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='jefe') && $row->estadoProceso=='1' ){?>
-                          <option value="2">Revisión</option>
-                          <?php }
-                          if($this->session->userdata('tipo')=='auditado' && $row->estadoProceso=='3'){?>
-                            <option value="2">Devolver</option>
-                          <?php } ?>
-                          
+                          <option value="2">Devolver</option>
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 
@@ -63,7 +60,7 @@
 
                     <?php 
                       echo form_close();
-                       ?>
+                       } ?>
                     <td class="text-center">
                      
                       <?php echo form_open_multipart('controller_hallazgos/observaciones');?>

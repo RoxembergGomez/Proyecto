@@ -5,10 +5,10 @@ class MemorandumPlanificacion_Model extends CI_Model {
 
 	public function mpa()
 	{
-		$this->db->select('m.idMemorandumPlanificacion,m.idPlanAnualTrabajo,m.numeroInforme,
-			a.informe,a.fechaInicio,a.fechaConclusion,e.nombres,e.primerApellido,e.segundoApellido,e.idEmpleado');
+		$this->db->select('*');
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','1');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
 		return $this->db->get();
@@ -60,10 +60,10 @@ class MemorandumPlanificacion_Model extends CI_Model {
 		return $this->db->get();
 	}
 
-	public function modificarempleado($idEmpleado,$data)
+	public function modificarmpa($idmpa,$data)
 	{
-		$this->db->where('idEmpleado',$idEmpleado); 
-		$this->db->update('empleado',$data);
+		$this->db->where('idMemorandumPlanificacion',$idmpa); 
+		$this->db->update('memorandumplanificacion',$data);
 	}
 
 	public function empleadoseliminados()

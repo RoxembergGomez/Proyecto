@@ -9,6 +9,7 @@ class PlanAnualTrabajo_Model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('plananualtrabajo');
 		$this->db->where('estado','1');
+		$this->db->where('estadoEjecucion','0');
 		return $this->db->get();
 
 	}

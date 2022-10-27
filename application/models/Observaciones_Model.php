@@ -3,6 +3,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Observaciones_Model extends CI_Model {
 
+	public function pendientes()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','1');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
+		return $this->db->get();
+	}
+
+	public function revision()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','2');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
+		return $this->db->get();
+	}
+
+	public function enviados()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','3');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
+		return $this->db->get();
+	}
+
+	public function concluidos()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','4');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
+		return $this->db->get();
+	}
 	
 	public function observaciones($idmpa)
 	{
@@ -71,10 +118,10 @@ class Observaciones_Model extends CI_Model {
 	   }  
 	}
 
-	public function modificarprograma($idprograma,$data)
+	public function modificarobservacion($idhallazgo,$data)
 	{
-		$this->db->where('idProgramaTrabajo',$idprograma); 
-		$this->db->update('programatrabajo',$data);
+		$this->db->where('idHallazgo',$idhallazgo); 
+		$this->db->update('hallazgo',$data);
 	}
 
 	public function agregarobservacion($dataobs)

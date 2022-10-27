@@ -54,7 +54,12 @@
                   <ul class="nav child_menu">
                     <li>
                       <?php echo form_open_multipart('controller_actividades/index');?>
-                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades</button>
+                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades Programadas</button>
+                      <?php echo form_close();?>
+                    </li>
+                    <li>
+                      <?php echo form_open_multipart('controller_actividades/ejecutadas');?>
+                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades Ejecutadas</button>
                       <?php echo form_close();?>
                     </li>
                   </ul>
@@ -90,11 +95,33 @@
               <?php }?>
                 <li><a><i class="fa fa-file-text"></i>Hallazgos<span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
+                    <?php if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
                     <li>
-                      <?php echo form_open_multipart('controller_hallazgos/index');?>
-                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Hallazgos</button>
+                      <?php echo form_open_multipart('controller_hallazgos/pendiente');?>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">En Proceso</button>
                       <?php echo form_close();?>
                     </li>
+                    <?php } 
+                      if ($this->session->userdata('tipo')=='jefe') {
+                      ?>
+                    <li>
+                      <?php echo form_open_multipart('controller_hallazgos/enrevision');?>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">En Revisión</button>
+                      <?php echo form_close();?>
+                    </li>
+                    <?php }
+                     if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado') {?>
+                    <li>
+                      <?php echo form_open_multipart('controller_hallazgos/enviado');?>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Pendientes de Descargos</button>
+                      <?php echo form_close();?>
+                    </li>
+                    <li>
+                      <?php echo form_open_multipart('controller_hallazgos/concluidos');?>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Concluidos</button>
+                      <?php echo form_close();?>
+                    </li>
+                  <?php } ?>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-list-ol"></i>ADMIN<span class="fa fa-chevron-down"></span></a>

@@ -25,10 +25,6 @@ class controller_memorandumplanificacion extends CI_Controller {
 
 	public function agregar()
 	{
-		/*$idc=$this->MemorandumPlanificacion_Model->selectcargo();
-		$data['consul']=$idc;*/
-         		
-		//$idCargo='1';
 
 		$idPlan=$_POST ['idPlan'];
 		$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
@@ -127,6 +123,25 @@ class controller_memorandumplanificacion extends CI_Controller {
 		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
 		redirect('controller_empleados/eliminados','refresh');
 
+	}
+
+//CONTROL DE ENVÍOS
+	public function cerrarmpa()
+	{
+		
+		$data['estadoProceso']='4';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		$data2['estadoEjecucion']='2';
+		$data2['idUsuario']=$this->session->userdata('idUsuario');
+		$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idpat'],$data2);
+
+		redirect('controller_memorandumplanificacion/index','refresh');
 	}
 
 

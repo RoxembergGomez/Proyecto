@@ -180,7 +180,7 @@ class controller_requerimientoinformacion extends CI_Controller {
 		$this->pdf->SetFont('Arial','B',10);
 		$this->pdf->MultiCell(0,5,utf8_decode('SUBGERENCIA NACIONAL DE AUDITORÍA INTERNA:'),0,'J',0);
 
-		$this->pdf->Output("DetalleRequerimiento.pdf","D");
+		$this->pdf->Output("DetalleRequerimiento.pdf","I");
 		}
 		else
 		{

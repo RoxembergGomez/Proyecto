@@ -69,11 +69,17 @@
                               echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
                                 <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                 <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
-                              <?php echo form_close(); 
+                              <?php echo form_close();
+                              echo form_open_multipart('controller_memorandumplanificacion/cerrarmpa');?>    
+                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                                <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
+                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-sign-out"></i>  Cerrar MPA</button>
+                              <?php echo form_close();
                               echo form_open_multipart('controller_memorandumplanificacion/eliminarbd');?>    
                                 <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
+                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>  Eliminar</button>
                               <?php echo form_close();?>
+                              
                               </div>
                             </li>
                         </ul>
@@ -81,6 +87,7 @@
                         } 
                       ?>
                     </td>
+
                   </tr> <?php
                 } 
                 else {if ($this->session->userdata('empleado')==$row->idEmpleado) {

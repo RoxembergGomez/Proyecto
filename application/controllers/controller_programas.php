@@ -362,5 +362,73 @@ class controller_programas extends CI_Controller {
 	}
 
 
+
+
+	public function actividadespdf()
+	{
+		
+	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+	{
+
+		$programas=$this->Programas_Model->actividades($_POST ['idmpa']);
+		$programas=$programas->result(); //convertir a array bidemencional
+
+		$this->pdf=new Pdf();
+		$this->pdf->addPage('P','letter');
+		$this->pdf->AliasNbPages();
+		$this->pdf->SetTitle("Detalle de Actividades por Auditoría"); //título en el encabezado
+		
+		$this->pdf->SetLeftMargin(20); //margen izquierdo
+		$this->pdf->SetRightMargin(20); //margen derecho
+		$this->pdf->SetFillColor(210,210,210); //color de fondo
+		$this->pdf->SetFont('Arial','B',11); //tipo de letra
+		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+		$actividad=$actividad->result();
+		foreach ($actividad as $rowa) {
+			$act=$rowa->informe;
+			$nro=$rowa->numeroInforme;
+		}
+		$this->pdf->Cell(0,10,utf8_decode($act),0,1,'C',1);
+
+		$this->pdf->Ln(5);
+		$this->pdf->SetFont('Arial','B',11);
+		$this->pdf->Cell(35,10,utf8_decode('Nro. De Informe:'),0,0,'L',0);
+		$this->pdf->SetFont('Arial','',11);
+		$this->pdf->Cell(50,10,utf8_decode($nro),0,1,'L',0);
+
+		$this->pdf->Ln(3); //margin para el espaciado
+		$this->pdf->SetFont('Arial','B',10);
+
+		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+		$this->pdf->Cell(115,8,utf8_decode('Programa de Trabajo'),1,0,'C',0);
+		$this->pdf->Cell(50,8,utf8_decode('Ref. P/T'),1,1,'C',0);
+
+		
+		$num=1;
+		foreach ($programas as $row) {
+
+			$descripcion=$row->actividad;
+          
+          $this->pdf->SetFont('Arial','',10);
+          $this->pdf->Cell(10,10,$num,1,0,'C',0);
+          $this->pdf->Cell(115,10,utf8_decode($descripcion),1,0,'L',false);
+          $this->pdf->Cell(50,10,utf8_decode(''),1,0,'L',false);
+                  
+          $this->pdf->Ln();
+
+          $num++;
+		}
+
+
+		$this->pdf->Output("Programa_de_Trabajo.pdf","I");
+		}
+		else
+		{
+			redirect('controller_requerimientoinformacion/index','refresh');
+		}
+
+	}
+
+
 }
 

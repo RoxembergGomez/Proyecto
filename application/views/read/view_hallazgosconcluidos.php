@@ -6,13 +6,6 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-              <div class="row float-left">
-                <?php 
-                echo form_open_multipart('controller_programatrabajo/eliminados');?>
-                    <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> Observaciones Eliminadas</button>
-                <?php echo form_close();?>
-              </div>  
-    
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>
@@ -29,7 +22,7 @@
               <?php
               $indice=1;
               foreach ($programatrabajo->result() as  $row)
-              { if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
+              { if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo') == 'ejecutor') {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>

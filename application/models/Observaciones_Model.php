@@ -169,7 +169,7 @@ class Observaciones_Model extends CI_Model {
     public function hallazgosenviados()
     {
         $this->db->from('memorandumplanificacion');
-        $this->db->where('estadoPrograma','3');
+        $this->db->where('estadoProceso','3');
         return $this->db->count_all_results();
     }
 }

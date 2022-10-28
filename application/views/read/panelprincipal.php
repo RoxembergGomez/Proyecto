@@ -52,7 +52,7 @@
                               </button>
                               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientes";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientesPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a> 
+                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientespdf";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a> 
                               </div>
                             </div>
                         </td>
@@ -67,7 +67,7 @@
                               </button>
                               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_memorandumplanificacion/index";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a>  
+                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_memorandumplanificacion/enprocesopdf";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>  
                               </div>
                             </div>
                         </td>
@@ -81,7 +81,7 @@
                               </button>
                               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadas";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>  
+                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadaspdf";?>" id="reporte" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>  
                               </div>
                             </div>
                         </td>
@@ -160,33 +160,20 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td id="titulo">PARA REVISIÓN</td>
+                        <td id="titulo" > PARA REVISIÓN</td>
                         <td class="text-center"><?php echo $this->Programas_Model->programasrevision(); ?></td>
-                        <td class="text-center">
-                           <div class="btn-group" role="group" style=" padding: 3px; ">
-                              <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientes";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientesPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a> 
-                              </div>
-                            </div>
+                        <td class="text-center" rowspan="2">
+                          <?php echo form_open_multipart('controller_programas/index');
+                            ?>
+                            <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-desktop"></i></button>
+                          <?php         
+                          echo form_close();?>
                         </td>
 
                       </tr>
                       <tr>
                         <td> APROBADO</td>
                         <td class="text-center"><?php echo $this->Programas_Model->programasaprobados(); ?></td>
-                        <td class="text-center">
-                           <div class="btn-group" role="group" style=" padding: 3px; ">
-                              <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>                               
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadas";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a>  
-                              </div>
-                            </div>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -214,30 +201,25 @@
                     <tbody>
                       <tr>
                         <td id="titulo">PARA REVISIÓN</td>
-                        <td class="text-center"><?php echo $this->Programas_Model->programasrevision(); ?></td>
+                        <td class="text-center"><?php echo $this->Observaciones_Model->hallazgosrevision(); ?></td>
                         <td class="text-center">
-                           <div class="btn-group" role="group" style=" padding: 3px; ">
-                              <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientes";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/pendientesPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a> 
-                              </div>
-                            </div>
+                           <?php echo form_open_multipart('controller_hallazgos/enrevision');
+                            ?>
+                            <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-desktop"></i></button>
+                          <?php         
+                          echo form_close();?>
                         </td>
 
                       </tr>
                       <tr>
                         <td> ENVIADOS</td>
-                        <td class="text-center"><?php echo $this->Programas_Model->programasaprobados(); ?></td>
+                        <td class="text-center"><?php echo $this->Observaciones_Model->hallazgosenviados(); ?></td>
                         <td class="text-center">
-                           <div class="btn-group" role="group" style=" padding: 3px; ">
-                              <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>                               
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadas";?>" id="reporte"><i class="fa fa-desktop"></i>  Sistema</a>
-                                <a class="dropdown-item" href="<?php echo base_url()."index.php/controller_actividades/ejecutadasPDF";?>" id="reporte"><i class="fa fa-file-pdf-o"></i> PDF</a>  
-                              </div>
+                           <?php echo form_open_multipart('controller_hallazgos/enviado');
+                            ?>
+                            <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-desktop"></i></button>
+                          <?php         
+                          echo form_close();?>
                             </div>
                         </td>
                       </tr>
@@ -247,30 +229,6 @@
               </div>
           </div>
       </div>
-
-      <?php if ($this->session->userdata('tipo')=='jefe') { ?>
-        <div class="col-xl-3 col-md-6 mb-4  ">
-          <div class="card   border-dark bg-dark shadow h-100" style="border-radius: 10px ">
-                  <?php
-                  echo form_open_multipart('cliente/index');
-                  ?>
-               <button type="submit" class="btn btn-danger btn-block" style="border-radius: 20px ">
-
-              <div class="card-header bg-dark font-weight-bold text-light">
-                  <h2>ACTIVIDADES PENDIENTES</h2>
-              </div>
-                  <div class="card-body">
-
-                    <div class="h2 mb-0 font-weight-bold">
-                        <!-- <h3 class="fa fa-users text-info"> Anulada: <?php //echo $this->reporte_model->cantidadventascanseladas(); ?></h3> -->
-                    </div>
-                    </div>
-                    </button><?php
-                        echo form_close();
-                        ?>
-              </div>
-        </div>
-      <?php } ?>
       </div>
     </div>
   </div>

@@ -39,7 +39,7 @@
               $indice=1;
               foreach ($observaciones->result() as  $row)
               {
-                if ($this->session->userdata('tipo') =='jefe' || $this->session->userdata('ejecutor'))
+                if ($this->session->userdata('tipo') == 'jefe' || $this->session->userdata('tipo') == 'ejecutor')
                   {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>

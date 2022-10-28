@@ -171,94 +171,57 @@ class controller_actividades extends CI_Controller {
 	{
 		
 	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
-	{
-
-		$req=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
-		$req=$req->result(); //convertir a array bidemencional
-
-		$this->pdf=new Pdf();
-		$this->pdf->addPage('P','letter');
-		$this->pdf->AliasNbPages();
-		$this->pdf->SetTitle("Observaciones"); //título en el encabezado
-		
-		$this->pdf->SetLeftMargin(20); //margen izquierdo
-		$this->pdf->SetRightMargin(20); //margen derecho
-		$this->pdf->SetFillColor(210,210,210); //color de fondo
-		$this->pdf->SetFont('Arial','B',11); //tipo de letra
-		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$actividad=$actividad->result();
-		foreach ($actividad as $rowa) {
-			$act=$rowa->informe;
-		}
-		$this->pdf->Cell(0,10,utf8_decode($act),0,1,'C',1);
-
-		
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(15,7,utf8_decode('Fecha:'),0,0,'L',0);
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(160,7,utf8_decode(date("d/m/Y")),0,1,'L',0);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Cell(15,7,utf8_decode('Para:'),0,0,'L',0);
-		$unidad=$this->UnidadNegocio_Model->recuperarunidadnegocio($_POST ['idunidad']);
-		$unidad=$unidad->result();
-		foreach ($unidad as $rowu) {
-			$uni=$rowu->lineaNegocio;
-		}
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(175,7,utf8_decode($uni),0,1,'L',0);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Cell(15,7,utf8_decode('De:'),0,0,'L',0);
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(160,7,utf8_decode('UNIDAD DE AUDITORÍA INTERNA'),0,1,'L',0);
-		//$this->pdf->Cell(0,10,'DETALLE DE OBSERVACIONES',0,0,'C',1);
-		//ANCHO/ALTO/TEXTO/BORDE/ORDEN SIG CELDA/ALINEACIÓN PUEDE SER L IQUIERDA, C CENTRO, R DERECHA/FILL 0NO 1SI
-		//ORDEN SIG CELDA 0 DERE, 1 SIG LINEA, 2 DEBAJO
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('En cumplimiento del Plan Anual de Auditoría Interna se requiere la siguiente información:'),0,'J',0);
-
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(0,5,utf8_decode('DETALLE DE REQUERIMIENTO DE INFORMACIÓN'),0,0,'C',false);
-
-		$this->pdf->Ln(8); //margin para el espaciado
-		$this->pdf->SetFont('Arial','B',10);
-
-		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
-		$this->pdf->Cell(165,8,utf8_decode('Requerimiento'),1,1,'C',0);
-
-		
-		$num=1;
-		foreach ($req as $row) {
-
-			$descripcion=$row->requerimientoInformacion;
-          
-          $this->pdf->SetFont('Arial','',10);
-          $this->pdf->Cell(10,5,$num,1,0,'C',0);
-          $this->pdf->Cell(165,5,utf8_decode($descripcion),1,0,'L',false);
-                  
-          $this->pdf->Ln();
-
-          $num++;
-		}
-
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('Nota: la información puede ser entregada en físico o digital, lo que sea de su conveniencia.'),0,'J',0);
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('De acuerdo con nuestro compromiso de confidencialidad en vigor, podemos asegurarles que el uso de la información requerida se limita a los objetivos del trabajo de auditoría.'),0,'J',0);
-
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('Atentamente:'),0,'J',0);
-
-		$this->pdf->Ln(5);
-		$this->pdf->SetFont('Arial','B',10);
-		$this->pdf->MultiCell(0,5,utf8_decode('SUBGERENCIA NACIONAL DE AUDITORÍA INTERNA:'),0,'J',0);
-
-		$this->pdf->Output("DetalleRequerimiento.pdf","D");
-		}
-		else
 		{
-			redirect('controller_requerimientoinformacion/index','refresh');
-		}
+
+			$req=$this->PlanAnualTrabajo_Model->pendientes();
+			$req=$req->result();
+
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Actividades Pendientes");
+			
+			$this->pdf->SetLeftMargin(15);
+			$this->pdf->SetRightMargin(15);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES PENDIENTES'),0,1,'C',1);
+			$this->pdf->Ln(5);
+
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(149,8,utf8_decode('Informe'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Inicio'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Conclusión'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Priorización'),1,1,'C',0);
+
+			
+			$num=1;
+			foreach ($req as $row) {
+
+			
+				$informe=$row->informe;
+				$inicio=$row->fechaInicio;
+				$conclusion=$row->fechaConclusion;
+				$priorizacion=$row->gradoPriorizacion;
+	          
+	          $this->pdf->SetFont('Arial','',10);
+	          $this->pdf->Cell(10,7,$num,1,0,'C',0);
+	          $this->pdf->Cell(149,7,utf8_decode($informe),1,0,'L',false);
+	          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
+	          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
+	          $this->pdf->Cell(30,7,utf8_decode($priorizacion),1,0,'C',false);
+	                  
+	          $this->pdf->Ln();
+
+	          $num++;
+			}
+
+			$this->pdf->Output("Detalle_de_Actividades_Pendientes.pdf","I");
+			}
+			else
+			{
+				redirect('controller_panelprincipal/index','refresh');
+			}
 
 	}
 
@@ -286,95 +249,56 @@ class controller_actividades extends CI_Controller {
 	{
 		
 	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
-	{
-
-		$req=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
-		$req=$req->result(); //convertir a array bidemencional
-
-		$this->pdf=new Pdf();
-		$this->pdf->addPage('P','letter');
-		$this->pdf->AliasNbPages();
-		$this->pdf->SetTitle("EjecutadasPorEmpleado"); //título en el encabezado
-		
-		$this->pdf->SetLeftMargin(20); //margen izquierdo
-		$this->pdf->SetRightMargin(20); //margen derecho
-		$this->pdf->SetFillColor(210,210,210); //color de fondo
-		$this->pdf->SetFont('Arial','B',11); //tipo de letra
-		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$actividad=$actividad->result();
-		foreach ($actividad as $rowa) {
-			$act=$rowa->informe;
-		}
-		$this->pdf->Cell(0,10,utf8_decode($act),0,1,'C',1);
-
-		
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(15,7,utf8_decode('Fecha:'),0,0,'L',0);
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(160,7,utf8_decode(date("d/m/Y")),0,1,'L',0);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Cell(15,7,utf8_decode('Para:'),0,0,'L',0);
-		$unidad=$this->UnidadNegocio_Model->recuperarunidadnegocio($_POST ['idunidad']);
-		$unidad=$unidad->result();
-		foreach ($unidad as $rowu) {
-			$uni=$rowu->lineaNegocio;
-		}
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(175,7,utf8_decode($uni),0,1,'L',0);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Cell(15,7,utf8_decode('De:'),0,0,'L',0);
-		$this->pdf->SetFont('Arial','',11);
-		$this->pdf->Cell(160,7,utf8_decode('UNIDAD DE AUDITORÍA INTERNA'),0,1,'L',0);
-		//$this->pdf->Cell(0,10,'DETALLE DE OBSERVACIONES',0,0,'C',1);
-		//ANCHO/ALTO/TEXTO/BORDE/ORDEN SIG CELDA/ALINEACIÓN PUEDE SER L IQUIERDA, C CENTRO, R DERECHA/FILL 0NO 1SI
-		//ORDEN SIG CELDA 0 DERE, 1 SIG LINEA, 2 DEBAJO
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('En cumplimiento del Plan Anual de Auditoría Interna se requiere la siguiente información:'),0,'J',0);
-
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(0,5,utf8_decode('DETALLE DE REQUERIMIENTO DE INFORMACIÓN'),0,0,'C',false);
-
-		$this->pdf->Ln(8); //margin para el espaciado
-		$this->pdf->SetFont('Arial','B',10);
-
-		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
-		$this->pdf->Cell(165,8,utf8_decode('Requerimiento'),1,1,'C',0);
-
-		
-		$num=1;
-		foreach ($req as $row) {
-
-			$descripcion=$row->requerimientoInformacion;
-          
-          $this->pdf->SetFont('Arial','',10);
-          $this->pdf->Cell(10,5,$num,1,0,'C',0);
-          $this->pdf->Cell(165,5,utf8_decode($descripcion),1,0,'L',false);
-                  
-          $this->pdf->Ln();
-
-          $num++;
-		}
-
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('Nota: la información puede ser entregada en físico o digital, lo que sea de su conveniencia.'),0,'J',0);
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('De acuerdo con nuestro compromiso de confidencialidad en vigor, podemos asegurarles que el uso de la información requerida se limita a los objetivos del trabajo de auditoría.'),0,'J',0);
-
-		$this->pdf->Ln(5);
-		$this->pdf->MultiCell(0,5,utf8_decode('Atentamente:'),0,'J',0);
-
-		$this->pdf->Ln(5);
-		$this->pdf->SetFont('Arial','B',10);
-		$this->pdf->MultiCell(0,5,utf8_decode('SUBGERENCIA NACIONAL DE AUDITORÍA INTERNA:'),0,'J',0);
-
-		$this->pdf->Output("EjecutadasPorEmpleado.pdf","I");
-		}
-		else
 		{
-			redirect('controller_requerimientoinformacion/index','refresh');
-		}
 
+			$req=$this->PlanAnualTrabajo_Model->ejecutadas();
+			$req=$req->result();
+
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Actividades Ejecutadas");
+			
+			$this->pdf->SetLeftMargin(15);
+			$this->pdf->SetRightMargin(15);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES EJECUTADAS'),0,1,'C',1);
+			$this->pdf->Ln(5);
+
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Nro. Informe'),1,0,'C',0);
+			$this->pdf->Cell(149,8,utf8_decode('Informe'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Inicio'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Conclusión'),1,1,'C',0);
+
+			
+			$num=1;
+			foreach ($req as $row) {
+
+				$nroinforme=$row->numeroInforme;
+				$informe=$row->informe;
+				$inicio=$row->fechaInicio;
+				$conclusion=$row->fechaConclusion;
+	          
+	          $this->pdf->SetFont('Arial','',10);
+	          $this->pdf->Cell(10,7,$num,1,0,'C',0);
+	          $this->pdf->Cell(30,7,utf8_decode($nroinforme),1,0,'C',false);
+	          $this->pdf->Cell(149,7,utf8_decode($informe),1,0,'L',false);
+	          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
+	          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
+	                  
+	          $this->pdf->Ln();
+
+	          $num++;
+			}
+
+			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas.pdf","I");
+			}
+			else
+			{
+				redirect('controller_panelprincipal/index','refresh');
+			}
 	}
 
 

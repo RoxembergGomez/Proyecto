@@ -6,12 +6,6 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-              <div class="row float-left">
-                <?php 
-                echo form_open_multipart('controller_programatrabajo/eliminados');?>
-                    <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> Actividades Eliminadas</button>
-                <?php echo form_close();?>
-              </div>  
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
@@ -32,7 +26,7 @@
               $indice=1;
               foreach ($programatrabajo->result() as  $row)
               { 
-              if ($this->session->userdata('idUsuario')==$row->idEmpleado || $this->session->userdata('tipo') =='jefe') {?>
+              if ($this->session->userdata('idUsuario')==$row->idEmpleado || $row->estadoPrograma == '2' || $row->estadoPrograma == '3' ) {?>
                 
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
@@ -114,10 +108,10 @@
                                     <button type="submit" class="dropdown-item" ><i class="fa fa-eye"></i>  Revisar</button>
                                 <?php echo form_close();
  
-                                echo form_open_multipart('controller_hallazgos/reportepdf');
+                                echo form_open_multipart('controller_programas/actividadespdf');
                                 ?>
                                   <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                  <button type="submit" class="dropdown-item" ><i class="fa fa-file-pdf-o">  PDF</i></button>
+                                  <button type="submit" class="dropdown-item" formtarget="_blank" ><i class="fa fa-file-pdf-o">  PDF</i></button>
                                 </div>
                                 <?php 
                                 echo form_close();

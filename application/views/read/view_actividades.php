@@ -28,18 +28,18 @@
                 </div>
 
               <div class="btn-group row float-right" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list">   Reportes de Actividades</i></button>
+                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>   Reportes de Actividades</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <?php echo form_open_multipart('controller_actividades/pendientes');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-list-alt"></i> Pendientes</button>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Pendientes</button>
                 <?php echo form_close();
 
                 echo form_open_multipart('controller_actividades/ejecutadas');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-check-square-o"></i> Ejecutadas</button>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Ejecutadas</button>
                 <?php echo form_close();
 
-                echo form_open_multipart('controller_actividades/ejecutadas');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-check-square-o"></i> Por Empleados</button>
+                echo form_open_multipart('controller_actividades/ejecutadasporempleado');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Por Empleados</button>
                 <?php echo form_close();
 
                 echo form_open_multipart('controller_actividades/eliminados');?>

@@ -13,7 +13,7 @@
           </div>
           <div class="float-rigth">
             <?php echo form_open_multipart('controller_actividades/pendientespdf');?>
-              <button type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-file-pdf-o"></i>  Reporte PDF</button>
+              <button type="submit" class="btn btn-info btn-sm float-right" formtarget="_blank"><i class="fa fa-file-pdf-o"></i>  Reporte PDF</button>
             <?php echo form_close();?>
          </div> 
     

@@ -8,10 +8,13 @@ class Programas_Model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');
-		$this->db->where('m.estadoProceso','1');
+		$this->db->where('m.estadoPrograma','1');
+		$this->db->or_where('m.estadoPrograma','2');
+		$this->db->or_where('m.estadoPrograma','3');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->group_by('m.numeroInforme');
+		$this->db->order_by('m.estadoPrograma');
 		return $this->db->get();
 	}
 

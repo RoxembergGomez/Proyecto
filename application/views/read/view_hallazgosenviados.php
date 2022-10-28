@@ -6,13 +6,6 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-              <div class="row float-left">
-                <?php 
-                echo form_open_multipart('controller_programatrabajo/eliminados');?>
-                    <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> Observaciones Eliminadas</button>
-                <?php echo form_close();?>
-              </div>  
-    
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>

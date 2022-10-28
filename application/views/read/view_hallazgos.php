@@ -63,7 +63,7 @@
               				echo form_open_multipart('controller_hallazgos/reportepdf');
               				?>
               				  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-              				  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reporte PDF" formtarget="_blank" ><i class="fa fa-file-pdf-o"></i></button>
+              				  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reporte PDF" formtarget="_blank"><i class="fa fa-file-pdf-o"></i></button>
                       </div>
               				<?php 
               				echo form_close();

@@ -1,35 +1,19 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-      <h5 style="font-weight: bold; color: #000000;" >AGREGAR PROCESOS</h5>              
+      <h5>AGREGAR PROCESOS</h5>              
       <?php
       echo form_open_multipart('controller_procesos/agregarbdd');
       ?>
 
-    </div>
+    </div> <hr>
 
-        <div class="row">
-        <div class="col-md-2">
-          <label class="float-right">* Actividad:</label>
-        </div>
-        <div class="col-md-5">
-          <select name="idPlan" class="col-md-12 form-control" required autocomplete="off">
-            <option>Selecione</option>
-                <?php
-                $indice=1;
-                 foreach ($actividad->result() as  $row)
-              {?> <option value="<?php echo $row->idPlanAnualTrabajo;?>"><?php echo $indice.'  '.$row->informe;?>
-                </option><?php
-                $indice++;
-                }?>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label class="float-right">* Unidad de Negocio:</label>
-        </div>
-        <div class="col-md-3">
-          <select name="idUnidadNegocio" class="col-md-12 form-control" required autocomplete="off">
-            <option>Selecione</option>
+      <div class="row">
+          <input type="hidden" name="idplan" value="<?php echo $_POST['idPlan'];?>">
+        <div class="col-md-12">
+          <label >UNIDAD DE NEGOCIO:</label>
+          <select name="idUnidadNegocio" class="col-md-12 form-control" value="<?php echo set_value('idUnidadNegocio'); ?>" autocomplete="off">
+            <option value="">Selecione...</option>
                 <?php
                 $indice=1;
                  foreach ($unidadnegocio->result() as  $urow)
@@ -38,25 +22,30 @@
                 </option><?php
                 $indice++;
                 }?>
-          </select>
-        </div>  <br> <br><br>
-        </div>
+          </select> <br>
+          <p style="color: red;"><?php echo form_error('idUnidadNegocio');?></p>
+        </div> 
+      </div><br>
         <div class="row">
-        <div class="col-md-2">
-          <label class="float-right">* Descripción del proceso:</label>
+        <div class="col-md-12">
+          <label >DESCRIPCIÓN PROCESO:</label>
+          <input type="text" name="proceso" class="col-md-12 form-control" placeholder="Describa el proceso" autocomplete="off" value="<?php echo set_value('proceso'); ?>" > <br>
+             <p style="color: red;"><?php echo form_error('proceso');?></p>
         </div>
-        <div class="col-md-10">
-          <input type="text" name="proceso" class="col-md-12 form-control" placeholder="Describa el proceso" autocomplete="off" >
-        </div>
-        </div>
-        <hr>
+        </div><hr>
 
-         <button type="submit" class="btn btn-warning"><i class="fa fa-database"></i>  Agregar</button>
+        <div class="row float-right">
+
+         <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>  Guardar</button>
 
       <?php 
       echo form_close();
-      ?>
+      echo form_open_multipart('controller_actividades/index');
+          ?>
+          <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+        <?php echo form_close();?>
     </div>
     </div>
   </div>
+</div>
 </div>

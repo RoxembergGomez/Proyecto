@@ -61,6 +61,7 @@
                 echo form_open_multipart('controller_actividades/eliminados');?>
                     <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminadas</button>
                 <?php echo form_close();
+
                 ?>
                 </div>
           </div>
@@ -129,15 +130,15 @@
                           <?php echo form_open_multipart('controller_procesos/index');?>
                               <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
                               <button type="submit" class="dropdown-item"><i class="fa fa-list"></i> Lista de Procesos</button>
-                          <?php echo form_close();?> 
+                          <?php echo form_close();
 
-                          <?php echo form_open_multipart('controller_actividades/modificar');?>        
+                          echo form_open_multipart('controller_actividades/modificar');?>        
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
-                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
+                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar Actividad</button>
                           <?php echo form_close();?>
 
-                            <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
-                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i> Eliminar</button>
+
+                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i>  Eliminar Actividad</button>
                       </div>
                     </div>
                   <?php

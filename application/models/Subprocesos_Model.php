@@ -3,20 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Subprocesos_Model extends CI_Model {
 
-	public function subprocesos()
+	public function subprocesos($idproceso)
 	{
 		$this->db->select('*');
-		$this->db->from('subproceso');
-		$this->db->where('estado','1');
-		return $this->db->get();
-	}
-
-
-	public function seleccion()
-	{
-		$this->db->select('idCargo,denominacionCargo');
-		$this->db->from('cargo');
-		$this->db->where('estado','1');
+		$this->db->from('subproceso s');
+		$this->db->where('s.estado','1');
+		$this->db->where('s.idProceso',$idproceso);
+		$this->db->join('proceso p','p.idProceso=s.idProceso');
 		return $this->db->get();
 	}
 
@@ -39,27 +32,26 @@ class Subprocesos_Model extends CI_Model {
 		$this->db->delete('empleado');
 	}
 
-	public function recuperarempleado($idEmpleado)
+	public function recuperarsubproceso($idsub)
 	{
-		$this->db->select('empleado.idEmpleado,empleado.ci,empleado.expedicion,empleado.nombres,empleado.primerApellido,empleado.segundoApellido,cargo.denominacionCargo,empleado.celular,empleado.telefonoInterno,empleado.correoInstitucional');
-		$this->db->from('empleado');
-		$this->db->where('idEmpleado',$idEmpleado);
-		$this->db->join('cargo','empleado.idCargo=cargo.idCargo');
+		$this->db->select('*');
+		$this->db->from('subproceso');
+		$this->db->where('idSubProceso',$idsub);
 		return $this->db->get();
 	}
 
-	public function modificarempleado($idEmpleado,$data)
+	public function modificasubproceso($idsub,$data)
 	{
-		$this->db->where('idEmpleado',$idEmpleado); 
-		$this->db->update('empleado',$data);
+		$this->db->where('idSubProceso',$idsub); 
+		$this->db->update('subproceso',$data);
 	}
 
-	public function empleadoseliminados()
+	public function subprocesoeliminados()
 	{
-		$this->db->select('empleado.idEmpleado,empleado.ci,empleado.expedicion,empleado.nombres,empleado.primerApellido,empleado.segundoApellido,cargo.denominacionCargo,empleado.celular,empleado.telefonoInterno,empleado.correoInstitucional');
-		$this->db->from('empleado');
-		$this->db->where('empleado.estado','0');
-		$this->db->join('cargo','empleado.idCargo=cargo.idCargo');
+		$this->db->select('*');
+		$this->db->from('subproceso');
+		$this->db->where('estado','0');
+		$this->db->where('idProceso',$idproceso);
 		return $this->db->get();
 	}
 }

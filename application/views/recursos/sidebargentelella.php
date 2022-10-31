@@ -59,15 +59,6 @@
                     </li>
                   </ul>
                 </li>
-                <li><a><i class="fa fa-line-chart"></i>Análisis de Riesgos<span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu">
-                    <li>
-                      <?php echo form_open_multipart('controller_procesos/index');?>
-                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Procesos</button>
-                      <?php echo form_close();?>
-                    </li>
-                  </ul>
-                </li>
                 <li><a><i class="fa fa-list"></i>Ejecución<span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li>

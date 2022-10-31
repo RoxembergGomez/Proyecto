@@ -7,7 +7,7 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$listaproceso=$this->Proceso_Model->listaprocesos();
+			$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
 			$data['proceso']=$listaproceso;
 
 			$this->load->view('recursos/headergentelella');
@@ -25,119 +25,214 @@ class controller_procesos extends CI_Controller {
 
 	public function agregar()
 	{
-		$listaun=$this->UnidadNegocio_Model->unidadnegocio();
-		$data['unidadnegocio']=$listaun;
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
+			$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+			$data['unidadnegocio']=$listaun;
 
-		$listaac=$this->PlanAnualTrabajo_Model->actividades();
-		$data['actividad']=$listaac;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_proceso',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('create/add_proceso',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function agregarbdd()
 	{	
-		$data['descripcionProceso']=$_POST ['proceso'];
-		$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
-		$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
-		$data['idUsuario']=$this->session->userdata('idUsuario');
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('idUnidadNegocio','idUnidadNegocio','required',array('required'=>'(*) Seleccione una opción'));
+			$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-		$this->Proceso_Model->agregarproceso($data);
+			if ($this->form_validation->run()==FALSE) {
+				$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+				$data['unidadnegocio']=$listaun;
 
-		redirect('controller_procesos/index','refresh');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('create/add_proceso',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+			else{
+
+				$data['descripcionProceso']=mb_strtoupper($_POST ['proceso'],'UTF-8');
+				$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+				$data['idPlanAnualTrabajo']=$_POST ['idplan'];
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+
+				$this->Proceso_Model->agregarproceso($data);
+
+				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idplan']);
+				$data['proceso']=$listaproceso;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_procesos',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+
+
+			}
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 		
 	public function modificar()
 	{
-		$idPlan=$_POST ['IdPlan'];
-		$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
+			$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
 
+			$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+			$data['unidadnegocio']=$listaun;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('modificar_actividad',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('update/modificar_proceso',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function modificarbd()
 	{
-		$idPlan=$_POST ['idPlan'];
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+			if ($this->form_validation->run()==FALSE) {
+					$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
 
-		//formato en que se guarda los archivos
-		$nombrearchivo=$idPlan.".pdf";
-		//ruta donde se guardan los archivos
-		$config['upload_path']='./uploads';
-		//nombre del archivo
-		$config['file_name']=$nombrearchivo;
+					$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+					$data['unidadnegocio']=$listaun;
 
-		$direccion="./uploads/".$nombrearchivo;
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('update/modificar_proceso',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+			}
+			else{
 
-		if (file_exists($direccion)) {
-			unlink($direccion);
+					$data['descripcionProceso']=$_POST ['proceso'];
+					$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+					$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+
+					$this->Proceso_Model->modificarproceso($_POST['idproceso'],$data);	
+
+					$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+					$data['proceso']=$listaproceso;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('read/view_procesos',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
 		}
-
-		$config['allowed_types']='pdf'; //para agregar otro formato se separa con barra |tipo archivo
-		$this->load->library('upload',$config);
-
-		if (!$this->upload->do_upload()) {
-			$data['error']=$this->upload->display_errors();
-		}
-		else{
-			$data['docInforme']=$nombrearchivo;
-		}
-
-
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-		$this->upload->data();
-		redirect('controller_actividades/index','refresh');
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}		
 	}
+
 
 	public function eliminarbd()
 	{
-		$idPlan=$_POST ['idPlan'];
-		$data['estado']='0';
+		if($this->session->userdata('tipo')=='jefe')
+		{
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
+			$data['estado']='0';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		redirect('controller_actividades/index','refresh');
+			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+
+			$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+			$data['proceso']=$listaproceso;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_procesos',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');	
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function eliminados()
 	{
-		$listaactividades=$this->PlanAnualTrabajo_Model->actividadeseliminadas();
-		$data['plananualtrabajo']=$listaactividades;
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
+			$data['proceso']=$listaproceso;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('view_ActividadesEliminadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_procesosEliminados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}	
 	}
 
 	public function recuperarbd()
 	{
-		$IdPlan=$_POST ['idPlan'];
-		$data['estado']='1';
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
-		redirect('controller_actividades/eliminados','refresh');
+		if($this->session->userdata('tipo')=='jefe')
+		{
+		
+			$data['estado']='1';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
+
+			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+
+			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
+			$data['proceso']=$listaproceso;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_procesosEliminados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
 	}
 

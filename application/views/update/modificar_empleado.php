@@ -7,7 +7,7 @@
         foreach ($infoempleado->result() as $row) {
         echo form_open_multipart('controller_empleados/modificarbd');
         ?>
-        <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado; ?>" required>
+        <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado; ?>">
         <div class="row">
           <div class="col-md-4">
             <label class="float-left">NOMBRE(S):</label>
@@ -81,6 +81,7 @@
       <hr>
       <div class="row float-right">
       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalConfirmacion"><i class="fa fa-edit (alias)"></i>  Modificar</button>
+      
         <!-- ALERTA PARA ACCIONES-->
           <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

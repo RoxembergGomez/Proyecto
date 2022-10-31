@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE EMPLEADOS</h5> 
+        <h5 >LISTA DE EMPLEADOS</h5> 
     </div>
     <div class="row justify-content-between">
       <?php echo form_open_multipart('controller_empleados/agregar');?>

@@ -1,62 +1,42 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-      <h5 style="font-weight: bold; color: #000000;" >AGREGAR SUBPROCESOS</h5>              
-      <?php
-      foreach ($infoid->result() as $row)
-        {
-        ?>
-        <input type="text" name="idProceso" value="<?php echo $row->idProceso; ?>" required>
-       <?php
-        }
-      echo form_open_multipart('controller_subprocesos/agregar');
-      ?>
+      <h5>AGREGAR SUBPROCESOS</h5>              
+    </div> <hr>
 
-    </div>
+    <?php echo form_open_multipart('controller_subprocesos/agregarbdd');
+          ?>
+      <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso'];?>">
+      <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
       <div class="row">
-        <div class="col-md-2">
-          <label class="float-right">* Descripción de Subproceso:</label>
+        <div class="col-md-12">
+          <label>DESCRIPCIÓN DEL SUBPROCESO:</label>
+          <input type="text" name="subproceso" class="col-md-12 form-control" placeholder="Describa el subproceso" autocomplete="off" value="<?php echo set_value('subproceso'); ?>" > <br>
+          <p style="color: red;"><?php echo form_error('subproceso');?></p>
         </div>
-        <div class="col-md-4">
-          <input type="text" name="suproceso" class="col-md-12 form-control" placeholder="Describa el subproceso" autocomplete="off" >
-        </div>
-        <div class="col-md-2">
-          <label class="float-right">* Grado de Criticidad:</label>
-        </div>
-        <div class="col-md-2">
-          <select name="gradocriticidad" class="col-md-12 form-control" autocomplete="off">
-            <option>Seleccione</option>
+      </div> <br>
+      <div class="row">
+        <div class="col-md-12">
+          <label >GRADO DE CRITICIDAD:</label>
+          <select name="gradocriticidad" class="col-md-12 form-control" autocomplete="off" value="<?php echo set_value('gradocriticidad'); ?>">
+            <option value="">Seleccione el grado de criticidad</option>
             <option value="Crítico">Crítico</option>
             <option value="No Crítico" > No Crítico</option>
-          </select>
+          </select><br>
+          <p style="color: red;"><?php echo form_error('gradocriticidad');?></p>
         </div>
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-warning"><i class="fa fa-database"></i>  Agregar</button>
-        </div>
+       </div>
+       <hr>
+        <div class="row float-right">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>  Guardar</button>
+         <?php 
+        echo form_close();
+        echo form_open_multipart('controller_procesos/index');
+          ?>
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
+          <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+        <?php echo form_close();?>
       </div>
-      <?php 
-      echo form_close();
-      ?>
-<hr>
-      <table class="table table-striped table-bordered" style="width:100%">
-              <thead>
-                <tr>
-                  <th class="text-center">Nro.</th>
-                  <th class="text-center">SubProcesos</th>
-                  <th class="text-center">Clasificación Criticidad</th>
-                </tr>
-              </thead>
-              <tbody>
-      
-                 <tr>
-                  <td ></td>
-                  <td ></td>
-                  <td ></td>
-                </tr>
-              </tbody>
-            </table>
-<hr>
-<button type="submit" class="btn btn-success"><i class="fa fa-database"></i>  Insertar</button>
     </div>
     </div>
   </div>

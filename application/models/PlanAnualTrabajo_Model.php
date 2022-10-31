@@ -7,11 +7,11 @@ class PlanAnualTrabajo_Model extends CI_Model {
 	public function actividades()
 	{
 		$this->db->select('*');
-		$this->db->from('plananualtrabajo');
-		$this->db->where('estado','1');
-		$this->db->where('estadoEjecucion','1');
-		$this->db->or_where('estadoEjecucion','2');
-		$this->db->or_where('estadoEjecucion','3');
+		$this->db->from('plananualtrabajo p');
+		$this->db->where('p.estado','1');
+		$this->db->where('p.estadoEjecucion','1');
+		$this->db->or_where('p.estadoEjecucion','2');
+		$this->db->or_where('p.estadoEjecucion','3');
 		$this->db->order_by('estadoEjecucion,fechaInicio','asc');
 		return $this->db->get();
 	}

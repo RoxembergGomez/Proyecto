@@ -3,16 +3,17 @@
     <div class="x_title text-center">
         <h5 style="font-weight: bold; color: #000000; " >MEMORANDUM DE PLANIFICACIÓN DE AUDITORÍA</h5> 
     </div>
+        <div class="btn-group float-right" role="group" id="botright">
+          <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver MPA</button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <?php echo form_open_multipart('controller_memorandumplanificacion/eliminados');?>
+                <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminados</button>
+              <?php echo form_close();?>
+            </div>
+        </div>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-              <div class="row float-left">
-                <?php 
-                echo form_open_multipart('controller_memorandumplanificacion/eliminados');?>
-                    <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> MPA Eliminados</button>
-                <?php echo form_close();?>
-              </div>  
-    
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>
@@ -51,34 +52,28 @@
                   {
                 ?>   
                     <td ><?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?></td>
-                    <td>
-                        <ul >
-                          <li   class="nav-item dropdown open text-center" style="list-style:none;">
-                            <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                            </a>
-                              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                                <?php echo form_open_multipart('controller_programas/agregar');?>        
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
-                              <?php echo form_close();
-                              echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
-                                <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
-                              <?php echo form_close();
-                              echo form_open_multipart('controller_memorandumplanificacion/cerrarmpa');?>    
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
-                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-sign-out"></i>  Cerrar MPA</button>
-                              <?php echo form_close();
-                              echo form_open_multipart('controller_memorandumplanificacion/eliminarbd');?>    
-                                <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>  Eliminar</button>
-                              <?php echo form_close();?>
-                              
-                              </div>
-                            </li>
-                        </ul>
+                    <td class="text-center">
+                      <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <?php echo form_open_multipart('controller_programas/agregar');?>        
+                              <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                              <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
+                              <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
+                            <?php echo form_close();
+                            echo form_open_multipart('controller_memorandumplanificacion/modificar');?>
+                              <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>">        
+                              <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                              <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
+                            <?php echo form_close();
+                            echo form_open_multipart('controller_memorandumplanificacion/cerrarmpa');?>    
+                              <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                              <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
+                              <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-sign-out"></i>  Cerrar MPA</button>
+                            <?php echo form_close();?>
+
+                        </div>
+                      </div>
                       <?php
                         } 
                       ?>
@@ -95,19 +90,17 @@
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
                     <td>
-                        <ul >
-                          <li   class="nav-item dropdown open text-center" style="list-style:none;">
-                            <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                            </a>
-                              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                                <?php echo form_open_multipart('controller_programas/agregar');?>        
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
-                              <?php echo form_close();?>
-                              </div>
-                            </li>
-                        </ul>
+                      <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          <?php echo form_open_multipart('controller_programas/agregar');?>        
+                            <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                            <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
+                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
+                          <?php echo form_close();?>
+
+                        </div>
+                      </div>
                     </td>
                   </tr>
                     <?php

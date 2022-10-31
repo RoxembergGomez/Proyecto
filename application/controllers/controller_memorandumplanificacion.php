@@ -25,108 +25,133 @@ class controller_memorandumplanificacion extends CI_Controller {
 
 	public function agregar()
 	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$idPlan=$_POST ['idPlan'];
+			$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
 
-		$idPlan=$_POST ['idPlan'];
-		$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
+			$listampa=$this->MemorandumPlanificacion_Model->empleado();
+			$data['seleccion']=$listampa;
 
-		$listampa=$this->MemorandumPlanificacion_Model->seleccion();
-		$data['seleccion']=$listampa;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_memorandumplanificacion',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('create/add_memorandumplanificacion',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function agregarbdd()
 	{	
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('numeroInforme','numeroInforme','required',array('required'=>'(*) Se requiere llenar este campo'));
+			$this->form_validation->set_rules('idEmpleado','idEmpleado','required',array('required'=>'(*) Seleccione un empleado'));
+			if ($this->form_validation->run()==FALSE) {
+				$idPlan=$_POST ['idPlan'];
+				$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
 
-		$data['numeroInforme']=$_POST ['numeroInforme'];
-		$data['idEmpleado']=$_POST ['idEmpleado'];
-		$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
-		$data['idUsuario']=$this->session->userdata('idUsuario');
+				$listampa=$this->MemorandumPlanificacion_Model->empleado();
+				$data['seleccion']=$listampa;
 
-		$this->MemorandumPlanificacion_Model->asignarmpa($data);
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('create/add_memorandumplanificacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			} 
+			else{
+				$data['numeroInforme']=$_POST ['numeroInforme'];
+				$data['idEmpleado']=$_POST ['idEmpleado'];
+				$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
+				$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		$data2['estadoEjecucion']='1';
+				$this->MemorandumPlanificacion_Model->asignarmpa($data);
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idPlan'],$data2);
-		redirect('controller_memorandumplanificacion/index','refresh');
+				$data2['estadoEjecucion']='1';
+
+				$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idPlan'],$data2);
+				redirect('controller_memorandumplanificacion/index','refresh');
+			}
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
 
 	}
 
 	public function modificar()
 	{
-		$idEmpleado=$_POST ['idEmpleado'];
-		$data['infoempleado']=$this->Empleados_Model->recuperarempleado($idEmpleado);
-		
-		$listacargo=$this->Empleados_Model->seleccion();
-		$data['seleccion']=$listacargo;
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$idmpa=$_POST ['idmpa'];
+			$mpa=$this->MemorandumPlanificacion_Model->recuperarmpa($idmpa);
+			$data['infompa']=$mpa;
 
+			$empleado=$this->MemorandumPlanificacion_Model->empleado();
+			$data['empleado']=$empleado;
+			
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('update/modificar_mpa',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('update/modificar_empleado',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
 	}
 
 	public function modificarbd()
 	{
-		$idEmpleado=$_POST ['idEmpleado'];
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('numeroInforme','numeroInforme','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-		$data['nombres']=$_POST ['nombres'];
-		$data['primerApellido']=$_POST ['primerApellido'];
-		$data['segundoApellido']=$_POST ['segundoApellido'];
-		$data['ci']=$_POST ['ci'];
-		$data['expedicion']=$_POST ['expedicion'];
-		$data['celular']=$_POST ['celular'];
-		$data['telefonoInterno']=$_POST ['telefonoInterno'];
-		$data['correoInstitucional']=$_POST ['correoInstitucional'];
-		$data['idCargo']=$_POST ['idCargo'];
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
-		redirect('controller_empleados/index','refresh');
-	}
+			if ($this->form_validation->run()==FALSE) {
 
-	public function eliminarbd()
-	{
-		$idEmpleado=$_POST ['idEmpleado'];
-		$data['estado']='0';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$idmpa=$_POST ['idmpa'];
+				$mpa=$this->MemorandumPlanificacion_Model->recuperarmpa($idmpa);
+				$data['infompa']=$mpa;
 
-		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
-
-		redirect('controller_Empleados/index','refresh');
-	}
-
-	public function eliminados()
-	{
-		$listaempleados=$this->Empleados_Model->empleadoseliminados();
-		$data['empleados']=$listaempleados;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('delete/view_EmpleadosEliminados',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
-	}
-
-	public function recuperarbd()
-	{
-		$idEmpleado=$_POST ['idEmpleado'];
-		$data['estado']='1';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-
-		$this->Empleados_Model->modificarempleado($idEmpleado,$data);
-		redirect('controller_empleados/eliminados','refresh');
-
+				$empleado=$this->MemorandumPlanificacion_Model->empleado();
+				$data['empleado']=$empleado;
+				
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_mpa',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+			else{
+				$idmpa=$_POST ['idmpa'];
+				$data['numeroInforme']=$_POST ['numeroInforme'];
+				$data['idEmpleado']=$_POST ['idEmpleado'];
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($idmpa,$data);
+				redirect('controller_memorandumplanificacion/index','refresh');				
+			}
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 //CONTROL DE ENVÍOS

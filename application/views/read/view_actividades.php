@@ -12,11 +12,10 @@
         <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES</h5> 
     </div>
     <div class="x_content">
+
       <div class="row">
-        <div class="col-sm-12">
-          
-              
-              <div class="row float-left">
+        <div class="col-md-2">
+          <div class="">
                 <?php echo form_open_multipart('controller_actividades/agregar');
                   if($this->session->userdata('tipo')=='jefe')
                   {
@@ -25,10 +24,34 @@
                 <?php
                 }
                 echo form_close();?>
-                </div>
+            </div>
+        </div>
 
-              <div class="btn-group row float-right" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>   Reportes de Actividades</button>
+      <div class="col-md-8">
+      <?php echo form_open_multipart('controller_actividades/pendientes');?>
+
+        <div class="row col-md-8">
+         <h6 style="font-weight: bold; color: #000000; margin: 7px 7px 0px 0px">Buscar:</h6>
+          <input type="text" name="idEmpleado" class=" col-md-10 form-control" autocomplete="off" placeholder="Nombre Empleado">
+        </div>
+        <div class="col-md-3">
+          <select name="estadoEjecucion" class="col-md-12 form-control">
+            <option>Seleccione estado</option>
+            <option value="1">Asignado</option>
+            <option value="3">Ejecutado</option>
+            <option value="">General</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Reporte" ><i class="fa fa-sign-out"></i></button>
+        </div>
+        <?php echo form_close();?>
+      </div>
+      
+
+        <div class="col-md-2">
+          <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>   Reportes Generales</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <?php echo form_open_multipart('controller_actividades/pendientes');?>
                     <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Pendientes</button>
@@ -47,7 +70,12 @@
                 <?php echo form_close();
                 ?>
                 </div>
-              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">              
               
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
@@ -86,7 +114,9 @@
                   <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
-                  <td class="text-center"><?php echo estado($row->fechaInicio);?></td>
+                  <td class="text-center">
+                    <?php if ($row->estadoEjecucion=='2'){?> <p style="color:red;" >Programado</p><?php } else if ($row->estadoEjecucion=='1'){?> <p style="color:orange;" >Asignado</p><?php } else if ($row->estadoEjecucion=='3'){?>
+                    <p style="" >Asignado</p><?php }?></td>
                   <td>
                     <?php 
                       $docInforme=$row->docInforme;
@@ -118,7 +148,8 @@
                           <?php echo form_open_multipart('controller_actividades/modificar');?>        
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
-                          <?php echo form_close();?>    
+                          <?php echo form_close();?>
+        
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
                             <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i> Eliminar</button>
 

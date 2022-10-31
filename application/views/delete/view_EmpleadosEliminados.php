@@ -1,17 +1,18 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
+      <div class="row float-left" >
+      <?php 
+        echo form_open_multipart('controller_empleados/index');?>
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Volver a la lista de empleados activos" id="atras">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+      <?php echo form_close();?>
+      </div>
         <h5 style="font-weight: bold; color: #000000; " >EMPLEADOS ELIMINADOS</h5> 
     </div>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div class="card-box table-responsive">
-             <div class="row float-left">
-                <?php echo form_open_multipart('controller_empleados/index');?>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-list-ol"></i>  Lista de Empleados Activos</button>
-                <?php echo form_close();?>
-              </div>  
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
@@ -28,7 +29,7 @@
                   if($this->session->userdata('tipo')=='jefe')
                   {
                 ?> 
-                    <th scope="col">Acciones</th> 
+                    <th class="text-center">Acciones</th> 
                 <?php
                   }
                 ?>
@@ -55,7 +56,7 @@
                 if($this->session->userdata('tipo')=='jefe')
                 {
               ?> 
-                    <td>
+                    <td class="text-center">
                       <?php echo form_open_multipart('controller_empleados/recuperarbd');?>
                         <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>" >
                         <button type="submit" name="botton" value="recuperar" class="btn btn-warning"><i class="fa fa-database"></i> Recuperar</button>
@@ -72,7 +73,6 @@
               </tbody>
             </table>
         </div>
-      </div>
     </div>
   </div>
 </div>

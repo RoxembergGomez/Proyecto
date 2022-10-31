@@ -17,7 +17,7 @@
           <label class="float-right">* Nro. Informe:</label>
         </div>
         <div class="col-md-8">
-          <input type="text" name="numeroInforme" class="col-md-12 form-control" placeholder="Ingrese Nro. de Informe" required autocomplete="off" value="UAI-000/2022" > <br><br><br>
+          <input type="text" name="numeroInforme" class="col-md-12 form-control" placeholder="Ingrese Nro. de Informe" required autocomplete="off" value="UAI-P000/2022" > <br><br><br>
         </div>
       </div>
       <div class="row">

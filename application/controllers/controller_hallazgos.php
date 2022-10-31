@@ -310,12 +310,13 @@ class controller_hallazgos extends CI_Controller {
         break;
       case '4':
         $data['estadoProceso']='4';
+        $data['estadoPrograma']='4';
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		
 		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		$data2['estadoEjecucion']='2';
+		$data2['estadoEjecucion']='3';
 		$data2['idUsuario']=$this->session->userdata('idUsuario');
 		$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		

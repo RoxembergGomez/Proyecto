@@ -3,7 +3,7 @@
     <div class="x_title text-center">
       <div class="row float-left " >
       <?php 
-                echo form_open_multipart('controller_programas/index');?>
+        echo form_open_multipart('controller_programas/index');?>
                     <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>

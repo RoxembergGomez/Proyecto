@@ -12,7 +12,7 @@ class Cargo_Model extends CI_Model {
 	//READ
 	public function listacargos()
 	{
-		$this->db->select('c.idCargo,c.denominacionCargo,un.lineaNegocio');
+		$this->db->select('*');
 		$this->db->from('cargo c');
 		$this->db->where('c.estado','1');
 		$this->db->join('unidadnegocio un','un.idUnidadNegocio=c.idUnidadNegocio');
@@ -23,7 +23,7 @@ class Cargo_Model extends CI_Model {
 
 	public function recuperarcargo($idCargo)
 	{
-		$this->db->select('c.idCargo,c.denominacionCargo,c.idUnidadNegocio,un.lineaNegocio');
+		$this->db->select('*');
 		$this->db->from('cargo c');
 		$this->db->where('c.idCargo',$idCargo);
 		$this->db->join('unidadnegocio un','un.idUnidadNegocio=c.idUnidadNegocio');
@@ -45,7 +45,7 @@ class Cargo_Model extends CI_Model {
 
 	public function cargoseliminados()
 	{
-		$this->db->select('c.idCargo,c.denominacionCargo,un.lineaNegocio');
+		$this->db->select('*');
 		$this->db->from('cargo c');
 		$this->db->where('c.estado','0');
 		$this->db->join('unidadnegocio un','un.idUnidadNegocio=c.idUnidadNegocio');

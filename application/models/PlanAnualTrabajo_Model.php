@@ -9,9 +9,10 @@ class PlanAnualTrabajo_Model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('plananualtrabajo');
 		$this->db->where('estado','1');
-		$this->db->where('estadoEjecucion','0');
+		$this->db->where('estadoEjecucion','1');
+		$this->db->or_where('estadoEjecucion','2');
+		$this->db->order_by('estadoEjecucion,fechaInicio','asc');
 		return $this->db->get();
-
 	}
 
 	//Modelo para Agregar a base de datos
@@ -50,7 +51,7 @@ class PlanAnualTrabajo_Model extends CI_Model {
 	public function actividadespendientes()
     {
         $this->db->from('plananualtrabajo');
-        $this->db->where('estadoEjecucion','0');
+        $this->db->where('estadoEjecucion','2');
         return $this->db->count_all_results();
     }
 
@@ -63,8 +64,10 @@ class PlanAnualTrabajo_Model extends CI_Model {
 
 	public function actividadescerradas()
     {
+        $this->db->select('*');
         $this->db->from('plananualtrabajo');
-        $this->db->where('estadoEjecucion','2');
+        $this->db->where('estadoEjecucion','3');
+        $this->db->order_by('fechaInicio','asc');
         return $this->db->count_all_results();
     }
 
@@ -73,7 +76,8 @@ class PlanAnualTrabajo_Model extends CI_Model {
 	{
 		$this->db->select('*');
 		$this->db->from('plananualtrabajo');
-		$this->db->where('estadoEjecucion','0');
+		$this->db->where('estadoEjecucion','2');
+		$this->db->order_by('fechaInicio','asc');
 		return $this->db->get();
 	}
 
@@ -89,9 +93,10 @@ class PlanAnualTrabajo_Model extends CI_Model {
 	{
 		$this->db->select('*');
 		$this->db->from('plananualtrabajo p');
-		$this->db->where('p.estadoEjecucion','2');
+		$this->db->where('p.estadoEjecucion','3');
 		$this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->order_by('numeroInforme','asc');
 		return $this->db->get();
 	}
 

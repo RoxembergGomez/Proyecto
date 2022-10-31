@@ -1,6 +1,13 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
+      <div class="row float-left " >
+      <?php 
+        echo form_open_multipart('controller_actividades/index');?>
+                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+                            <i class="glyphicon glyphicon-arrow-left"></i>
+      <?php echo form_close();?>
+      </div>
         <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES PENDIENTES DE EJECUCIÓN</h5> 
     </div>
     <div class="x_content">
@@ -44,7 +51,7 @@
                   <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
-                  <td class="text-center"><?php if ($row->estadoEjecucion=='0') {
+                  <td class="text-center"><?php if ($row->estadoEjecucion=='2') {
                     echo 'Programado';
                   };?></td>
                 </tr>

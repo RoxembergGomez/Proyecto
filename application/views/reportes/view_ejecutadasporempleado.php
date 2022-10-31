@@ -2,6 +2,13 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
+      <div class="row float-left " >
+      <?php 
+        echo form_open_multipart('controller_actividades/index');?>
+                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+                            <i class="glyphicon glyphicon-arrow-left"></i>
+      <?php echo form_close();?>
+      </div>
         <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES EJECUTADAS POR EMPLEADOS</h5> 
     </div>
     <div class="x_content">

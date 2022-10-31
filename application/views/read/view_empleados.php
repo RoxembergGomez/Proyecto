@@ -3,23 +3,22 @@
     <div class="x_title text-center">
         <h5 style="font-weight: bold; color: #000000; " >LISTA DE EMPLEADOS</h5> 
     </div>
+    <div class="row justify-content-between">
+      <?php echo form_open_multipart('controller_empleados/agregar');?>
+        <button type="submit" class="btn btn-primary btn-sm" id="botleft"><i class="fa fa-database"></i> Agregar</button>
+      <?php echo form_close();?>
+        <div class="btn-group" role="group" id="botright">
+          <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver Empleados</button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <?php echo form_open_multipart('controller_empleados/eliminados');?>
+                <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminados</button>
+              <?php echo form_close();?>
+            </div>
+        </div>
+    </div>  <hr>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-              <div class="row float-left">
-                <?php echo form_open_multipart('controller_empleados/agregar');
-                  if($this->session->userdata('tipo')=='jefe')
-                  {
-                ?>
-                    <button type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-database"></i> Agregar Empleados</button>
-                <?php
-                  } 
-                echo form_close();
-                echo form_open_multipart('controller_empleados/eliminados');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fa fa-trash"></i> Empleados Eliminados</button>
-                <?php echo form_close();?>
-
-              </div>  
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
@@ -63,23 +62,19 @@
                 if($this->session->userdata('tipo')=='jefe')
                 {
               ?> 
-                  <td>
-                    <ul >
-                      <li   class="nav-item dropdown open" style="list-style:none;">
-                        <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                        </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                          <?php echo form_open_multipart('controller_empleados/modificar');?>        
+                  <td class="text-center">
+                    <div class="btn-group" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                         <?php echo form_open_multipart('controller_empleados/modificar');?>        
                             <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>">
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
-                          <?php echo form_close(); 
-                          echo form_open_multipart('controller_empleados/eliminarbd');?>    
-                            <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>">
-                            <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
                           <?php echo form_close();?>
-                          </div>
-                        </li>
-                    </ul>
+
+                            <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>">
+                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idEmpleado; ?>)" ><i class="fa fa-trash"></i>  Eliminar</button>
+                      </div>
+                    </div>
                   <?php
                     } 
                   ?>
@@ -98,3 +93,33 @@
 </div>
 </div>
 </div>
+
+
+<!-- ALERTAS PARA ELIMINAR -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">ELIMNAR</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <p style="font-size: 20px;">Estás seguro de eliminar los datos?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+        <a id="url-delete" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-trash"></i>  Eliminar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+     function confirm_modalFotos(id) {
+            var url = '<?php echo base_url() . "index.php/controller_empleados/eliminarbd/"; ?>';
+            $("#url-delete").attr('href', url + id);
+            $('#modalConfirmacion').modal('show');
+        } 
+</script>

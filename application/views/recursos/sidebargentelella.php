@@ -54,12 +54,7 @@
                   <ul class="nav child_menu">
                     <li>
                       <?php echo form_open_multipart('controller_actividades/index');?>
-                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades Programadas</button>
-                      <?php echo form_close();?>
-                    </li>
-                    <li>
-                      <?php echo form_open_multipart('controller_actividades/ejecutadas');?>
-                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades Ejecutadas</button>
+                        <button type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;" >Actividades</button>
                       <?php echo form_close();?>
                     </li>
                   </ul>

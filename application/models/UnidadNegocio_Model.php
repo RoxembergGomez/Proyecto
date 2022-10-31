@@ -16,12 +16,6 @@ class UnidadNegocio_Model extends CI_Model {
 		$this->db->insert('unidadnegocio',$data);
 	}
 
-	public function eliminarunidadnegocio($idUnidadNegocio)
-	{
-		$this->db->where('idUnidadNegocio',$idUnidadNegocio); 
-		$this->db->delete('unidadnegocio');
-	}
-
 	public function recuperarunidadnegocio($idUnidadNegocio)
 	{
 		$this->db->select('*');
@@ -34,6 +28,12 @@ class UnidadNegocio_Model extends CI_Model {
 	{
 		$this->db->where('idUnidadNegocio',$idUnidadNegocio); 
 		$this->db->update('unidadnegocio',$data);
+	}
+
+	public function eliminarunidadnegocio($idUnidadNegocio)
+	{
+		$this->db->where('idUnidadNegocio',$idUnidadNegocio); 
+		$this->db->delete('unidadnegocio');
 	}
 
 	public function unidadnegocioeliminados()

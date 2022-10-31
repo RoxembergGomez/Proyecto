@@ -49,9 +49,13 @@ class controller_memorandumplanificacion extends CI_Controller {
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 
 		$this->MemorandumPlanificacion_Model->asignarmpa($data);
+
+		$data2['estadoEjecucion']='1';
+
+		$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idPlan'],$data2);
 		redirect('controller_memorandumplanificacion/index','refresh');
 
-		
+
 	}
 
 	public function modificar()
@@ -130,12 +134,13 @@ class controller_memorandumplanificacion extends CI_Controller {
 	{
 		
 		$data['estadoProceso']='4';
+		$data['estadoPrograma']='4';
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		
 		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		$data2['estadoEjecucion']='2';
+		$data2['estadoEjecucion']='3';
 		$data2['idUsuario']=$this->session->userdata('idUsuario');
 		$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		

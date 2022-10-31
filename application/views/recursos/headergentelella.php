@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>Sistema de Auditoría Interna</title>
 
     <link href="<?php echo base_url(); ?>/bootstrap/css/validar.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/bootstrap/css/interfaz.css" rel="stylesheet">
 
     <link href="<?php echo base_url(); ?>gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">

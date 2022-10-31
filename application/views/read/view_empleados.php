@@ -26,7 +26,7 @@
                     <th class="text-center">Nro.</th>
                     <th class="text-center">C.I.</th>
                     <th class="text-center">Expedido</th>
-                    <th class="text-center">Nombres y Apellidos</th> 
+                    <th class="text-center">Nombre(s) y Apellido(s)</th> 
                     <th class="text-center">Cargo</th>
                     <th class="text-center">Nro. Celular</th>
                     <th class="text-center">Nro. Teléfono Interno</th>
@@ -54,8 +54,17 @@
                     <td class="text-center"><?php echo $row->expedicion;?></td>
                     <td ><?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?></td>
                     <td><?php echo $row->denominacionCargo;?></td>
-                    <td class="text-center"><?php echo $row->celular;?></td>
-                    <td class="text-center"><?php echo $row->telefonoInterno;?></td>
+                    <td class="text-center"><?php if($row->celular==''){
+                      echo '-----';
+                    }else{
+                      echo $row->celular;
+                    };?></td>
+                    <td class="text-center"><?php if ($row->telefonoInterno=='') {
+                      echo '-----';
+                    } else{
+                      echo $row->telefonoInterno;
+                    }
+                    ?></td>
                     <td><?php echo $row->correoInstitucional;?></td>
                     
               <?php

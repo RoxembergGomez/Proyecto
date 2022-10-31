@@ -1,15 +1,8 @@
-<style type="text/css">
-  
-   #reporte:hover {
-    background-color: #2AAAB4;
-   }
-
-</style>
 
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES</h5> 
+        <h5>PLAN ANUAL DE TRABAJO</h5> 
     </div>
     <div class="x_content">
 
@@ -20,7 +13,7 @@
                   if($this->session->userdata('tipo')=='jefe')
                   {
                 ?>
-                    <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-database"></i> Agregar Actividad</button>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i> Agregar</button>
                 <?php
                 }
                 echo form_close();?>
@@ -50,7 +43,7 @@
       
 
         <div class="col-md-2">
-          <div class="btn-group" role="group">
+          <div class="btn-group" role="group" >
                 <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>   Reportes Generales</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <?php echo form_open_multipart('controller_actividades/pendientes');?>
@@ -88,7 +81,6 @@
                   <th class="text-center">Fecha de Conclusión</th>
                   <th class="text-center">Grado de Priorización</th>
                   <th class="text-center">Estado Proceso</th>
-                  <th class="text-center">Informe Adjunto</th>
                 <?php
                   if($this->session->userdata('tipo')=='jefe')
                   {
@@ -116,51 +108,38 @@
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
                   <td class="text-center">
                     <?php if ($row->estadoEjecucion=='2'){?> <p style="color:red;" >Programado</p><?php } else if ($row->estadoEjecucion=='1'){?> <p style="color:orange;" >Asignado</p><?php } else if ($row->estadoEjecucion=='3'){?>
-                    <p style="" >Asignado</p><?php }?></td>
-                  <td>
-                    <?php 
-                      $docInforme=$row->docInforme;
-                      if ($docInforme=="Sin Informe") 
-                      {
-                        ?>
-                        <p>Sin Informe</p>
-                    <?php  
-                      }
-                      else
-                      {
-                    ?>
-                        <a href="<?php echo base_url();?>/uploads/<?php echo $docInforme?>">
-                          <img src="<?php echo base_url();?>/uploads/logopdf.png" width="50px">
-                        </a>
-                    <?php  
-                      }
-                    ?>
-                  </td> 
+                    <p style="color:green;" >Ejecutado</p><?php }?></td> 
                  <?php
                 if($this->session->userdata('tipo')=='jefe')
                 {?> 
-                  <td >
-                    <ul class="col text-center">
-                      <li class="nav-item dropdown open text-center" style="list-style:none;">
-                         <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
+                  <td class="text-center" >
+                    <div class="btn-group" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          <?php echo form_open_multipart('controller_memorandumplanificacion/agregar');?>
+                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
+                              <button type="submit" class="dropdown-item"><i class="fas glyphicon glyphicon-hand-up"></i> Asignar MPA</button>
+                          <?php echo form_close();?>
+
+                          <?php echo form_open_multipart('controller_procesos/agregar');?>
+                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
+                              <button type="submit" class="dropdown-item"><i class="fa fa-database"></i>  Agregar Proceso</button>
+                          <?php echo form_close();?>
+
+                          <?php echo form_open_multipart('controller_procesos/index');?>
+                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
+                              <button type="submit" class="dropdown-item"><i class="fa fa-list"></i> Lista de Procesos</button>
+                          <?php echo form_close();?> 
+
                           <?php echo form_open_multipart('controller_actividades/modificar');?>        
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close();?>
-        
+
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
                             <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i> Eliminar</button>
-
-                          <?php echo form_open_multipart('controller_memorandumplanificacion/agregar');?>
-                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
-                              <button type="submit" class="dropdown-item"><i class="fas glyphicon glyphicon-hand-up"></i> Asignar MPA</button>
-                          <?php echo form_close();?>  
-
-                        </div>
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   <?php
                     } 
                   ?>
@@ -185,17 +164,17 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Confirmación Edición</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">ELIMNAR</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-         Estás seguro de Eliminar?
+         <p style="font-size: 20px;">Estás seguro de eliminar los datos?</p>
       </div>
       <div class="modal-footer">
-        <button type="button"  class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <a id="url-delete" type="submit" class="btn btn-primary">Eliminar</a>
+        <button type="button"  class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+        <a id="url-delete" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-trash"></i>  Eliminar</a>
       </div>
     </div>
   </div>

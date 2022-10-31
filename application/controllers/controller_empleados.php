@@ -241,7 +241,7 @@ class controller_empleados extends CI_Controller {
 		if($this->session->userdata('tipo')=='jefe')
 		{
 			$idEmpleado=$_POST ['idEmpleado'];
-			$data['estado']='1';
+			$data['estado']='2';
 			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idusuariocud']=$this->session->userdata('idUsuario');
 

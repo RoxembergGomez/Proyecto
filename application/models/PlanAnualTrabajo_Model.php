@@ -11,6 +11,7 @@ class PlanAnualTrabajo_Model extends CI_Model {
 		$this->db->where('estado','1');
 		$this->db->where('estadoEjecucion','1');
 		$this->db->or_where('estadoEjecucion','2');
+		$this->db->or_where('estadoEjecucion','3');
 		$this->db->order_by('estadoEjecucion,fechaInicio','asc');
 		return $this->db->get();
 	}

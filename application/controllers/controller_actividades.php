@@ -26,120 +26,157 @@ class controller_actividades extends CI_Controller {
 
 	public function agregar()
 	{
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_actividad');
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('create/add_actividad');
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function agregarbdd()
 	{	
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
-		$data['idUsuario']=$this->session->userdata('idUsuario');
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('informe','informe','required',array('required'=>'(*) Se requiere llenar este campo'));
+			$this->form_validation->set_rules('objetivo','objetivo','required',array('required'=>'(*) Se requiere llenar este campo'));
+			$this->form_validation->set_rules('normativa','normativa','required',array('required'=>'(*) Se requiere llenar este campo'));
+			$this->form_validation->set_rules('fechaInicio','fechaInicio','required',array('required'=>'(*) Inserte una fecha'));
+			$this->form_validation->set_rules('fechaConclusion','fechaConclusion','required',array('required'=>'(*) Inserte una fecha'));
+			$this->form_validation->set_rules('gradoPriorizacion','gradoPriorizacion','required',array('required'=>'(*) Seleccione un grado de priorización'));
 
-		$this->PlanAnualTrabajo_Model->agregaractividad($data);
+			if ($this->form_validation->run()==FALSE) {
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('create/add_actividad');
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			} else{
 
-		redirect('controller_actividades/index','refresh');
+				$data['informe']=$_POST ['informe'];
+				$data['objetivo']=$_POST ['objetivo'];
+				$data['normativa']=$_POST ['normativa'];
+				$data['fechaInicio']=$_POST ['fechaInicio'];
+				$data['fechaConclusion']=$_POST ['fechaConclusion'];
+				$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+
+				$this->PlanAnualTrabajo_Model->agregaractividad($data);
+
+				redirect('controller_actividades/index','refresh');
+			}
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 		
 	public function modificar()
 	{
-		$idPlan=$_POST ['idPlan'];
-		$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$idPlan=$_POST ['idPlan'];
+			$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
 
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('update/modificar_actividad',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('update/modificar_actividad',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function modificarbd()
 	{
-		$idPlan=$_POST ['idPlan'];
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$idPlan=$_POST ['idPlan'];
 
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		//formato en que se guarda los archivos
-		$nombrearchivo=$idPlan.".pdf";
-		//ruta donde se guardan los archivos
-		$config['upload_path']='./uploads';
-		//nombre del archivo
-		$config['file_name']=$nombrearchivo;
-
-		$direccion="./uploads/".$nombrearchivo;
-
-		if (file_exists($direccion)) {
-			unlink($direccion);
+			$data['informe']=$_POST ['informe'];
+			$data['objetivo']=$_POST ['objetivo'];
+			$data['normativa']=$_POST ['normativa'];
+			$data['fechaInicio']=$_POST ['fechaInicio'];
+			$data['fechaConclusion']=$_POST ['fechaConclusion'];
+			$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
+			
+			$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
+			redirect('controller_actividades/index','refresh');
 		}
-
-		$config['allowed_types']='pdf'; //para agregar otro formato se separa con barra |tipo archivo
-		$this->load->library('upload',$config);
-
-		if (!$this->upload->do_upload()) {
-			$data['error']=$this->upload->display_errors();
+		else
+		{
+			redirect('usuarios/panel','refresh');
 		}
-		else{
-			$data['docInforme']=$nombrearchivo;
-		}
-
-
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-		$this->upload->data();
-		redirect('controller_actividades/index','refresh');
 	}
 
 	public function eliminarbd($idPlan)
 	{
-		
-		$data['estado']='0';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$data['estado']='0';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-
-		redirect('controller_actividades/index','refresh');
+			$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
+			redirect('controller_actividades/index','refresh');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function eliminados()
 	{
-		$listaactividades=$this->PlanAnualTrabajo_Model->actividadeseliminadas();
-		$data['plananualtrabajo']=$listaactividades;
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
+			$listaactividades=$this->PlanAnualTrabajo_Model->actividadeseliminadas();
+			$data['plananualtrabajo']=$listaactividades;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('delete/view_ActividadesEliminadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_ActividadesEliminadas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function recuperarbd()
 	{
-		$IdPlan=$_POST ['idPlan'];
-		$data['estado']='1';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$IdPlan=$_POST ['idPlan'];
+			$data['estado']='1';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 
-		$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
-		redirect('controller_actividades/eliminados','refresh');
+			$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
+			redirect('controller_actividades/eliminados','refresh');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
 	}
 

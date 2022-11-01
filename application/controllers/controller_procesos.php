@@ -66,12 +66,12 @@ class controller_procesos extends CI_Controller {
 
 				$data['descripcionProceso']=mb_strtoupper($_POST ['proceso'],'UTF-8');
 				$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
-				$data['idPlanAnualTrabajo']=$_POST ['idplan'];
+				$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
 				$data['idUsuario']=$this->session->userdata('idUsuario');
 
 				$this->Proceso_Model->agregarproceso($data);
 
-				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idplan']);
+				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
 				$data['proceso']=$listaproceso;
 
 				$this->load->view('recursos/headergentelella');

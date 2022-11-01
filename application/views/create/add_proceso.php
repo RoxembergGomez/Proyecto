@@ -9,7 +9,7 @@
     </div> <hr>
 
       <div class="row">
-          <input type="hidden" name="idplan" value="<?php echo $_POST['idPlan'];?>">
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
         <div class="col-md-12">
           <label >UNIDAD DE NEGOCIO:</label>
           <select name="idUnidadNegocio" class="col-md-12 form-control" value="<?php echo set_value('idUnidadNegocio'); ?>" autocomplete="off">

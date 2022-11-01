@@ -59,8 +59,7 @@
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close();?>
 
-                            <input type="hidden" name="idCargo" value="<?php echo $row->idCargo;?>">
-                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idCargo; ?>)" ><i class="fa fa-trash"></i>  Eliminar</button>
+                            <button type="button" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idCargo; ?>)" ><i class="fa fa-trash"></i>  Eliminar</button>
 
                       </div>
                     </div>
@@ -83,6 +82,7 @@
 </div>
 </div>
 </div>
+
 
 <!-- ALERTAS PARA ELIMINAR -->
 <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

@@ -46,12 +46,13 @@ class Subprocesos_Model extends CI_Model {
 		$this->db->update('subproceso',$data);
 	}
 
-	public function subprocesoeliminados()
+	public function subprocesoeliminados($idproceso)
 	{
 		$this->db->select('*');
-		$this->db->from('subproceso');
-		$this->db->where('estado','0');
-		$this->db->where('idProceso',$idproceso);
+		$this->db->from('subproceso s');
+		$this->db->where('s.estado','0');
+		$this->db->where('s.idProceso',$idproceso);
+		$this->db->join('proceso p','p.idProceso=s.idProceso');
 		return $this->db->get();
 	}
 }

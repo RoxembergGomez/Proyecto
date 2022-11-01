@@ -3,14 +3,16 @@
     <div class="x_title text-center">
       <div class="row float-left " >
       <?php 
-        echo form_open_multipart('controller_procesos/index');?>
+        echo form_open_multipart('controller_subprocesos/index');?>
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de procesos">
+          <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de subprocesos">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE PROCESOS ELIMINADOS</h5> 
+        <h5 >LISTA DE ELIMINADOS</h5> 
     </div>
+    
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
@@ -19,15 +21,14 @@
               <thead>
                 <tr>
                   <th class="text-center">Nro.</th>
-                  <th class="text-center">Informe</th>
-                  <th class="text-center">Procesos</th>
-                  <th class="text-center">Unidad de Negocio</th>
+                  <th class="text-center">SubProcesos</th>
+                  <th class="text-center">Clasificación Criticidad</th>
                   
                 <?php
                   if($this->session->userdata('tipo')=='jefe')
                   {
                 ?> 
-                    <th class="text-center">Acciones</th> 
+                    <th scope="col">Acciones</th> 
                 <?php
                   }
                 ?>
@@ -37,38 +38,36 @@
               <tbody>
               <?php
               $indice=1;
-              foreach ($proceso->result() as  $row)
+              foreach ($subproceso->result() as  $row)
               {
               ?>
-    	           <tr>
-              		<td class="text-center" ><?php echo $indice;?></td>
-                  <td ><?php echo $row->informe;?></td>
-              		<td ><?php echo $row->descripcionProceso;?></td>
-                  <td ><?php echo $row->lineaNegocio;?></td>
-              		<?php
-               		 if($this->session->userdata('tipo')=='jefe')
-                	{
-              		?> 
+                 <tr>
+                  <td class="text-center" ><?php echo $indice;?></td>
+                  <td ><?php echo $row->descripcionSubProceso;?></td>
+                  <td class="text-center"><?php echo $row->clasificacionCriticidad;?></td>
+                  <?php
+                   if($this->session->userdata('tipo')=='jefe')
+                  {
+                  ?> 
                   <td class="text-center">
-                      <?php echo form_open_multipart('controller_procesos/recuperarbd');?>
-                        <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>">
-                        <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
-                        <button type="submit" value="recuperar" class="btn btn-warning"><i class="fa fa-database"></i> Recuperar</button>
-                      <?php echo form_close(); ?>
+                    <?php echo form_open_multipart('controller_subprocesos/recuperarbd');?>
+                      <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>">
+                      <input type="hidden" name="idsubproceso" value="<?php echo $row->idSubProceso;?>">
+                      <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
+                      <button type="submit" value="recuperar" class="btn btn-warning"><i class="fa fa-database"></i> Recuperar</button>
+                    <?php echo form_close(); ?>
                   <?php
                     } 
                   ?>
                   </td>
-    	          </tr>
-
-
+                </tr>
             <?php
               $indice++;
               }
             ?>
               </tbody>
             </table>
-		      </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,3 +75,6 @@
 </div>
 </div>
 </div>
+
+
+

@@ -40,6 +40,7 @@ class Programas_Model extends CI_Model {
 		$this->db->where('p.idMemorandumPlanificacion',$idmpa);
 		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->join('subproceso s','s.idSubProceso=p.idSubProceso');
+		$this->db->join('hallazgo h','p.idProgramaTrabajo=h.idProgramaTrabajo','left');
 		$this->db->order_by('s.clasificacionCriticidad');
 		return $this->db->get();
 	}

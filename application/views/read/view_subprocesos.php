@@ -11,6 +11,14 @@
       </div>
         <h5 >LISTA DE SUBPROCESOS</h5> 
     </div>
+    <div class="float-right" >
+      <?php 
+        echo form_open_multipart('controller_subprocesos/eliminados');?>
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
+          <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
+          <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-trash"></i>  Eliminados</button>
+      <?php echo form_close();?>
+    </div>
     
     <div class="x_content">
       <div class="row">
@@ -58,10 +66,11 @@
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close(); 
-                          echo form_open_multipart('controller_procesos/eliminarbd');?>    
+                          echo form_open_multipart('controller_subprocesos/eliminarbd');?>    
                             <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>" >
                             <input type="hidden" name="idsubproceso" value="<?php echo $row->idSubProceso;?>" >
-                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
+                            <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
+                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item"><i class="fa fa-trash"></i>  Eliminar</button>
                           <?php echo form_close();?>
                       </div>
                     </div>

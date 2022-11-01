@@ -6,9 +6,12 @@ class RequerimientoInformacion_Model extends CI_Model {
 	public function vistaRequerimiento()
 	{
 		$this->db->select('*');
-		$this->db->from('requerimientoinformacion r');
+		$this->db->from('memorandumplanificacion m');
 		$this->db->where('r.estado','1');
-		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=r.idMemorandumPlanificacion');
+		$this->db->where('r.estadoRequerimiento','1');
+		$this->db->or_where('r.estadoRequerimiento','2');
+		$this->db->or_where('r.estadoRequerimiento','3');
+		$this->db->join('requerimientoinformacion r','m.idMemorandumPlanificacion=r.idMemorandumPlanificacion');
 		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('unidadnegocio u','u.idUnidadNegocio=r.idUnidadNegocio');
 		$this->db->group_by('m.numeroInforme');

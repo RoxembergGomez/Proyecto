@@ -123,7 +123,7 @@
                           <?php echo form_close();?>
 
                           <?php echo form_open_multipart('controller_procesos/agregar');?>
-                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
+                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
                               <button type="submit" class="dropdown-item"><i class="fa fa-database"></i>  Agregar Proceso</button>
                           <?php echo form_close();?>
 

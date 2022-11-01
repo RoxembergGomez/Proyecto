@@ -140,10 +140,29 @@ class controller_cargos extends CI_Controller {
 		
 	}
 
+	public function eliminarbd1($idCargo)
+	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$data['estado']='0';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
+
+			$this->Cargo_Model->modificarcargo($idCargo,$data);
+			redirect('controller_cargos/index','refresh');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+
+	}
+
 	public function eliminarbd($idCargo)
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
+			//$idCargo=$_POST ['idCargo'];
 			$data['estado']='0';
 			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idUsuario']=$this->session->userdata('idUsuario');

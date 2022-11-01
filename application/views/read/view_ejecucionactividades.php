@@ -28,6 +28,7 @@
                     <th class="text-center">Criticidad</th> 
                     <th class="text-center">Descripción Actividad</th>
                     <th class="text-center">Estado Revisión</th>
+                    <th class="text-center">Cumple<</th>
                     <th class="text-center">Respaldo</th>
                     <th class="text-center">Acciones</th>
                 </tr>
@@ -37,14 +38,20 @@
               <?php
               $indice=1;
               foreach ($actividades->result() as  $row)
-              {?>
-                <?php if($row->estadoPrograma!='2' || $this->session->userdata('tipo')!='ejecutor'){?>
+              {
+                if($row->estadoPrograma!='2' || $this->session->userdata('tipo')!='ejecutor'){?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td ><?php echo $row->descripcionSubProceso;?></td>
                     <td class="text-center"  ><?php echo $row->clasificacionCriticidad;?></td>
                     <td ><?php echo $row->actividad;?></td>
                     <td class="text-center"> <?php if (($row->verificacionActividad)=='0'){?> <p style="color:red; font-weight: bold;" >Pendiente</p><?php } else {?> <p style="color:#40E85F; font-weight: bold;" >Revisado</p><?php }?>
+                    </td>
+                    <td class="text-center"> <?php
+                      if (($row->verificacionActividad)=='2'){?> <p style="color:red; font-weight: bold;" >Parcial</p><?php }
+                      if (($row->verificacionActividad)=='3'){?> <p style="color:red; font-weight: bold;" >No</p><?php }
+                      if (($row->verificacionActividad)=='1'){?> <p style="color:#40E85F; font-weight: bold;" >Si</p><?php }
+                      if (($row->verificacionActividad)=='4'){?> <p style="color:#40E85F; font-weight: bold;" >N/A</p><?php }?>
                     </td>
                     <td>
                     <?php 
@@ -64,29 +71,49 @@
                     <?php  
                       }
                     ?>
-                  </td> 
+                  </td>
                     <td>
                       <ul class="col text-center">
                       <li class="nav-item dropdown open text-center" style="list-style:none;">
                          <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                          <?php echo form_open_multipart('controller_programas/ejecutar');?>        
+                          <?php if ($row->estadoPrograma=='3') {
+                            echo form_open_multipart('controller_programas/ejecutar');?>        
                             <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>" >
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
                             <button type="submit" name="ejecutar" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Revisar</button>
-                          <?php echo form_close();?>
-                          <?php echo form_open_multipart('controller_actividades/modificar');?>        
+                          <?php echo form_close();
+                           echo form_open_multipart('controller_programas/modificar');?>        
+                            <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>" >
+                            <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>" >
+                            <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
+                            <button type="submit" name="ejecutar" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar Revisión</button>
+                           <?php echo form_close();  
+                          } 
+                          if ($row->estadoPrograma=='1') {
+                            echo form_open_multipart('controller_actividades/modificar');?>        
                             <input type="hidden" name="idPlan" value="<?php echo $row->idProgramaTrabajo;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close();?>    
                             <input type="hidden" name="idPlan" >
                             <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i> Eliminar</button>  
+                          <?php }
+                          if ($row->estadoPrograma=='2' AND $this->session->userdata('tipo')=='jefe') {
+                            echo form_open_multipart('controller_actividades/modificar');?>        
+                            <input type="hidden" name="idPlan" value="<?php echo $row->idProgramaTrabajo;?>" >
+                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
+                          <?php echo form_close();?>    
+                            <input type="hidden" name="idPlan" >
+                            <button type="submit" name="botton" value="Eliminar" class="dropdown-item" onclick="return confirm_modalFotos(<?php echo $row->idPlanAnualTrabajo; ?>)" ><i class="fa fa-trash"></i> Eliminar</button>  
+                          <?php
+                          }?>
+
                         </div>
                       </li>
                        </ul>
                     </td>
-                  </tr> 
+                  </tr>
                     <?php
                     }
               $indice++;

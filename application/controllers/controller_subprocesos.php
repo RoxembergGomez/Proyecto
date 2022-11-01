@@ -154,17 +154,18 @@ public function agregarbdd()
 			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+			$this->Subprocesos_Model->modificasubproceso($_POST['idsubproceso'],$data);	
 
-			$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idplan']);
-			$data['proceso']=$listaproceso;
+
+			$listasubproceso=$this->Subprocesos_Model->subprocesos($_POST ['idproceso']);
+			$data['subproceso']=$listasubproceso;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_procesos',$data);
+			$this->load->view('read/view_subprocesos',$data);
 			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');	
+			$this->load->view('recursos/footergentelella');
 		}
 		else
 		{
@@ -176,13 +177,13 @@ public function agregarbdd()
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idplan']);
-			$data['proceso']=$listaproceso;
+			$listaproceso=$this->Subprocesos_Model->subprocesoeliminados($_POST['idproceso']);
+			$data['subproceso']=$listaproceso;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_procesosEliminados',$data);
+			$this->load->view('delete/view_SubprocesosEliminados',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 		}
@@ -202,15 +203,15 @@ public function agregarbdd()
 			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+			$this->Subprocesos_Model->modificasubproceso($_POST['idsubproceso'],$data);	
 
-			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idplan']);
-			$data['proceso']=$listaproceso;
+			$listaproceso=$this->Subprocesos_Model->subprocesoeliminados($_POST['idproceso']);
+			$data['subproceso']=$listaproceso;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_procesosEliminados',$data);
+			$this->load->view('delete/view_SubprocesosEliminados',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 		}

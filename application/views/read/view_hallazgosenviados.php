@@ -36,7 +36,7 @@
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
                     <?php
-                    if($this->session->userdata('tipo')=='auditado' && $row->estadoProceso!='4'){?>
+                    if($this->session->userdata('tipo')=='auditado'){?>
                     <td class="text-center">
                       <?php 
                       echo form_open_multipart('controller_hallazgos/revision');
@@ -45,7 +45,7 @@
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value=" ">Seleccione...</option>
-                          <option value="2">Devolver</option>
+                          <option value="5">Devolver</option>
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 
@@ -58,7 +58,9 @@
                      
                       <?php echo form_open_multipart('controller_hallazgos/observaciones');?>
                       <div class="btn-group"> 
+                        
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                            <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
                             <div class="col text-center">
                             <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Detalle de Observaciones">
                             <i class="fa fa-eye"></i>
@@ -69,6 +71,7 @@
               				echo form_open_multipart('controller_hallazgos/reportepdf');
               				?>
               				  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                        <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
               				  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reporte PDF" formtarget="_blank" ><i class="fa fa-file-pdf-o"></i></button>
                       </div>
               				<?php 

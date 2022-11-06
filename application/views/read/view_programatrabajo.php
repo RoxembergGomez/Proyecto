@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >EJECUCIÓN DE ACTIVIDADES</h5> 
+        <h5 >EJECUCIÓN DE ACTIVIDADES</h5> 
     </div>
     <div class="x_content">
       <div class="row">
@@ -92,16 +92,14 @@
                       <?php echo form_close();?>
                     </td>
                     <td class="text-center"> 
-                      <?php if (($row->estadoPrograma)=='1'){?> <p style="color:blue;font-weight: bold;" >En Proceso</p><?php }
-                      if (($row->estadoPrograma)=='2'){?> <p style="color:orange; font-weight: bold;" >En Revisión</p><?php }
-                      if (($row->estadoPrograma)=='3'){?> <p style="color:green; font-weight: bold;" >Aprobado</p><?php }?>
+                      <?php if (($row->estadoPrograma)=='1'){?> <p id="azul" >En Proceso</p><?php }
+                      if (($row->estadoPrograma)=='2'){?> <p id="anaranjado" >En Revisión</p><?php }
+                      if (($row->estadoPrograma)=='3'){?> <p id="verde" >Aprobado</p><?php }?>
                     </td>
-                    <td>
-                        <ul >
-                          <li   class="nav-item dropdown open" style="list-style:none;">
-                            <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                            </a>
-                              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
+                    <td class="text-center">
+                      <div class="btn-group" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                               <?php if($row->estadoPrograma=='3'|| $row->estadoPrograma=='1' || $this->session->userdata('tipo')=='jefe'){
 
                                 if($row->estadoPrograma=='3') { 
@@ -114,21 +112,21 @@
                             
                                 echo form_open_multipart('controller_programas/actividades');?> 
                                   <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                    <button type="submit" class="dropdown-item" ><i class="fa fa-eye"></i>  Revisar</button>
+                                  <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>">
+                                  <button type="submit" class="dropdown-item" ><i class="fa fa-eye"></i>  Revisar</button>
                                 <?php echo form_close();
  
                                 echo form_open_multipart('controller_programas/actividadespdf');
                                 ?>
                                   <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                   <button type="submit" class="dropdown-item" formtarget="_blank" ><i class="fa fa-file-pdf-o">  PDF</i></button>
-                                </div>
+                                
                                 <?php 
                                 echo form_close();
                               }
                                 ?>
+                                </div>
                               </div>
-                            </li>
-                        </ul>
                     </td>
                   </tr> 
                     <?php

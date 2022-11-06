@@ -3,14 +3,6 @@
     <div class="x_title text-center">
         <h5 style="font-weight: bold; color: #000000; " >MEMORANDUM DE PLANIFICACIÓN DE AUDITORÍA</h5> 
     </div>
-        <div class="btn-group float-right" role="group" id="botright">
-          <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver MPA</button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <?php echo form_open_multipart('controller_memorandumplanificacion/eliminados');?>
-                <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminados</button>
-              <?php echo form_close();?>
-            </div>
-        </div>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">

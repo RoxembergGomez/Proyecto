@@ -10,6 +10,9 @@ class controller_actividades extends CI_Controller {
 			$listaactividades=$this->PlanAnualTrabajo_Model->actividades();
 			$data['plananualtrabajo']=$listaactividades;
 
+			$listampa=$this->MemorandumPlanificacion_Model->empleado();
+			$data['seleccion']=$listampa;
+
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
@@ -436,6 +439,38 @@ class controller_actividades extends CI_Controller {
 			{
 				redirect('controller_panelprincipal/index','refresh');
 			}
+	}
+
+	public function reporteporempleado()
+	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('idEmpleado','idEmpleado','required',array('required'=>'(*) Seleccione un empleado'));
+			$this->form_validation->set_rules('estadoEjecucion','estadoEjecucion','required',array('required'=>'(*) Seleccione un estado'));
+			if ($this->form_validation->run()==FALSE) {
+				$listaactividades=$this->PlanAnualTrabajo_Model->actividades();
+				$data['plananualtrabajo']=$listaactividades;
+
+				$listampa=$this->MemorandumPlanificacion_Model->empleado();
+				$data['seleccion']=$listampa;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_actividades',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+				} 
+			else{
+
+			}
+			
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 

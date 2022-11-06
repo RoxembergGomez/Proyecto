@@ -4,38 +4,6 @@
     color: #000000;
   }
 
-  /*input {
-    border-radius:0.5em;
-    border-color: #6F6E69;
-    height: 38px;
-    border-width: 1px;
-    border-style: solid;
-  }
-  select {
-    border-radius:0.5em;
-    border-color: #6F6E69;
-    height: 38px;
-    border-width: 1px;
-  }
-
-  input:hover{
-    background-color: #ECEBEA;
-  }
-
-
-  select:hover{
-    background-color: #ECEBEA;
-  }
-
-  hr{
-    border-width: 2px;
-    border-color: #6F6E69;
-  }
-
-  button:hover{
-    background-color: #ECEBEA;
-  }*/
-
 div .x_panel {
   background:#ECF8F9; 
 }
@@ -65,5 +33,39 @@ div h5{
     background-color:white;
   }
 
+/* INTERFAZ DE CONTROL PARA ESTADOS */
 
+#verde{
+  color:white;
+  font-weight: bold;
+  font-family: sans-serif;
+  background: green;
+  border-radius: 10px;
+}
+
+#rojo{
+  color:white;
+  font-weight: bold; 
+  font-family: sans-serif;
+  background: red;
+  border-radius: 15px;
+}
+
+#anaranjado{
+  color:black; 
+  font-weight: bold; 
+  font-family: sans-serif; 
+  background: orange; 
+  border-radius: 15px;
+
+}
+
+#azul{
+  color:white; 
+  font-weight: bold; 
+  font-family: sans-serif; 
+  background:blue; 
+  border-radius: 15px;
+
+}
 

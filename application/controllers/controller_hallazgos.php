@@ -23,6 +23,97 @@ class controller_hallazgos extends CI_Controller {
 		}
 	}
 
+
+	public function modificar()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+
+			$hallazgos=$this->Observaciones_Model->recuperarobservaciones($_POST ['idhallazgo']);
+			$data['info']=$hallazgos;
+
+			$listampa=$this->Empleados_Model->empleados();
+			$data['seleccion']=$listampa;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('update/modificar_hallazgo',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+	public function modificarbd()
+	{	
+		
+		$idprograma=$_POST ['idhallazgo'];
+
+		$anexo=$idprograma.".xlsx";
+		$config2['upload_path']='./uploads/anexosObservacion';
+		$config2['file_name']=$anexo;
+		$direccion2="./uploads/anexosObservacion/".$anexo;
+		if (file_exists($direccion2)) {
+			unlink($direccion2);
+			}
+		$config2['allowed_types']='xlsx';
+		$this->load->library('upload',$config2);
+        
+           	if (!$this->upload->do_upload()) {
+
+	        	$data['descripcionHallazgo']=$_POST ['observacion'];
+            	$data['prioridadAtencion'] = $_POST ['prioridad'];
+            	$data['anexo'] = 'Sin Anexo';
+            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
+            	$data['idEmpleado'] = $_POST ['idEmpleado'];
+            	$data['idUsuario']=$this->session->userdata('idUsuario');
+            	$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+
+            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
+
+            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+				$data['observaciones']=$listaobservaciones;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_observaciones',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+
+            	} else {
+
+            	$data['descripcionHallazgo']=$_POST ['observacion'];
+            	$data['prioridadAtencion'] = $_POST ['prioridad'];
+            	$data['anexo'] = $anexo;
+            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
+            	$data['idEmpleado'] = $_POST ['idEmpleado'];
+            	$data['idUsuario']=$this->session->userdata('idUsuario');
+
+            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
+            	$this->upload->data();
+
+            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+				$data['observaciones']=$listaobservaciones;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_observaciones',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+
+            }
+	}
+
+
+
+
+
 	public function enrevision()
 	{
 		if($this->session->userdata('tipo')=='jefe' )
@@ -95,6 +186,20 @@ class controller_hallazgos extends CI_Controller {
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
 		$this->load->view('read/view_observaciones',$data);
+		$this->load->view('recursos/creditosgentelella');
+		$this->load->view('recursos/footergentelella');
+	}
+
+	public function observacionesconcluidas()
+	{
+
+		$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+		$data['observaciones']=$listaobservaciones;
+
+		$this->load->view('recursos/headergentelella');
+		$this->load->view('recursos/sidebargentelella');
+		$this->load->view('recursos/topbargentelella');
+		$this->load->view('read/view_observacionesConcluidas',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
@@ -175,45 +280,7 @@ class controller_hallazgos extends CI_Controller {
 
 	}
 
-	public function agregar()
-	{
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('create/add_actividad');
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
-	}
-
-	public function agregarbdd()
-	{	
-		$data['informe']=$_POST ['informe'];
-		$data['objetivo']=$_POST ['objetivo'];
-		$data['normativa']=$_POST ['normativa'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-
-		$this->PlanAnualTrabajo_Model->agregaractividad($data);
-
-		redirect('controller_actividades/index','refresh');
-	}
-
-		
-	public function modificar()
-	{
-		$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('update/modificar_observacion',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
-	}
 
 	public function insertarcomentario()
 	{
@@ -237,41 +304,6 @@ class controller_hallazgos extends CI_Controller {
 		$this->load->view('recursos/footergentelella');
 
 		
-	}
-
-	public function eliminarbd()
-	{
-		$idPlan=$_POST ['idPlan'];
-		$data['estado']='0';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-
-		$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-
-		redirect('controller_actividades/index','refresh');
-	}
-
-	public function eliminados()
-	{
-		$listaactividades=$this->PlanAnualTrabajo_Model->actividadeseliminadas();
-		$data['plananualtrabajo']=$listaactividades;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('delete/view_ActividadesEliminadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
-	}
-
-	public function recuperarbd()
-	{
-		$IdPlan=$_POST ['idPlan'];
-		$data['estado']='1';
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-
-		$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
-		redirect('controller_actividades/eliminados','refresh');
-
 	}
 
 
@@ -324,6 +356,15 @@ class controller_hallazgos extends CI_Controller {
 
 		redirect('controller_hallazgos/enrevision','refresh');
        break;
+       case '5':
+        $data['estadoProceso']='5';
+		$data['idUsuario']=$this->session->userdata('idUsuario');
+		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		
+		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+		redirect('controller_hallazgos/enviado','refresh');
+        break;
       
       default:
         break;

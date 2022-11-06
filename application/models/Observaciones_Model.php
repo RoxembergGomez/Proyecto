@@ -119,6 +119,21 @@ class Observaciones_Model extends CI_Model {
 	   }  
 	}
 
+
+	public function recuperarobservaciones($idhallazgo)
+	{
+		$this->db->select('*');
+		$this->db->from('hallazgo h');
+		$this->db->where('h.estado','1');
+		$this->db->where('h.idHallazgo',$idhallazgo);
+		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('subproceso sp','sp.idSubProceso=p.idSubProceso');
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=h.idEmpleado');
+		return $this->db->get();
+	}
+
 	public function modificarobservacion($idhallazgo,$data)
 	{
 		$this->db->where('idHallazgo',$idhallazgo); 

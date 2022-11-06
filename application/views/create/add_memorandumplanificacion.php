@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-      <h5>ASIGNAR MEMORANDUM DE PLANIFIACIÓN DE AUDITORÍA</h5>              
+      <h5>ASIGNAR MEMORANDUM DE PLANIFICACIÓN DE AUDITORÍA</h5>              
 
     </div> <hr>
      <?php

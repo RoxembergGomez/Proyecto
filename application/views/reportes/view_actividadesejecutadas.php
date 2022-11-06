@@ -14,10 +14,7 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div class="row justify-content-between">
-            <?php echo form_open_multipart('controller_actividades/index');?>
-              <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-list-ol"></i>  Lista de Actividades</button>
-            <?php echo form_close();?>
+          <div class="row float-right">
                 <?php 
                 echo form_open_multipart('controller_actividades/ejecutadaspdf');?>
                     <button  type="submit" class="btn btn-info btn-sm" formtarget="_blank"><i class="fa fa-file-pdf-o"></i> Reporte pdf</button>

@@ -3,8 +3,10 @@
     <div class="x_title text-center">
       <div class="row float-left " >
       <?php 
-        echo form_open_multipart('controller_programas/index');?>
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder"><i class="glyphicon glyphicon-arrow-left"></i>
+        echo form_open_multipart('controller_programas/actividades');?>
+            <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
+            <input type="hidden" name="estadoPrograma" value="<?php echo $_POST  ['estadoPrograma'];?>">
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de actividades activas"><i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
         <h5 >EJECUCIÓN DE ACTIVIDADES</h5> 
@@ -12,12 +14,6 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-                <?php echo form_open_multipart('controller_programas/eliminados');?>
-                  <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
-                  <input type="hidden" name="estadoPrograma" value="<?php echo $_POST ['estadoPrograma'];?>">
-                  <button  type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-desktop"></i> Eliminados</button>
-                <?php echo form_close();
-                ?>
         <div class="col-sm-12">
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
@@ -78,46 +74,15 @@
                   </td>
                     <?php }?>
                     <td class="text-center">
-                      <div class="btn-group" role="group">
-                      <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
-                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                          <?php if ($row->estadoPrograma=='3') {
-                            if ($row->verificacionActividad=='0') {
-                            echo form_open_multipart('controller_programas/ejecutar');?>        
-                            <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>" >
-                            <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
-                            <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>" >
-                            <button type="submit" name="ejecutar" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Revisar</button>
-                          <?php echo form_close();
-                           }  
-                          if ($row->verificacionActividad=='1' || $row->verificacionActividad=='4') {
-                           echo form_open_multipart('controller_programas/modificarejecucion');?> 
-                           <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>" >       
-                            <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>" >
-                            <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
-                            <button type="submit" name="ejecutar" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar Revisión</button>
-                           <?php echo form_close();
-                           }  
-                          } 
-                          if ($row->estadoPrograma=='1' || $row->estadoPrograma=='2') {
-                            echo form_open_multipart('controller_programas/modificar');?>        
+                          <?php if ($row->estadoPrograma=='1' || $row->estadoPrograma=='2') {
+                            echo form_open_multipart('controller_programas/recuperarbd');?>        
                             <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
-                            <input type="hidden" name="idsubproceso" value="<?php echo $row->idSubProceso;?>" >
+                            <input type="hidden" name="idsubproceso" value="<?php echo $row->idSubProceso;?>">
                             <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>" >
-                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i> Modificar</button>
-                          <?php echo form_close();
-                          echo form_open_multipart('controller_programas/eliminarbd');?>        
-                            <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
-                            <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>" >
-                            <input type="hidden" name="idsubproceso" value="<?php echo $row->idSubProceso;?>" >
-                            <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>" >
-                            <button type="submit" class="dropdown-item" ><i class="fa fa-trash"></i>  Eliminar</button>
+                            <button type="submit" name="botton" value="recuperar" class="btn btn-warning"><i class="fa fa-database"></i> Recuperar</button>
                           <?php echo form_close();
                         }?>    
-                           
-                      </div>
-                    </div>
                     </td>
                   </tr>
                     <?php

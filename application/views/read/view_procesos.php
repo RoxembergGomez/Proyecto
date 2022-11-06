@@ -8,7 +8,7 @@
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE PROCESOS</h5> 
+        <h5 >LISTA DE PROCESOS</h5> 
     </div>
     <div class="float-right" >
       <?php 

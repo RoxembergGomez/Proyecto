@@ -62,12 +62,13 @@ class controller_empleados extends CI_Controller {
 			$this->form_validation->set_rules('idCargo','idCargo','required',array('required'=>'(*) Seleccione una opción'));
 			$this->form_validation->set_rules('usuario','usuario','required|min_length[4]|alpha_numeric',array('required'=>'(*) Se requiere llenar este campo','min_length'=>'(*) Se requiere al menos 4 carateres','alpha_numeric'=>'(*) Se requiere solo letras o números'));
 			$this->form_validation->set_rules('tipo','tipo','required',array('required'=>'(*) Selecione un apción'));
-			$this->form_validation->set_rules('contrasena','contrasena','required|min_length[4]|max_length[5]',array('required'=>'(*) Se requiere llenar este campo','min_length'=>'(*) Se requiere al menos 4 caracteres','max_length'=>'(*) Se requiere máximo 5 caracteres'));
+			$this->form_validation->set_rules('contrasena','contrasena','required|min_length[4]|max_length[8]',array('required'=>'(*) Se requiere llenar este campo','min_length'=>'(*) Se requiere al menos 4 caracteres','max_length'=>'(*) Se requiere máximo 5 caracteres'));
 
 		if ($this->form_validation->run()==FALSE) {
 
-				$listacargo=$this->Empleados_Model->seleccion();
+				$listacargo=$this->Cargo_Model->listacargos();
 				$data['seleccion']=$listacargo;
+
 
 				$data['msg']=$this->uri->segment(3);
 
@@ -86,11 +87,6 @@ class controller_empleados extends CI_Controller {
 					{
 						redirect('controller_empleados/agregar/1','refresh');
 					} else {
-						$contrasena=MD5($_POST ['contrasena']);
-						$validarcontrasena=$this->Usuario_Model->validarcontrasena($contrasena);
-						if ($validarcontrasena->num_rows()>0){
-							redirect('controller_empleados/agregar/2','refresh');
-						} else{
 							$data['nombres']=mb_strtoupper($_POST ['nombres'],'UTF-8');
 							$data['primerApellido']=mb_strtoupper($_POST ['primerApellido'],'UTF-8');
 							$data['segundoApellido']=mb_strtoupper($_POST ['segundoApellido'],'UTF-8');
@@ -110,7 +106,6 @@ class controller_empleados extends CI_Controller {
 							redirect('controller_empleados/index','refresh');
 						}
 					}
-				}
 			}
 			else
 			{
@@ -126,7 +121,7 @@ class controller_empleados extends CI_Controller {
 			$idEmpleado=$_POST ['idEmpleado'];
 			$data['infoempleado']=$this->Empleados_Model->recuperarempleado($idEmpleado);
 			
-			$listacargo=$this->Empleados_Model->seleccion();
+			$listacargo=$this->Cargo_Model->listacargos();
 			$data['seleccion']=$listacargo;
 
 
@@ -161,7 +156,7 @@ class controller_empleados extends CI_Controller {
 				$idEmpleado=$_POST ['idEmpleado'];
 				$data['infoempleado']=$this->Empleados_Model->recuperarempleado($idEmpleado);
 				
-				$listacargo=$this->Empleados_Model->seleccion();
+				$listacargo=$this->Cargo_Model->listacargos();
 				$data['seleccion']=$listacargo;
 
 

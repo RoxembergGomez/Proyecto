@@ -72,7 +72,7 @@
         <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>  Guardar</button>
       <?php 
       echo form_close();
-      echo form_open_multipart('controller_programas/ejecutar');
+      echo form_open_multipart('controller_programas/modificarejecucion');
           ?>
           <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
           <input type="hidden" name="idprograma" value="<?php echo $_POST ['idprograma'];?>">

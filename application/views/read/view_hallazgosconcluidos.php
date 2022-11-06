@@ -31,7 +31,7 @@
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
                     <td class="text-center">
           
-                      <?php echo form_open_multipart('controller_hallazgos/observaciones');?>
+                      <?php echo form_open_multipart('controller_hallazgos/observacionesconcluidas');?>
                       <div class="btn-group"> 
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                             <div class="col text-center">

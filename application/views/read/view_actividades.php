@@ -21,19 +21,32 @@
         </div>
 
       <div class="col-md-8">
-      <?php echo form_open_multipart('controller_actividades/pendientes');?>
+      <?php echo form_open_multipart('controller_actividades/reporteporempleado');?>
 
-        <div class="row col-md-8">
-         <h6 style="font-weight: bold; color: #000000; margin: 7px 7px 0px 0px">Buscar:</h6>
-          <input type="text" name="idEmpleado" class=" col-md-10 form-control" autocomplete="off" placeholder="Nombre Empleado">
+        <div class="col-md-2 text-center">
+          <h6 style="font-weight: bold; color: #000000; margin: 10px 0px 0px 0px;">Buscar:</h6>
         </div>
-        <div class="col-md-3">
-          <select name="estadoEjecucion" class="col-md-12 form-control">
-            <option>Seleccione estado</option>
+        <div class="row col-md-5">
+         
+          <select name="idEmpleado" class="col-md-12 form-control" value="<?php echo set_value('idEmpleado'); ?>">
+            <option value="">Seleccione un empleado</option>
+            <?php
+                 foreach ($seleccion->result() as  $rowa)
+              {?> <option value="<?php echo $rowa->idEmpleado;?>">
+                <?php echo $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;?>
+                </option><?php
+                }?>
+          </select> <br>
+          <p><?php echo form_error('idEmpleado');?></p>
+        </div>
+        <div class="col-md-4">
+          <select name="estadoEjecucion" class="col-md-12 form-control"  value="<?php echo set_value('estadoEjecucion'); ?>">
+            <option value="">Seleccione estado</option>
             <option value="1">Asignado</option>
             <option value="3">Ejecutado</option>
             <option value="">General</option>
-          </select>
+          </select> <br>
+           <p ><?php echo form_error('estadoEjecucion');?></p>
         </div>
         <div class="col-md-1">
           <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Reporte" ><i class="fa fa-sign-out"></i></button>
@@ -108,8 +121,9 @@
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
                   <td class="text-center">
-                    <?php if ($row->estadoEjecucion=='2'){?> <p style="color:red;" >Programado</p><?php } else if ($row->estadoEjecucion=='1'){?> <p style="color:orange;" >Asignado</p><?php } else if ($row->estadoEjecucion=='3'){?>
-                    <p style="color:green;" >Ejecutado</p><?php }?></td> 
+                    <?php if ($row->estadoEjecucion=='2'){?> <p id="anaranjado" >Programado</p><?php } else if ($row->estadoEjecucion=='1'){?> <p id="azul" >Asignado</p><?php } 
+                    else if ($row->estadoEjecucion=='3'){?><p id="verde">Ejecutado</p><?php }?>
+                  </td> 
                  <?php
                 if($this->session->userdata('tipo')=='jefe')
                 {?> 

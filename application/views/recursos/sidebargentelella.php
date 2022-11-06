@@ -3,7 +3,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="<?php echo base_url()."index.php/controller_panelprincipal/index";?>" class="site_title"><span>SAIB-RISK</span></a>
+            <a href="<?php echo base_url()."index.php/controller_panelprincipal/index";?>" class="site_title"><i class="fa fa-check-square"></i>   <span>      SAIB-RISK</span></a>
           </div>
 
           <div class="clearfix"></div>
@@ -108,12 +108,6 @@
                       <?php echo form_close();?>
                     </li>
                   <?php } ?>
-                  </ul>
-                </li>
-                <li><a><i class="fa fa-list-ol"></i>ADMIN<span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url(); ?>gentelella/production/tables.html">Tables</a></li>
-                    <li><a href="<?php echo base_url(); ?>gentelella/production/tables_dynamic.html">Table Dynamic</a></li>
                   </ul>
                 </li>
             </div>

@@ -1,36 +1,33 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     
-    <div class="x_title col-md-12">
+    <div class="x_title">
       <div class="row float-left " >
       <?php 
-                echo form_open_multipart('controller_hallazgos/pendiente');?>
+        echo form_open_multipart('controller_hallazgos/pendiente');?>
                     <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
-        <h5 style="font-weight: bold; color: #000000; " class="text-center" >HALLAZGOS</h5> 
+        <h5 class="text-center" >HALLAZGOS</h5> 
     </div>
     <div class="x_content">
       <div class="row">
-        <div class="col-sm-12">
-              <div class="row float-left">
-                
-                <?php echo form_open_multipart('controller_programatrabajo/eliminados');?>
-                    <button  type="submit" class="btn btn-success"><i class="fa fa-trash"></i> Observaciones Eliminadas</button>
-                <?php echo form_close();?>
-              </div>  
+        <div class="col-sm-12"> 
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>
                     <th class="text-center">Nro.</th>
                     <th class="text-center">Observación</th>
-                    <th class="text-center">Atención</th> 
+                    <th class="text-center">Atención</th>
+                    <?php if ($_POST['estadoProceso']=='3' || $_POST['estadoProceso']=='5' ) {?>
                     <th class="text-center">Comentario del Responsable y Acción Correctiva </th>
                     <th class="text-center">Plazo Propuesto</th>
                     <th class="text-center">Responsable</th>
+                      <?php } ?>
                     <th class="text-center">Acciones</th> 
+                   
                 </tr>
               </thead>
               <tbody>
@@ -39,12 +36,13 @@
               $indice=1;
               foreach ($observaciones->result() as  $row)
               {
-                if ($this->session->userdata('tipo') == 'jefe' || $this->session->userdata('tipo') == 'ejecutor')
+                if ($this->session->userdata('idUsuario')=='3')
                   {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td><?php echo $row->descripcionHallazgo;?></td>
                     <td class="text-center"><?php echo $row->prioridadAtencion;?></td>
+                    <?php if ($_POST['estadoProceso']=='3' || $_POST['estadoProceso']=='5' ) {?>
                     <td>
                       <?php if($row->comentarioResponsable==''){
                           ?> <p style="font-weight: bold; color: red; " >Sin Comentario del Responsable</p> <?php
@@ -65,29 +63,36 @@
                       } else{
                         echo $row->responsable;
                       } ?>
-                    </td>  
-                    <td>
-                      <ul >
-                          <li   class="nav-item dropdown open text-center" style="list-style:none;">
-                            <a href="<?php echo base_url(); ?>gentelella/javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-align-justify"></i>
-                            </a>
-                              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px;">
-                                <?php echo form_open_multipart('controller_hallazgos/modificar');?>        
-                                <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
-                                <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion; ?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i> Accion Correctiva</button>
-                              <?php echo form_close();
-                              echo form_open_multipart('controller_memorandumplanificacion/modificar');?>        
-                                <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
-                              <?php echo form_close(); 
-                              echo form_open_multipart('controller_memorandumplanificacion/eliminarbd');?>    
-                                <input type="hidden" name="idMemorandumPlanificacion" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
-                              <?php echo form_close();?>
-                              </div>
-                            </li>
-                        </ul>
+                    </td> 
+                    <?php } ?> 
+                    <td class="text-center">
+                      <div class="btn-group" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                      <?php if ($_POST['estadoProceso']=='3') {
+                        echo form_open_multipart('controller_hallazgos/modificar');?>        
+                          <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
+                          <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion; ?>">
+                          <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i> Accion Correctiva</button>
+                        <?php echo form_close();
+                      }
+                      if ($_POST['estadoProceso']=='1' || $_POST['estadoProceso']=='2') {
+                        echo form_open_multipart('controller_hallazgos/modificar');?>        
+                          <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                          <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
+                          <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
+                          <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
+                          <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
+                        <?php echo form_close(); 
+                        echo form_open_multipart('controller_memorandumplanificacion/eliminarbd');?>    
+                          <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
+                          <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
+                          <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
+                          <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
+                        <?php echo form_close();
+                      }?>
+                      </div>
+                      </div>
                     </td>
                   </tr> 
                     <?php

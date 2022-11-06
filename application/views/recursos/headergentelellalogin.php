@@ -4,23 +4,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!DOCTYPE html>
 <html id="identified" lang="en">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Lobster&family=Poppins:ital,wght@1,300;1,700&family=Ultra&family=Xanh+Mono:ital@1&display=swap');
   * {
     margin: 0;
     padding: 0;
   }
 
   #identified {
-   /* background-image: url("<??>/uploads/login.jpg");*/
-    background: #30178E;*/
-    height: 400px;
-    background-size: cover;
+   background-image:url(<?php echo base_url()."uploads/login.jpg";?>); 
   }
   
   #identified1 {
     border-radius: 20px;
     width: 100%;
     height: 50%;
-    background: #A29A9A;
+    background: #E4EAEA ;
     position: relative;
   }
 
@@ -29,11 +27,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
     color: #040000;
   }
 
-  #identified1 p{
+
+ #identified1 p{
     color: red;
     border-color: #040000;
     margin: 0px;
     font-weight: bold;
+  }
+
+  #proyecto{
+
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    margin: 0px 10px 20px 0px;
+    font-family: 'Ultra', sans-serif;
+    font-size: 50px;
+    color: #E4EAEA;
+    font-style: italic;
   }
 
 </style>

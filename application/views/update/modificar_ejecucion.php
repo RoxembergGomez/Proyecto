@@ -26,8 +26,7 @@
         <div class="row">
         <div class="col-md-12">
           <label class="float-left">DESCRICIÓN DE ACTIVIDAD:</label>
-          <input type="text" name="programa" class="col-md-12 form-control" value="<?php echo $row->actividad; ?>" autocomplete="off"><br>
-          <p style="color: red;"><?php echo form_error('programa');?></p>
+          <input type="text" name="programa" class="col-md-12 form-control" value="<?php echo $row->actividad; ?>" autocomplete="off" disabled><br>
         </div> 
       </div> <br>
         <div class="row">        

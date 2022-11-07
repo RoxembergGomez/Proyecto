@@ -14,7 +14,7 @@ class Programas_Model extends CI_Model {
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->group_by('m.numeroInforme');
-		$this->db->order_by('m.estadoPrograma');
+		$this->db->order_by('m.estadoPrograma','m.numeroInforme');
 		return $this->db->get();
 	}
 

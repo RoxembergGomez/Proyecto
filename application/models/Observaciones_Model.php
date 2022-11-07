@@ -9,6 +9,7 @@ class Observaciones_Model extends CI_Model {
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');
 		$this->db->where('m.estadoProceso','1');
+		$this->db->where('m.estadoHallazgo','1');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->group_by('m.numeroInforme');
@@ -27,15 +28,20 @@ class Observaciones_Model extends CI_Model {
 		return $this->db->get();
 	}
 
+
 	public function enviados()
 	{
 		$this->db->select('*');
 		$this->db->from('memorandumplanificacion m');
 		$this->db->where('m.estado','1');
 		$this->db->where('m.estadoProceso','3');
+		$this->db->where('h.idEmpleado',$this->session->userdata('idUsuario'));
+		$this->db->where('m.estadoProceso','3');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
-		$this->db->group_by('m.numeroInforme');
+		$this->db->join('hallazgo h','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->group_by('m.numeroInforme,m.estadoProceso');
 		return $this->db->get();
 	}
 
@@ -61,14 +67,57 @@ class Observaciones_Model extends CI_Model {
 		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
 		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
 		return $this->db->get();
 	}
+
+	public function observacionesenviadas($idmpa)
+	{
+		$this->db->select('*');
+		$this->db->from('hallazgo h');
+		$this->db->where('h.estado','1');
+		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->where('h.idEmpleado',$this->session->userdata('idUsuario'));
+		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		return $this->db->get();
+	}
+
+//ENVIADOS A DESCARGOS VISTA JEFE Y EJECUTOR
+	public function enviadosdescargos()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','3');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('hallazgo h','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->group_by('m.numeroInforme,m.estadoProceso');
+		return $this->db->get();
+	}
+
+	public function observacionesenviadasdescargos($idmpa)
+	{
+		$this->db->select('*');
+		$this->db->from('hallazgo h');
+		$this->db->where('h.estado','1');
+		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		return $this->db->get();
+	}
+
 
 	public function vistaobservaciones($idhallazgo)
 	{
 		$this->db->select('*');
-		$this->db->from('hallazgo');
-		$this->db->where('idHallazgo',$idhallazgo);
+		$this->db->from('hallazgo h');
+		$this->db->where('h.idHallazgo',$idhallazgo);
+		$this->db->join('empleado e','e.idEmpleado=h.idEmpleado');
 		return $this->db->get();
 	}
 

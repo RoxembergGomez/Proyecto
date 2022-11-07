@@ -14,6 +14,7 @@ class MemorandumPlanificacion_Model extends CI_Model {
 		$this->db->where('a.estado','1');
 		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->order_by('m.idEmpleado','m.numeroInforme');
 		return $this->db->get();
 	}
 

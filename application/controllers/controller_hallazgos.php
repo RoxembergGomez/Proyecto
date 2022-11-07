@@ -68,10 +68,11 @@ class controller_hallazgos extends CI_Controller {
 	        	$data['descripcionHallazgo']=$_POST ['observacion'];
             	$data['prioridadAtencion'] = $_POST ['prioridad'];
             	$data['anexo'] = 'Sin Anexo';
-            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
-            	$data['idEmpleado'] = $_POST ['idEmpleado'];
             	$data['idUsuario']=$this->session->userdata('idUsuario');
             	$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
+            	$data['idEmpleado'] = $_POST ['idEmpleado'];
+
 
             	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
 
@@ -116,7 +117,7 @@ class controller_hallazgos extends CI_Controller {
 
 	public function enrevision()
 	{
-		if($this->session->userdata('tipo')=='jefe' )
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
 			$hallazgos=$this->Observaciones_Model->revision();
 			$data['programatrabajo']=$hallazgos;
@@ -136,8 +137,9 @@ class controller_hallazgos extends CI_Controller {
 
 	public function enviado()
 	{
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado' )
+		if($this->session->userdata('tipo')=='auditado' )
 		{
+
 			$hallazgos=$this->Observaciones_Model->enviados();
 			$data['programatrabajo']=$hallazgos;
 
@@ -153,6 +155,38 @@ class controller_hallazgos extends CI_Controller {
 			redirect('usuarios/panel','refresh');
 		}
 	}
+
+//PARA ENVÍOS A DESCARGOS UAI
+	public function enviadosdescargosuai()
+	{
+
+
+			$hallazgos=$this->Observaciones_Model->enviadosdescargos();
+			$data['programatrabajo']=$hallazgos;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_hallazgosenviados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+
+	}
+
+	public function observacionesenviadasdescargos()
+	{
+
+		$listaobservaciones=$this->Observaciones_Model->observacionesenviadasdescargos($_POST ['idmpa']);
+		$data['observaciones']=$listaobservaciones;
+
+		$this->load->view('recursos/headergentelella');
+		$this->load->view('recursos/sidebargentelella');
+		$this->load->view('recursos/topbargentelella');
+		$this->load->view('read/view_observacionesenviadasuai',$data);
+		$this->load->view('recursos/creditosgentelella');
+		$this->load->view('recursos/footergentelella');
+	}
+
 
 	public function concluidos()
 	{
@@ -186,6 +220,21 @@ class controller_hallazgos extends CI_Controller {
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
 		$this->load->view('read/view_observaciones',$data);
+		$this->load->view('recursos/creditosgentelella');
+		$this->load->view('recursos/footergentelella');
+	}
+
+
+	public function observacionesenviadas()
+	{
+
+		$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
+		$data['observaciones']=$listaobservaciones;
+
+		$this->load->view('recursos/headergentelella');
+		$this->load->view('recursos/sidebargentelella');
+		$this->load->view('recursos/topbargentelella');
+		$this->load->view('read/view_observacionesenviadas',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 	}
@@ -281,6 +330,22 @@ class controller_hallazgos extends CI_Controller {
 	}
 
 
+	public function comentario()
+	{
+		$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
+
+		$empleados=$this->Empleados_Model->empleados();
+		$data['empleado']=$empleados;
+
+		$this->load->view('recursos/headergentelella');
+		$this->load->view('recursos/sidebargentelella');
+		$this->load->view('recursos/topbargentelella');
+		$this->load->view('update/modificar_observacion',$data);
+		$this->load->view('recursos/creditosgentelella');
+		$this->load->view('recursos/footergentelella');
+	}
+
+
 
 	public function insertarcomentario()
 	{
@@ -293,13 +358,13 @@ class controller_hallazgos extends CI_Controller {
 		
 		$this->Observaciones_Model->comentarios($_POST ['idhallazgo'],$data);
 
-		$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+		$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
 		$data['observaciones']=$listaobservaciones;
 
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observaciones',$data);
+		$this->load->view('read/view_observacionesenviadas',$data);
 		$this->load->view('recursos/creditosgentelella');
 		$this->load->view('recursos/footergentelella');
 

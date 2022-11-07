@@ -9,6 +9,14 @@
           <div class="btn-group row float-right" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver Programas</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <?php echo form_open_multipart('controller_programas/programasrevision');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> En revisión</button>
+                <?php echo form_close();
+                ?>
+                <?php echo form_open_multipart('controller_programas/programasaprobados');?>
+                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Aprobados</button>
+                <?php echo form_close();
+                ?>
                 <?php echo form_open_multipart('controller_programas/programascerrados');?>
                     <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Cerrados</button>
                 <?php echo form_close();
@@ -35,7 +43,7 @@
               $indice=1;
               foreach ($programatrabajo->result() as  $row)
               { 
-              if ($this->session->userdata('idUsuario')==$row->idEmpleado || $row->estadoPrograma == '2' || $row->estadoPrograma == '3' ) {?>
+             if (($this->session->userdata('idUsuario') == $row->idEmpleado || $this->session->userdata('tipo')=='jefe') && ($this->session->userdata('idUsuario') == $row->idEmpleado || $row->estadoPrograma == '2' || $row->estadoPrograma == '3' )) {?>
                 
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
@@ -113,6 +121,7 @@
                                 echo form_open_multipart('controller_programas/actividades');?> 
                                   <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                                   <input type="hidden" name="estadoPrograma" value="<?php echo $row->estadoPrograma;?>">
+                                  <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
                                   <button type="submit" class="dropdown-item" ><i class="fa fa-eye"></i>  Revisar</button>
                                 <?php echo form_close();
  

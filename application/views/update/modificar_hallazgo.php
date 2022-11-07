@@ -56,7 +56,7 @@
             <option value="<?php echo $row->idEmpleado;?>"><?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?></option>
                 <?php
                  foreach ($seleccion->result() as  $rowa)
-              {?> <option value="<?php echo $row->idEmpleado;?>">
+              {?> <option value="<?php echo $rowa->idEmpleado;?>">
                 <?php echo $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;?>
                 </option><?php
                 }?>

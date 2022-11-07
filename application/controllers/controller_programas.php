@@ -195,6 +195,10 @@ class controller_programas extends CI_Controller {
             $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idUsuario']=$this->session->userdata('idUsuario');
 
+			$data2['estadoHallazgo']='1';
+			$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
+
 	        $this->Programas_Model->modificarprograma($idprograma,$data);
 
 	        if(isset($_POST['ejecutar'])){
@@ -234,6 +238,10 @@ class controller_programas extends CI_Controller {
 
 	        $this->Programas_Model->modificarprograma($idprograma,$data);
 	        $this->upload->data();
+
+	        $data2['estadoHallazgo']='1';
+			$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
 
 	       	if(isset($_POST['ejecutar'])){
 	        	if ($_POST ['verificacion']=='2' || $_POST ['verificacion']=='3') {
@@ -349,7 +357,7 @@ class controller_programas extends CI_Controller {
 	public function ejecutaractividad()
 	{
 		
-		$idhallaz=$_POST ['idprograma'];
+		$idprograma=$_POST ['idprograma'];
 
 		$nombrearchivo=$idprograma.".pdf";	
 		$config['upload_path']='./uploads/respaldoPrograma';
@@ -369,6 +377,10 @@ class controller_programas extends CI_Controller {
 			$data['idUsuario']=$this->session->userdata('idUsuario');
 
 	        $this->Programas_Model->modificarprograma($idprograma,$data);
+
+	        $data2['estadoHallazgo']='1';
+			$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
 
 	        if(isset($_POST['ejecutar'])){
 	        	if ($_POST ['verificacion']=='2' || $_POST ['verificacion']=='3') {
@@ -407,6 +419,12 @@ class controller_programas extends CI_Controller {
 
 	        $this->Programas_Model->modificarprograma($idprograma,$data);
 	        $this->upload->data();
+
+	        $data2['estadoHallazgo']='1';
+			$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
+	        
+
 
 	       	if(isset($_POST['ejecutar'])){
 	        	if ($_POST ['verificacion']=='2' || $_POST ['verificacion']=='3') {
@@ -463,6 +481,10 @@ class controller_programas extends CI_Controller {
             	$data['idUsuario']=$this->session->userdata('idUsuario');
 
             	$this->Programas_Model->agregarobservacion($data);
+
+            	$data2['estadoHallazgo']='1';
+				$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
 
             	$listaactividades=$this->Programas_Model->actividades($_POST ['idmpa']);
 				$data['actividades']=$listaactividades;

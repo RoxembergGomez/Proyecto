@@ -48,11 +48,14 @@
                       <div class="btn-group" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <?php echo form_open_multipart('controller_programas/agregar');?>        
+                            <?php 
+                            if($row->estadoPrograma=='1' || $row->estadoPrograma=='2'){ 
+                              echo form_open_multipart('controller_programas/agregar');?>        
                               <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                               <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
                               <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
                             <?php echo form_close();
+                            }
                             echo form_open_multipart('controller_memorandumplanificacion/modificar');?>
                               <input type="hidden" name="idEmpleado" value="<?php echo $row->idEmpleado;?>">        
                               <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
@@ -85,11 +88,13 @@
                       <div class="btn-group" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                          <?php echo form_open_multipart('controller_programas/agregar');?>        
+                          <?php if($row->estadoPrograma=='1' || $row->estadoPrograma=='2'){ 
+                           echo form_open_multipart('controller_programas/agregar');?>        
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                             <input type="hidden" name="idPlanAnual" value="<?php echo $row->idPlanAnualTrabajo; ?>">
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Crear Programa</button>
-                          <?php echo form_close();?>
+                          <?php echo form_close();
+                          }?>
 
                         </div>
                       </div>

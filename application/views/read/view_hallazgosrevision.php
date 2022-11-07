@@ -15,7 +15,9 @@
                     <th class="text-center">Actividad</th> 
                     <th class="text-center">Fecha de Inicio</th>
                     <th class="text-center">Fecha de Conclusión</th>
+                    <?php if ($this->session->userdata('tipo') =='jefe'){?>
                     <th class="text-center">Seguimiento de Hallazgos</th>
+                  <?php } ?>
                     <th class="text-center">Hallazgos</th> 
                 </tr>
               </thead>
@@ -25,13 +27,14 @@
               $indice=1;
               foreach ($programatrabajo->result() as  $row)
               {
-                if ($this->session->userdata('tipo') =='jefe') {?>
+                if ($this->session->userdata('tipo') =='jefe'|| $this->session->userdata('idUsuario') ==$row->idEmpleado) {?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>
                     <td ><?php echo $row->informe;?></td>
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
+                    <?php if ($this->session->userdata('tipo') =='jefe'){?>
                     <td class="text-center">
                     <?php  echo form_open_multipart('controller_hallazgos/revision');
                       ?>
@@ -49,6 +52,7 @@
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 
                     </td>
+                     <?php } ?>
 
                     <?php 
                       echo form_close();

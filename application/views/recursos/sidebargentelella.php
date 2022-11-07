@@ -88,7 +88,7 @@
                       <?php echo form_close();?>
                     </li>
                     <?php } 
-                      if ($this->session->userdata('tipo')=='jefe') {
+                      if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {
                       ?>
                     <li>
                       <?php echo form_open_multipart('controller_hallazgos/enrevision');?>
@@ -96,10 +96,17 @@
                       <?php echo form_close();?>
                     </li>
                     <?php }
-                     if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado') {?>
+                     if ($this->session->userdata('tipo')=='auditado') {?>
                     <li>
                       <?php echo form_open_multipart('controller_hallazgos/enviado');?>
                         <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Pendientes de Descargos</button>
+                      <?php echo form_close();?>
+                    </li>
+                    <?php } 
+                     if ($this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='jefe') {?>
+                      <li>
+                      <?php echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Enviados a Descargos</button>
                       <?php echo form_close();?>
                     </li>
                     <li>

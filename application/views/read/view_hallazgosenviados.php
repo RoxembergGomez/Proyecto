@@ -33,9 +33,10 @@
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td class="text-center"><?php echo $row->numeroInforme;?></td>
                     <td ><?php echo $row->informe;?></td>
+                    <?php if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor'){?> 
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
-                    <?php
+                    <?php }
                     if($this->session->userdata('tipo')=='auditado'){?>
                     <td class="text-center">
                       <?php 
@@ -45,7 +46,7 @@
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value=" ">Seleccione...</option>
-                          <option value="5">Devolver</option>
+                          <option value="2">Devolver</option>
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 
@@ -56,7 +57,7 @@
                        } ?>
                     <td class="text-center">
                      
-                      <?php echo form_open_multipart('controller_hallazgos/observaciones');?>
+                      <?php echo form_open_multipart('controller_hallazgos/observacionesenviadas');?>
                       <div class="btn-group"> 
                         
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">

@@ -4,7 +4,9 @@
     <div class="x_title">
       <div class="row float-left " >
       <?php 
-        echo form_open_multipart('controller_hallazgos/enviado');?>
+        echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
+          <input type="hidden" name="idmpa" value="<?php echo $_POST['idmpa'];?>">
+          <input type="hidden" name="estadoProceso" value="<?php echo $_POST['estadoProceso'];?>">
                     <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>

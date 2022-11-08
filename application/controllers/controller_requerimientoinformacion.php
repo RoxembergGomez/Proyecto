@@ -53,6 +53,27 @@ class controller_requerimientoinformacion extends CI_Controller {
 	}
 
 
+	public function cerrados()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$req=$this->RequerimientoInformacion_Model->requerimientoCerrados();
+			$data['requerimiento']=$req;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_requerimientoinformacioncerrados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
+
+
 	public function unidadRequerimiento()
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
@@ -117,6 +138,7 @@ class controller_requerimientoinformacion extends CI_Controller {
 		foreach ($actividad as $rowa) {
 			$act=$rowa->informe;
 		}
+		$this->pdf->Ln(14);
 		$this->pdf->Cell(0,10,utf8_decode($act),0,1,'C',1);
 
 		
@@ -191,99 +213,215 @@ class controller_requerimientoinformacion extends CI_Controller {
 
 	
 
-	public function eliminarbd()
-	{
-		$idPlan=$_POST ['IdPlan'];
-		
-
-		$this->Plan_Model->eliminaractividad($idPlan);
-
-		redirect('Plan/index','refresh');
-	}
-
 	public function modificar()
 	{
-		$idPlan=$_POST ['IdPlan'];
-		$data['infoactividad']=$this->Plan_Model->recuperaractividad($idPlan);
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
 
+			
+			$listaunidadnegocio=$this->UnidadNegocio_Model->unidadnegocio();
+			$data['unidadnegocio']=$listaunidadnegocio;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('modificar_actividad',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$data['info']=$this->RequerimientoInformacion_Model->recuperarRequerimiento($_POST['idrequerimiento']);
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('update/modificar_requerimiento',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/footergentelella');
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 	public function modificarbd()
 	{
-		$IdPlan=$_POST ['idPlan'];
-		$data['informe']=$_POST ['informe'];
-		$data['objetivos']=$_POST ['objetivos'];
-		$data['fechaInicio']=$_POST ['fechaInicio'];
-		$data['fechaConclusion']=$_POST ['fechaConclusion'];
-		$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('suproceso','suproceso','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-		//formato en que se guarda los archivos
-		$nombrearchivo=$IdPlan.".pdf";
-		//ruta donde se guardan los archivos
-		$config['upload_path']='./uploads';
-		//nombre del archivo
-		$config['file_name']=$nombrearchivo;
+			if ($this->form_validation->run()==FALSE) {
+				$listaunidadnegocio=$this->UnidadNegocio_Model->unidadnegocio();
+				$data['unidadnegocio']=$listaunidadnegocio;
 
-		$direccion="./uploads/".$nombrearchivo;
+				$data['info']=$this->RequerimientoInformacion_Model->recuperarRequerimiento($_POST['idrequerimiento']);
 
-		if (file_exists($direccion)) {
-			unlink($direccion);
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_requerimiento',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+			else{
+		
+				
+				$data['requerimientoInformacion']=$_POST ['suproceso'];
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['idUnidadNegocio']=$_POST ['gradocriticidad'];
+
+				$this->RequerimientoInformacion_Model->modificarrequerimiento($_POST['idrequerimiento'],$data);
+
+				$reque=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
+				$data['reportereq']=$reque;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_reporterequerimiento',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+
+				}
 		}
-
-		$config['allowed_types']='pdf'; //para agregar otro formato se separa con barra |tipo archivo
-		$this->load->library('upload',$config);
-
-		if (!$this->upload->do_upload()) {
-			$data['error']=$this->upload->display_errors();
-		}
-		else{
-			$data['docInforme']=$nombrearchivo;
+		else
+		{
+			redirect('usuarios/panel','refresh');
 		}
 		
-		$this->Plan_Model->modificaractividad($IdPlan,$data);
-		$this->upload->data();
-		redirect('Plan/index','refresh');
 	}
 
-	public function deshabilitarbd()
+	public function eliminarbd()
 	{
-		$idPlan=$_POST ['IdPlan'];
-		$data['habilitado']='0';
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+		
+			$data['estado']='0';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
 
-		$this->Plan_Model->modificaractividad($idPlan,$data);
+			$this->RequerimientoInformacion_Model->modificarrequerimiento($_POST['idrequerimiento'],$data);
 
-		redirect('Plan/index','refresh');
+			$reque=$this->RequerimientoInformacion_Model->reporteRequerimiento($_POST['idunidad'],$_POST['idmpa']);
+				$data['reportereq']=$reque;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_reporterequerimiento',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+		}else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
-	public function deshabilitados()
+	public function eliminados()
 	{
-		$listaactividades=$this->Plan_Model->actividadesdeshabilitadas();
-		$data['plan_anual']=$listaactividades;
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+		
+			$reque=$this->RequerimientoInformacion_Model->requerimientoeliminados($_POST['idunidad'],$_POST['idmpa']);
+			$data['reportereq']=$reque;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('listaactividadesdeshabilitadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_reporterequerimientoEliminados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
-	public function habilitarbd()
+	public function recuperarbd()
 	{
-		$IdPlan=$_POST ['idPlan'];
-		$data['habilitado']='1';
 
-		$this->Plan_Model->modificaractividad($IdPlan,$data);
-		redirect('Plan/deshabilitados','refresh');
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+		
+			$data['estado']='1';
+			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			$data['idUsuario']=$this->session->userdata('idUsuario');
+
+			$this->RequerimientoInformacion_Model->modificarrequerimiento($_POST['idrequerimiento'],$data);
+
+			$reque=$this->RequerimientoInformacion_Model->requerimientoeliminados($_POST['idunidad'],$_POST['idmpa']);
+			$data['reportereq']=$reque;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_reporterequerimientoEliminados',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
 	}
+
+
+	public function revision()
+	{
+
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('proceso','proceso1','required',array('required'=>'(*) Seleccione..'));
+
+		if ($this->form_validation->run()==FALSE) { 
+
+			$req=$this->RequerimientoInformacion_Model->vistaRequerimiento();
+			$data['requerimiento']=$req;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_requerimientoinformacion',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+
+		} else {
+
+
+				$estado= $_POST ['proceso'];
+				switch ($estado) {
+		      case '1':
+		        $data['estadoRequerimiento']='1';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+				redirect('controller_requerimientoinformacion/index','refresh');
+		        break;
+
+		      case '2':
+		        $data['estadoRequerimiento']='2';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+				redirect('controller_requerimientoinformacion/index','refresh');
+		        break;
+		      case '3':
+		        $data['estadoRequerimiento']='3';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+				redirect('controller_requerimientoinformacion/index','refresh');
+		       break;
+		      
+		      default:
+		        break;
+        	}
+   	 	}
+		
+	}
+
 
 
 }

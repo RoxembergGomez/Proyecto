@@ -2,6 +2,7 @@
   table
 {
     counter-reset: rowNumber;
+     background-color:white;
 }
 
 table tr > td:first-child
@@ -44,11 +45,11 @@ table tr td:first-child::before
         Please select a valid state.
         </div>
         </div>
-      </div> <br>
+      </div>
       
       <div class="row">
         <div class="col-md-12">
-          <button type="button" id="btnAgregarSubproceso" onclick="agregarSubproceso()" class="btn btn-warning float-right"><i class="fa fa-database"></i>  Agregar</button>
+          <button style="margin:5px 0px 0px 0px;" type="button" id="btnAgregarSubproceso" onclick="agregarSubproceso()" class="btn btn-warning float-left btn-sm"><i class="glyphicon glyphicon-chevron-down"></i>  Agregar</button>
         </div>
       </div>
 
@@ -67,7 +68,13 @@ table tr td:first-child::before
               </tbody>
         </table>
 <hr>
-<button type="submit" id="btnEnviar" class="btn btn-primary float-right"><i class="fa fa-database"></i>  Insertar</button>
+<div class="row float-right">
+<button type="submit" id="btnEnviar" class="btn btn-primary btn-sm" ><i class="fa fa-database"></i>  Guardar</button>
+<?php echo form_open_multipart('controller_memorandumplanificacion/index');?>
+  <input type="hidden" name="idMpa" id="idmpa" value="<?php echo $_POST['idmpa']; ?>">
+  <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+<?php echo form_close();?>
+</div>
     </div>
     </div>
   </div>
@@ -160,7 +167,7 @@ function agregarSubproceso(){
   }
   if(validate){
     let data = {subProceso:txtSubproceso.value,gradoCriticidad:cbxGradoCriticidad.value,proceso:proceso.value}
-    tabla.children[1].insertRow(-1).innerHTML = '<td scope="row"></td><td>'+ data.subProceso +'</td><td>' +data.gradoCriticidad+'</td><td><button type="button" class="btn btn-danger btn-sm borrar" onclick="eliminarSubproceso(this);"><i class="fa fa-trash"></i> Eliminar</button><button type="button" class="btn btn-warning btn-sm modificar" onclick="modificarSubproceso(this);"><i class="fa fa-pencil-square-o"></i>Modificar</button></td>'
+    tabla.children[1].insertRow(-1).innerHTML = '<td class="text-center"></td><td>'+ data.subProceso +'</td><td class="text-center">' +data.gradoCriticidad+'</td><td class="text-center"><button type="button" class="btn btn-warning btn-sm modificar" onclick="modificarSubproceso(this);"><i class="fa fa-pencil-square-o"></i>Modificar</button><button type="button" class="btn btn-danger btn-sm borrar" onclick="eliminarSubproceso(this);"><i class="fa fa-trash"></i> Eliminar</button></td>'
     txtSubproceso.value = "";
   }
 }

@@ -15,7 +15,7 @@
                 <?php echo form_open_multipart('controller_programas/eliminados');?>
                   <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
                   <input type="hidden" name="estadoPrograma" value="<?php echo $_POST ['estadoPrograma'];?>">
-                  <button  type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-desktop"></i> Eliminados</button>
+                  <button  type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-trash"></i>  Eliminados</button>
                 <?php echo form_close();
                 ?>
         <div class="col-sm-12">

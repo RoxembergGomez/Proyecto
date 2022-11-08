@@ -89,11 +89,13 @@
                           <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
                           <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                         <?php echo form_close(); 
-                        echo form_open_multipart('controller_memorandumplanificacion/eliminarbd');?>    
+                        echo form_open_multipart('controller_hallazgos/eliminar');?>    
                           <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                           <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
                           <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
-                          <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>Eliminar</button>
+                          <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
+                          <input type="text" name="estado" value="<?php echo $row->estado;?>">
+                          <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>  Eliminar</button>
                         <?php echo form_close();
                       }
                       ?>

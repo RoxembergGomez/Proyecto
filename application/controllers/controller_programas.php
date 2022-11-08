@@ -207,7 +207,7 @@ class controller_programas extends CI_Controller {
 	        		$idPrograma=$_POST ['idprograma'];
 					$data['info']=$this->Programas_Model->vistaejecucion($idPrograma);
 
-					$listampa=$this->Empleados_Model->empleados();
+					$listampa=$this->Observaciones_Model->empleados();
 					$data['seleccion']=$listampa;
 
 	        		$this->load->view('recursos/headergentelella');
@@ -249,7 +249,7 @@ class controller_programas extends CI_Controller {
 	        		$idPrograma=$_POST ['idprograma'];
 					$data['info']=$this->Programas_Model->vistaejecucion($idPrograma);
 
-					$listampa=$this->Empleados_Model->empleados();
+					$listampa=$this->Observaciones_Model->empleados();
 					$data['seleccion']=$listampa;
 
 	        		$this->load->view('recursos/headergentelella');
@@ -388,7 +388,7 @@ class controller_programas extends CI_Controller {
 	        		$idPrograma=$_POST ['idprograma'];
 					$data['info']=$this->Programas_Model->vistaejecucion($idPrograma);
 
-					$listampa=$this->Empleados_Model->empleados();
+					$listampa=$this->Observaciones_Model->empleados();
 					$data['seleccion']=$listampa;
 
 	        		$this->load->view('recursos/headergentelella');
@@ -432,7 +432,7 @@ class controller_programas extends CI_Controller {
 	        		$idPrograma=$_POST ['idprograma'];
 					$data['info']=$this->Programas_Model->vistaejecucion($idPrograma);
 
-					$listampa=$this->Empleados_Model->empleados();
+					$listampa=$this->Observaciones_Model->empleados();
 					$data['seleccion']=$listampa;
 
 	        		$this->load->view('recursos/headergentelella');
@@ -587,6 +587,7 @@ class controller_programas extends CI_Controller {
 		foreach ($actividad as $rowa) {
 			$nro=$rowa->numeroInforme;
 		}
+		$this->pdf->Ln(14);
 		$this->pdf->Cell(0,10,utf8_decode('PROGRAMA DE TRABAJO'),0,1,'C',1);
 
 		$this->pdf->Ln(5);
@@ -613,11 +614,42 @@ class controller_programas extends CI_Controller {
 		foreach ($programas as $row) {
 
 			$descripcion=$row->actividad;
+
+			$count=strlen($descripcion);
+
+			if ($count<=70) {
+			$this->pdf->SetFont('Arial','',10);
+          	$this->pdf->Cell(10,10,$num,1,0,'C',0);
+          	$this->pdf->Cell(115,10,utf8_decode($descripcion),1,0,'L',false);
+          	$this->pdf->Cell(50,10,utf8_decode(''),1,0,'L',false);
+			}else if ($count>=71 && $count<=140){
           
-          $this->pdf->SetFont('Arial','',10);
-          $this->pdf->Cell(10,10,$num,1,0,'C',0);
-          $this->pdf->Cell(115,10,utf8_decode($descripcion),1,0,'L',false);
-          $this->pdf->Cell(50,10,utf8_decode(''),1,0,'L',false);
+	          $this->pdf->SetFont('Arial','',10);
+	          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
+	          $descripcion1=substr($descripcion,0,70);
+	          $descripcion2=substr($descripcion,70,$count);
+	          $this->pdf->Cell(115,7,utf8_decode($descripcion1),'TLR',0,'L',false);
+	          $this->pdf->Cell(50,7,utf8_decode(''),'TLR',1,'L',false);
+	          $this->pdf->Cell(10,7,'','LRB',0,'C',0);
+	          $this->pdf->Cell(115,7,utf8_decode($descripcion2),'LRB',0,'L',false);
+	          $this->pdf->Cell(50,7,utf8_decode(''),'LRB',0,'L',false);
+          } else if ($count>=141){
+
+          	$this->pdf->SetFont('Arial','',10);
+	          $this->pdf->Cell(10,8,$num,'TLR',0,'C',0);
+	          $descripcion1=substr($descripcion,0,70);
+	          $descripcion2=substr($descripcion,70,$count-1);
+	          $descripcion3=substr($descripcion,140,$count-1);
+	          $this->pdf->Cell(115,8,utf8_decode($descripcion1),'TLR',0,'L',false);
+	          $this->pdf->Cell(50,8,utf8_decode(''),'TLR',1,'L',false);
+	          $this->pdf->Cell(10,8,'','L',0,'C',0);
+	          $this->pdf->Cell(115,8,utf8_decode($descripcion2),'LR',0,'L',false);
+	          $this->pdf->Cell(50,8,utf8_decode(''),'LR',1,'L',false);
+	          $this->pdf->Cell(10,8,'','LRB',0,'C',0);
+	          $this->pdf->Cell(115,8,utf8_decode($descripcion3),'LRB',0,'L',false);
+	          $this->pdf->Cell(50,8,utf8_decode(''),'LRB',0,'L',false);
+
+          }
                   
           $this->pdf->Ln();
 
@@ -632,6 +664,10 @@ class controller_programas extends CI_Controller {
 		$this->pdf->Cell(80,3,utf8_decode('Elaborado por:'),0,0,'C',0);
 		$this->pdf->Cell(15,8,utf8_decode(''),0,0,'L',0);
 		$this->pdf->Cell(80,3,utf8_decode('Revisado por:'),0,0,'C',0);
+
+		/*$this->pdf->Ln(15); 
+		$usuario=$this->session->userdata('usuario');
+		$this->pdf->Cell(115,10,utf8_decode($usuario),0,0,'L',false);*/
 
 
 		$this->pdf->Output("Programa_de_Trabajo.pdf","I");

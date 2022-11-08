@@ -22,7 +22,7 @@
                     </option><?php
                     $indice++;
                     }?>
-              </select> <br>
+              </select>
             </div> 
           </div><br>
             <div class="row">

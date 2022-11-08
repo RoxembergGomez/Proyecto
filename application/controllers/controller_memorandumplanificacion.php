@@ -160,6 +160,7 @@ class controller_memorandumplanificacion extends CI_Controller {
 		
 		$data['estadoProceso']='4';
 		$data['estadoPrograma']='4';
+		$data['estadoRequerimiento']='4';
 		$data['idUsuario']=$this->session->userdata('idUsuario');
 		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 		

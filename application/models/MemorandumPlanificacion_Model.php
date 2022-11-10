@@ -7,14 +7,11 @@ class MemorandumPlanificacion_Model extends CI_Model {
 	{
 		$this->db->select('*');
 		$this->db->from('memorandumplanificacion m');
-		$this->db->where('m.estado','1');
-		$this->db->where('m.estadoProceso','1');
-		$this->db->or_where('m.estadoProceso','2');
-		$this->db->or_where('m.estadoProceso','3');
+		$this->db->where('a.estadoEjecucion','1');
 		$this->db->where('a.estado','1');
-		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo','left');
 		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
-		$this->db->order_by('m.idEmpleado','m.numeroInforme');
+		$this->db->order_by('m.idEmpleado');
 		return $this->db->get();
 	}
 
@@ -65,4 +62,18 @@ class MemorandumPlanificacion_Model extends CI_Model {
 		$this->db->join('cargo','empleado.idCargo=cargo.idCargo');
 		return $this->db->get();
 	}
+
+
+	public function misactividades()
+    {
+      $this->db->from('memorandumplanificacion');
+      $this->db->where('idEmpleado',$this->session->userdata('idUsuario'));
+      $this->db->where('estadoProceso','1');
+
+      $this->db->or_where('idEmpleado',$this->session->userdata('idUsuario'));
+      $this->db->where('estadoProceso','2');
+      $this->db->or_where('idEmpleado',$this->session->userdata('idUsuario'));
+      $this->db->where('estadoProceso','3');
+     return $this->db->count_all_results();
+    }
 }

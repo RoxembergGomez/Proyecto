@@ -12,8 +12,8 @@
         //$this->Ln(10);
 
         //$this->SetY(-15);
-           $this->SetFont('Arial','I',12);
-           $this->Cell(191,0,'Pag. '.$this->PageNo().'/{nb}',0,0,'R');
+           //$this->SetFont('Arial','I',12);
+           //$this->Cell(191,0,'Pag. '.$this->PageNo().'/{nb}',0,0,'R');
 
             //si se requiere agregar una imagen
             //$this->Image('ruta de la imagen',x,y,ancho,alto);
@@ -26,9 +26,9 @@
        }
 
 	   public function Footer(){
-           //$this->SetY(-15);
-           //$this->SetFont('Arial','I',7);
-           //$this->Cell(0,10,'Pag. '.$this->PageNo().'/{nb}',0,0,'R');*/
+           $this->SetY(-15);
+           $this->SetFont('Arial','I',12);
+           $this->Cell(0,10,'Pag. '.$this->PageNo().'/{nb}',0,0,'R');
          
       }
 }

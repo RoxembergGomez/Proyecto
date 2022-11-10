@@ -9,7 +9,7 @@
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE ACTIVIDADES EJECUTADAS</h5> 
+        <h5>LISTA DE ACTIVIDADES EJECUTADAS</h5> 
     </div>
     <div class="x_content">
       <div class="row">
@@ -32,7 +32,6 @@
                   <th class="text-center">Fecha de Conclusión</th>
                   <th class="text-center">Grado de Priorización</th>
                   <th class="text-center">Estado Proceso</th>
-                  <th class="text-center">Informe Adjunto</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,28 +48,9 @@
                   <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
-                  <td class="text-center"><?php if ($row->estadoEjecucion=='2') {
-                    echo 'Ejecutado';
+                  <td class="text-center"><?php if ($row->estadoEjecucion=='3') {
+                    ?><p id="verde">Ejecutado</p><?php
                   };?></td>
-                  <td>
-                    <?php 
-                      $docInforme=$row->docInforme;
-                      if ($docInforme=="Sin Informe") 
-                      {
-                        ?>
-                        <p>Sin Informe</p>
-                    <?php  
-                      }
-                      else
-                      {
-                    ?>
-                        <a href="<?php echo base_url();?>/uploads/<?php echo $docInforme?>">
-                          <img src="<?php echo base_url();?>/uploads/logopdf.png" width="50px">
-                        </a>
-                    <?php  
-                      }
-                    ?>
-                  </td> 
                 </tr>
             <?php
               $indice++;

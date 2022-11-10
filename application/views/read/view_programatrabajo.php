@@ -124,14 +124,6 @@
                                   <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
                                   <button type="submit" class="dropdown-item" ><i class="fa fa-eye"></i>  Revisar</button>
                                 <?php echo form_close();
- 
-                                echo form_open_multipart('controller_programas/actividadespdf');
-                                ?>
-                                  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
-                                  <button type="submit" class="dropdown-item" formtarget="_blank" ><i class="fa fa-file-pdf-o">  PDF</i></button>
-                                
-                                <?php 
-                                echo form_close();
                               }
                                 ?>
                                 </div>

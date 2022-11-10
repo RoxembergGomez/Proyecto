@@ -27,8 +27,6 @@ class controller_memorandumplanificacion extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$idPlan=$_POST ['idPlan'];
-			$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
 
 			$listampa=$this->MemorandumPlanificacion_Model->empleado();
 			$data['seleccion']=$listampa;
@@ -54,8 +52,6 @@ class controller_memorandumplanificacion extends CI_Controller {
 			$this->form_validation->set_rules('numeroInforme','numeroInforme','required',array('required'=>'(*) Se requiere llenar este campo'));
 			$this->form_validation->set_rules('idEmpleado','idEmpleado','required',array('required'=>'(*) Seleccione un empleado'));
 			if ($this->form_validation->run()==FALSE) {
-				$idPlan=$_POST ['idPlan'];
-				$data['infoid']=$this->MemorandumPlanificacion_Model->recuperaridPlan($idPlan);
 
 				$listampa=$this->MemorandumPlanificacion_Model->empleado();
 				$data['seleccion']=$listampa;

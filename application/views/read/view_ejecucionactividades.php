@@ -82,7 +82,6 @@
                       <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
                       <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                           <?php 
-                        if ($row->estadoProceso =='1' || $this->session->userdata('tipo')=='jefe') {
                           if ($row->estadoPrograma=='3') {
                             if ($row->verificacionActividad=='0') {
                             echo form_open_multipart('controller_programas/ejecutar');?>        
@@ -117,7 +116,7 @@
                             <button type="submit" class="dropdown-item" ><i class="fa fa-trash"></i>  Eliminar</button>
                           <?php echo form_close();
                         }
-                      }?>    
+                      ?>    
                            
                       </div>
                     </div>

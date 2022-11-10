@@ -13,11 +13,6 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div class="row float-left">
-            <?php echo form_open_multipart('controller_actividades/index');?>
-              <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-list-ol"></i>  Lista de Actividades</button>
-            <?php echo form_close();?>
-          </div>
           <div class="float-rigth">
             <?php echo form_open_multipart('controller_actividades/pendientespdf');?>
               <button type="submit" class="btn btn-info btn-sm float-right" formtarget="_blank"><i class="fa fa-file-pdf-o"></i>  Reporte PDF</button>
@@ -52,7 +47,7 @@
                   <td class="text-center"><?php echo formatearFecha($row->fechaConclusion);?></td>
                   <td class="text-center"><?php echo $row->gradoPriorizacion;?></td>
                   <td class="text-center"><?php if ($row->estadoEjecucion=='2') {
-                    echo 'Programado';
+                    ?><p id="anaranjado">Programado</p><?php
                   };?></td>
                 </tr>
             <?php

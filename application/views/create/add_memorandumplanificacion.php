@@ -5,12 +5,9 @@
 
     </div> <hr>
      <?php
-      echo form_open_multipart('controller_memorandumplanificacion/agregarbdd');
-        foreach ($infoid->result() as $row)
-        {
-        ?>
-        <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo; ?>" required>
-       <?php } ?>
+      echo form_open_multipart('controller_memorandumplanificacion/agregarbdd');?>
+        
+        <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
       <div class="row">
         <div class="col-md-3">
           <label class="float-right">NRO. DE INFORME:</label>

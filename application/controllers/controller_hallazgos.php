@@ -159,6 +159,8 @@ class controller_hallazgos extends CI_Controller {
 //PARA ENVÍOS A DESCARGOS UAI
 	public function enviadosdescargosuai()
 	{
+if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
 
 
 			$hallazgos=$this->Observaciones_Model->enviadosdescargos();
@@ -170,6 +172,11 @@ class controller_hallazgos extends CI_Controller {
 			$this->load->view('read/view_hallazgosenviadosuai',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
+	}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 
 	}
 
@@ -278,7 +285,7 @@ class controller_hallazgos extends CI_Controller {
 
 	public function eliminarbd()
 	{
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado')
 		{
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
@@ -387,6 +394,7 @@ class controller_hallazgos extends CI_Controller {
 		$this->pdf->SetRightMargin(20); //margen derecho
 		$this->pdf->SetFillColor(210,210,210); //color de fondo
 		$this->pdf->SetFont('Arial','B',11); //tipo de letra
+		$this->pdf->Ln(14);
 		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
 		$actividad=$actividad->result();
 		foreach ($actividad as $rowa) {
@@ -518,7 +526,7 @@ class controller_hallazgos extends CI_Controller {
 		
 		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enviado','refresh');
+		redirect('controller_hallazgos/enrevision','refresh');
         break;
       case '4':
         $data['estadoProceso']='4';

@@ -189,7 +189,7 @@ class controller_actividades extends CI_Controller {
 
 	public function pendientes()
 	{
-		if($this->session->userdata('tipo')=='jefe')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
 			$actividadespendientes=$this->PlanAnualTrabajo_Model->pendientes();
 			$data['pendientes']=$actividadespendientes;
@@ -225,6 +225,7 @@ class controller_actividades extends CI_Controller {
 			$this->pdf->SetRightMargin(15);
 			$this->pdf->SetFillColor(210,210,210);
 			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
 			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES PENDIENTES'),0,1,'C',1);
 			$this->pdf->Ln(5);
 
@@ -267,7 +268,8 @@ class controller_actividades extends CI_Controller {
 
 	public function ejecutadas()
 	{
-		if($this->session->userdata('tipo')=='jefe')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+
 		{
 			$ejecucion=$this->PlanAnualTrabajo_Model->ejecutadas();
 			$data['ejecutadas']=$ejecucion;
@@ -303,6 +305,7 @@ class controller_actividades extends CI_Controller {
 			$this->pdf->SetRightMargin(15);
 			$this->pdf->SetFillColor(210,210,210);
 			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
 			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES EJECUTADAS'),0,1,'C',1);
 			$this->pdf->Ln(5);
 
@@ -449,6 +452,7 @@ class controller_actividades extends CI_Controller {
 			$this->form_validation->set_rules('idEmpleado','idEmpleado','required',array('required'=>'(*) Seleccione un empleado'));
 			$this->form_validation->set_rules('estadoEjecucion','estadoEjecucion','required',array('required'=>'(*) Seleccione un estado'));
 			if ($this->form_validation->run()==FALSE) {
+
 				$listaactividades=$this->PlanAnualTrabajo_Model->actividades();
 				$data['plananualtrabajo']=$listaactividades;
 
@@ -463,9 +467,45 @@ class controller_actividades extends CI_Controller {
 				$this->load->view('recursos/footergentelella');
 				} 
 			else{
+				$empleado=$_POST['idEmpleado'];
+				$estado=$_POST['estadoEjecucion'];
 
-			}
-			
+				if ($estado=='1') {
+
+					$ejecutadasempleados=$this->PlanAnualTrabajo_Model->ejecutadasporestado($estado,$empleado);
+					$data['ejecutadas']=$ejecutadasempleados;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('reportes/view_ejecutadasporempleado',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				} else
+				if ($estado=='3') {
+					$ejecutadasempleados=$this->PlanAnualTrabajo_Model->ejecutadasporestado($estado,$empleado);
+					$data['ejecutadas']=$ejecutadasempleados;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('reportes/view_ejecutadasporempleado',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
+				else if ($estado=='4'){
+
+					$ejecutadasempleados=$this->PlanAnualTrabajo_Model->generalporempleado($empleado);
+					$data['ejecutadas']=$ejecutadasempleados;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('reportes/view_ejecutadasporempleado',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
+			}	
 		}
 		else
 		{
@@ -473,7 +513,239 @@ class controller_actividades extends CI_Controller {
 		}
 	}
 
+	public function reporteporempleadopdf()
+	{
+		
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
+			$empleado=$_POST['idEmpleado'];
+			$estado=$_POST['estadoEjecucion'];
 
 
+			if ($estado=='1') {
+			$req=$this->PlanAnualTrabajo_Model->ejecutadasporestado($estado,$empleado);
+			$req=$req->result();
+
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Ejecutadas Por Empleado");
+			
+			$this->pdf->SetLeftMargin(15);
+			$this->pdf->SetRightMargin(15);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
+			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES EJECUTADAS POR EMPLEADO'),0,1,'C',1);
+			$this->pdf->Ln(5);
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(50,8,utf8_decode('Nombres(s) y Apellido(s)'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Nro. Informe'),1,0,'C',0);
+			$this->pdf->Cell(100,8,utf8_decode('Informe'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Inicio'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Conclusión'),1,1,'C',0);
+			$num=1;
+			foreach ($req as $row) {
+
+				$nombre=$row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;
+				$nroinforme=$row->numeroInforme;
+				$informe=$row->informe;
+				$inicio=$row->fechaInicio;
+				$conclusion=$row->fechaConclusion;
+
+				$countnombre=strlen($nombre);
+				$countinforme=strlen($informe);
+
+				if ($countnombre<=21 && $countinforme<=61) {
+		          $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),1,0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
+	          	} else
+	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+
+	          	  $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
+		          $nombre1=substr($nombre,0,21);
+		          $informe1=substr($informe,0,61);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe1),'TLR',0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
+		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
+	         	  $nombre2=substr($nombre,21,$countnombre);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	         	  $informe2=substr($informe,61,$countinforme);
+		          $this->pdf->Cell(100,7,utf8_decode($informe2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	          	}
+	                  
+	          $this->pdf->Ln();
+
+	          $num++;
+			}
+
+			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas_por_Empleados.pdf","I");
+			}
+
+
+			if ($estado=='2') {
+
+			$req=$this->PlanAnualTrabajo_Model->ejecutadasporestado($estado,$empleado);
+			$req=$req->result();
+
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Ejecutadas Por Empleado");
+			
+			$this->pdf->SetLeftMargin(15);
+			$this->pdf->SetRightMargin(15);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
+			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES EJECUTADAS POR EMPLEADO'),0,1,'C',1);
+			$this->pdf->Ln(5);
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(50,8,utf8_decode('Nombres(s) y Apellido(s)'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Nro. Informe'),1,0,'C',0);
+			$this->pdf->Cell(100,8,utf8_decode('Informe'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Inicio'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Conclusión'),1,1,'C',0);
+			$num=1;
+			foreach ($req as $row) {
+
+				$nombre=$row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;
+				$nroinforme=$row->numeroInforme;
+				$informe=$row->informe;
+				$inicio=$row->fechaInicio;
+				$conclusion=$row->fechaConclusion;
+
+				$countnombre=strlen($nombre);
+				$countinforme=strlen($informe);
+
+				if ($countnombre<=21 && $countinforme<=61) {
+		          $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),1,0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
+	          	} else
+	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+
+	          	  $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
+		          $nombre1=substr($nombre,0,21);
+		          $informe1=substr($informe,0,61);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe1),'TLR',0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
+		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
+	         	  $nombre2=substr($nombre,21,$countnombre);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	         	  $informe2=substr($informe,61,$countinforme);
+		          $this->pdf->Cell(100,7,utf8_decode($informe2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	          	}
+	          $this->pdf->Ln();
+
+	          $num++;
+			}
+
+			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas_por_Empleados.pdf","I");
+
+			}
+
+			if ($estado=='4') {
+
+			$req=$this->PlanAnualTrabajo_Model->PlanAnualTrabajo_Model->generalporempleado($empleado);
+			$req=$req->result();
+
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Ejecutadas Por Empleado");
+			
+			$this->pdf->SetLeftMargin(15);
+			$this->pdf->SetRightMargin(15);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
+			$this->pdf->Cell(0,10,utf8_decode('DETALLE DE ACTIVIDADES EJECUTADAS POR EMPLEADO'),0,1,'C',1);
+			$this->pdf->Ln(5);
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(50,8,utf8_decode('Nombres(s) y Apellido(s)'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Nro. Informe'),1,0,'C',0);
+			$this->pdf->Cell(100,8,utf8_decode('Informe'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Inicio'),1,0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Conclusión'),1,1,'C',0);
+			$num=1;
+			foreach ($req as $row) {
+
+				$nombre=$row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;
+				$nroinforme=$row->numeroInforme;
+				$informe=$row->informe;
+				$inicio=$row->fechaInicio;
+				$conclusion=$row->fechaConclusion;
+
+				$countnombre=strlen($nombre);
+				$countinforme=strlen($informe);
+
+				if ($countnombre<=21 && $countinforme<=61) {
+		          $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),1,0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe),1,0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
+	          	} else
+	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+
+	          	  $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
+		          $nombre1=substr($nombre,0,21);
+		          $informe1=substr($informe,0,61);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
+		          $this->pdf->Cell(100,7,utf8_decode($informe1),'TLR',0,'L',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
+		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
+		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
+	         	  $nombre2=substr($nombre,21,$countnombre);
+		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	         	  $informe2=substr($informe,61,$countinforme);
+		          $this->pdf->Cell(100,7,utf8_decode($informe2),'BLR',0,'L',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
+	          	}
+	          $this->pdf->Ln();
+
+	          $num++;
+			}
+
+			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas_por_Empleados.pdf","I");
+			}
+
+
+		}
+		else
+		{
+				redirect('controller_panelprincipal/index','refresh');
+		}
+	}
 
 }

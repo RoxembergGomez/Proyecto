@@ -5,17 +5,17 @@
         <h5>PLAN ANUAL DE TRABAJO</h5> 
     </div>
     <div class="x_content">
-
+                  <?php if($this->session->userdata('tipo')=='jefe')
+                  {?>
       <div class="row">
         <div class="col-md-2">
           <div class="">
                 <?php echo form_open_multipart('controller_actividades/agregar');
-                  if($this->session->userdata('tipo')=='jefe')
-                  {
+
                 ?>
                     <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i> Agregar</button>
                 <?php
-                }
+              
                 echo form_close();?>
             </div>
         </div>
@@ -44,14 +44,15 @@
             <option value="">Seleccione estado</option>
             <option value="1">Asignado</option>
             <option value="3">Ejecutado</option>
-            <option value="">General</option>
+            <option value="4">General</option>
           </select> <br>
            <p ><?php echo form_error('estadoEjecucion');?></p>
         </div>
         <div class="col-md-1">
           <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Reporte" ><i class="fa fa-sign-out"></i></button>
         </div>
-        <?php echo form_close();?>
+        <?php echo form_close();
+          ?>
       </div>
       
 
@@ -67,10 +68,6 @@
                     <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Ejecutadas</button>
                 <?php echo form_close();
 
-                echo form_open_multipart('controller_actividades/ejecutadasporempleado');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Por Empleados</button>
-                <?php echo form_close();
-
                 echo form_open_multipart('controller_actividades/eliminados');?>
                     <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminadas</button>
                 <?php echo form_close();
@@ -79,8 +76,9 @@
                 </div>
           </div>
         </div>
-      </div>
 
+      </div>
+    <?php } ?>
       <div class="row">
         <div class="col-sm-12">              
               

@@ -73,6 +73,7 @@ class PlanAnualTrabajo_Model extends CI_Model {
     }
 
 
+
     public function pendientes()
 	{
 		$this->db->select('*');
@@ -98,6 +99,33 @@ class PlanAnualTrabajo_Model extends CI_Model {
 		$this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
 		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
 		$this->db->order_by('numeroInforme','asc');
+		return $this->db->get();
+	}
+
+	public function ejecutadasporestado($estado,$empleado)
+	{
+		$this->db->select('*');
+		$this->db->from('plananualtrabajo p');
+		$this->db->where('p.estadoEjecucion',$estado);
+		$this->db->where('m.idEmpleado',$empleado);
+		$this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->order_by('numeroInforme','asc');
+		return $this->db->get();
+	}
+
+
+	public function generalporempleado($empleado)
+	{
+		$this->db->select('*');
+		$this->db->from('plananualtrabajo p');
+		$this->db->where('m.idEmpleado',$empleado);
+		$this->db->where('p.estadoEjecucion','1');
+		$this->db->or_where('m.idEmpleado',$empleado);
+		$this->db->where('p.estadoEjecucion','3');
+		$this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
+		$this->db->order_by('p.estadoEjecucion','m.numeroInforme');
 		return $this->db->get();
 	}
 

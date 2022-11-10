@@ -483,6 +483,7 @@ class controller_programas extends CI_Controller {
             	$this->Programas_Model->agregarobservacion($data);
 
             	$data2['estadoHallazgo']='1';
+            	$data2['estadoProceso']='1';
 				$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
 				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
 
@@ -507,6 +508,11 @@ class controller_programas extends CI_Controller {
 
             	$this->Programas_Model->agregarobservacion($data);
             	$this->upload->data();
+
+            	$data2['estadoHallazgo']='1';
+            	$data2['estadoProceso']='1';
+				$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data2);
 
             	$listaactividades=$this->Programas_Model->actividades($_POST ['idmpa']);
 				$data['actividades']=$listaactividades;

@@ -4,7 +4,7 @@
     <div class="x_title">
       <div class="row float-left " >
       <?php 
-        echo form_open_multipart('controller_hallazgos/pendiente');?>
+        echo form_open_multipart('controller_hallazgos/enrevision');?>
                     <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
@@ -94,7 +94,7 @@
                           <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
                           <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">
                           <input type="hidden" name="idprograma" value="<?php echo $row->idProgramaTrabajo;?>">
-                          <input type="text" name="estado" value="<?php echo $row->estado;?>">
+                          <input type="hidden" name="estado" value="<?php echo $row->estado;?>">
                           <button type="submit" name="botton" class="dropdown-item"><i class="fa fa-trash"></i>  Eliminar</button>
                         <?php echo form_close();
                       }

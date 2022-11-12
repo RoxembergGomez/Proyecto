@@ -7,7 +7,7 @@
         echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
           <input type="hidden" name="idmpa" value="<?php echo $_POST['idmpa'];?>">
           <input type="hidden" name="estadoProceso" value="<?php echo $_POST['estadoProceso'];?>">
-                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+                    <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
@@ -54,14 +54,19 @@
                       <?php if($row->plazoAccionCorrectiva=='0000-00-00'){
                           ?> <p style="font-weight: bold; color: red; " >Sin Fecha</p> <?php
                       } else{
-                        echo $row->plazoAccionCorrectiva;
+                        echo formatearFecha($row->plazoAccionCorrectiva);
                       } ?>
                     </td>
                     <td>
                       <?php if($row->responsable==''){
                           ?> <p style="font-weight: bold; color: red; " >Sin Responsable</p> <?php
                       } else{
-                        echo $row->responsable;
+                        $empleados=$this->Observaciones_Model->empleadoresponsable($row->responsable);
+                        $empleado=$empleados->result();
+                        foreach ($empleado as $rowa) {
+                          echo $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;
+                        }
+                        
                       } ?>
                     </td> 
                   <?php } if ($_POST['estadoProceso']=='3' || $this->session->userdata('tipo')=='auditado') {?>

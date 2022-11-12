@@ -134,14 +134,9 @@
                               <button type="submit" class="dropdown-item"><i class="fas glyphicon glyphicon-hand-up"></i> Asignar MPA</button>
                           <?php echo form_close();?>
 
-                          <?php echo form_open_multipart('controller_procesos/agregar');?>
-                              <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>">
-                              <button type="submit" class="dropdown-item"><i class="fa fa-database"></i>  Agregar Proceso</button>
-                          <?php echo form_close();?>
-
                           <?php echo form_open_multipart('controller_procesos/index');?>
                               <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>"> 
-                              <button type="submit" class="dropdown-item"><i class="fa fa-list"></i> Lista de Procesos</button>
+                              <button type="submit" class="dropdown-item"><i class="fa fa-list"></i>  Procesos</button>
                           <?php echo form_close();
 
                           echo form_open_multipart('controller_actividades/modificar');?>        

@@ -13,6 +13,15 @@ class Observaciones_Model extends CI_Model {
 		return $this->db->get();
 	}
 
+
+	public function empleadoresponsable($responsable)
+	{
+		$this->db->select('*');
+		$this->db->from('empleado');
+		$this->db->where('idEmpleado',$responsable);
+		return $this->db->get();
+	}
+
 	public function pendientes()
 	{
 		$this->db->select('*');

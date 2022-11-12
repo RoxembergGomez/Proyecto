@@ -55,11 +55,20 @@
         </div>
         </div>
         <hr>
-        <button type="submit" class="btn btn-primary float-right"><i class="fa fa-database"></i>  Guardar</button>
+        <div class="row float-right">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>  Guardar</button>
       <?php 
       echo form_close();
-      ?>
-  </div> <br>
+      echo form_open_multipart('controller_hallazgos/observacionesenviadas');
+        ?>
+        <input type="hidden" name="idhallazgo" value="<?php echo $_POST ['idhallazgo'];?>">
+      <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
+      <input type="hidden" name="estadoProceso" value="<?php echo $_POST ['estadoProceso'];?>">
+        <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
+      <?php echo form_close();?>
+
+      </div>
+  </div>
 </div>
     </div>
   </div>

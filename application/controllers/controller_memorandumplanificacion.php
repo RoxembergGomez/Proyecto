@@ -64,6 +64,7 @@ class controller_memorandumplanificacion extends CI_Controller {
 				$this->load->view('recursos/footergentelella');
 			} 
 			else{
+
 				$data['numeroInforme']=$_POST ['numeroInforme'];
 				$data['idEmpleado']=$_POST ['idEmpleado'];
 				$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
@@ -74,7 +75,7 @@ class controller_memorandumplanificacion extends CI_Controller {
 				$data2['estadoEjecucion']='1';
 
 				$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idPlan'],$data2);
-				redirect('controller_memorandumplanificacion/index','refresh');
+				//redirect('controller_memorandumplanificacion/index','refresh');
 			}
 		}
 		else

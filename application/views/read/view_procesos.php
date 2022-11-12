@@ -4,12 +4,21 @@
       <div class="row float-left " >
       <?php 
         echo form_open_multipart('controller_actividades/index');?>
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de Actividades">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de Actividades">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
         <h5 >LISTA DE PROCESOS</h5> 
     </div>
+
+    <div class="float-left" >
+      <?php 
+        echo form_open_multipart('controller_procesos/agregar');?>
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>   Agregar</button>
+      <?php echo form_close();?>
+    </div>
+
     <div class="float-right" >
       <?php 
         echo form_open_multipart('controller_procesos/eliminados');?>
@@ -62,13 +71,7 @@
                           <?php echo form_open_multipart('controller_subprocesos/index');?>
                             <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>" >       
                             <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
-                            <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Ver Subprocesos</button>
-                          <?php echo form_close();
-
-                          echo form_open_multipart('controller_subprocesos/agregar');?>        
-                            <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>" >
-                            <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
-                            <button type="submit" class="dropdown-item" ><i class="fa fa-database"></i>  Agregar Subproceso</button>
+                            <button type="submit" class="dropdown-item" ><i class="fa fa-list"></i>  Subprocesos</button>
                           <?php echo form_close();
 
                           echo form_open_multipart('controller_procesos/modificar');?>        

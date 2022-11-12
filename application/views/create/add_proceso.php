@@ -5,7 +5,6 @@
       <?php
       echo form_open_multipart('controller_procesos/agregarbdd');
       ?>
-
     </div> <hr>
 
       <div class="row">
@@ -40,8 +39,9 @@
 
       <?php 
       echo form_close();
-      echo form_open_multipart('controller_actividades/index');
+      echo form_open_multipart('controller_procesos/index');
           ?>
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
           <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
         <?php echo form_close();?>
     </div>

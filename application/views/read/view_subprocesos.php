@@ -5,11 +5,20 @@
       <?php 
         echo form_open_multipart('controller_procesos/index');?>
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de procesos">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de procesos">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
         <h5 >LISTA DE SUBPROCESOS</h5> 
+    </div>
+
+    <div class="float-left" >
+      <?php 
+        echo form_open_multipart('controller_subprocesos/agregar');?>
+          <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>" >
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>" >
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-database"></i>   Agregar</button>
+      <?php echo form_close();?>
     </div>
     <div class="float-right" >
       <?php 
@@ -35,7 +44,7 @@
                   if($this->session->userdata('tipo')=='jefe')
                   {
                 ?> 
-                    <th scope="col">Acciones</th> 
+                    <th class="text-center">Acciones</th> 
                 <?php
                   }
                 ?>

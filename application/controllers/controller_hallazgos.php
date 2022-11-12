@@ -457,7 +457,7 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
 
-		$empleados=$this->Empleados_Model->empleados();
+		$empleados=$this->Observaciones_Model->empleados();
 		$data['empleado']=$empleados;
 
 		$this->load->view('recursos/headergentelella');

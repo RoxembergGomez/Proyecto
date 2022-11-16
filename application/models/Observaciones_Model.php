@@ -48,6 +48,19 @@ class Observaciones_Model extends CI_Model {
 	}
 
 
+	public function revisiondescargos()
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion m');
+		$this->db->where('m.estado','1');
+		$this->db->where('m.estadoProceso','5');
+		$this->db->join('plananualtrabajo a','a.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		$this->db->join('programatrabajo p','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->group_by('m.numeroInforme');
+		return $this->db->get();
+	}
+
+
 	public function enviados()
 	{
 		$this->db->select('*');
@@ -83,10 +96,10 @@ class Observaciones_Model extends CI_Model {
 		$this->db->from('hallazgo h');
 		$this->db->where('h.estado','1');
 		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('empleado em','em.idEmpleado=h.idEmpleado');
 		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
 		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
 		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
-		$this->db->join('empleado e','e.idEmpleado=m.idEmpleado');
 		return $this->db->get();
 	}
 

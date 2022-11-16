@@ -25,8 +25,11 @@
                     <th class="text-center">Comentario del Responsable y Acción Correctiva </th>
                     <th class="text-center">Plazo Propuesto</th>
                     <th class="text-center">Responsable</th>
-                      <?php } 
-                      if ($_POST['estadoProceso']=='3' || $_POST['estadoProceso']=='1' || $this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='auditado') {?>
+                      <?php }
+                      if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') { ?>
+                          <th class="text-center">Responsable Proceso</th>
+                      <?php  }  
+                    if ($_POST['estadoProceso']=='3' || $_POST['estadoProceso']=='1' || $this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='auditado') {?>
                     <th class="text-center">Acciones</th> 
                   <?php } ?>
                    
@@ -37,14 +40,15 @@
               <?php
               $indice=1;
               foreach ($observaciones->result() as  $row)
-              {
-                /*if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('idUsuario')=='6')
-                  {*/?>
+              { ?>
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td><?php echo $row->descripcionHallazgo;?></td>
                     <td class="text-center"><?php echo $row->prioridadAtencion;?></td>
-                    <?php  if ($_POST['estadoProceso']=='3' && $this->session->userdata('tipo')=='auditado') {?>
+                    <?php
+                      if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
+                    <td class="text-center"><?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?></td>
+                    <?php } if ($_POST['estadoProceso']=='3' && $this->session->userdata('tipo')=='auditado') {?>
                     <td>
                       <?php if($row->comentarioResponsable==''){
                           ?> <p style="font-weight: bold; color: red; " >Sin Comentario del Responsable</p> <?php

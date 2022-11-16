@@ -46,7 +46,7 @@
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value=" ">Seleccione...</option>
-                          <option value="2">Devolver</option>
+                          <option value="5">Enviar a UAI</option>
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
                       </div> 

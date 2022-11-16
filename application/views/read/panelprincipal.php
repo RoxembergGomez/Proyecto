@@ -1,7 +1,7 @@
 <style type="text/css">
 
    a h2{
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
    }
 

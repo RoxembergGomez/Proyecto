@@ -43,9 +43,9 @@
                         <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
                         <select name="proceso" class="col-sm-10 form-control" >
                           <option value="">Seleccione...</option>
-                          <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoProceso=='2'){?>
-                          <option value="1">Devolver</option>
+                          <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoProceso=='5'){?>
                           <option value="3">Enviar Descargos</option>
+                          <option value="4">Cerrar</option>
                           <?php }?>  
                         </select>
                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" ><i class="fa fa-sign-out"></i></button>
@@ -58,7 +58,7 @@
                        ?>
                     <td class="text-center">
                      
-                      <?php echo form_open_multipart('controller_hallazgos/observaciones');?>
+                      <?php echo form_open_multipart('controller_hallazgos/observacionerevisiondescargos');?>
                       <div class="btn-group"> 
                             <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                             <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">

@@ -87,9 +87,9 @@ class controller_empleados extends CI_Controller {
 					{
 						redirect('controller_empleados/agregar/1','refresh');
 					} else {
-							$data['nombres']=mb_strtoupper($_POST ['nombres'],'UTF-8');
-							$data['primerApellido']=mb_strtoupper($_POST ['primerApellido'],'UTF-8');
-							$data['segundoApellido']=mb_strtoupper($_POST ['segundoApellido'],'UTF-8');
+							$data['nombres']=ucwords($_POST ['nombres'],'UTF-8');
+							$data['primerApellido']=ucwords($_POST ['primerApellido'],'UTF-8');
+							$data['segundoApellido']=ucwords($_POST ['segundoApellido'],'UTF-8');
 							$data['ci']=$_POST ['ci'];
 							$data['expedicion']=$_POST ['expedicion'];
 							$data['celular']=$_POST ['celular'];
@@ -170,9 +170,9 @@ class controller_empleados extends CI_Controller {
 			else{
 				$idEmpleado=$_POST ['idEmpleado'];
 
-				$data['nombres']=mb_strtoupper($_POST ['nombres'],'UTF-8');
-				$data['primerApellido']=mb_strtoupper($_POST ['primerApellido'],'UTF-8');
-				$data['segundoApellido']=mb_strtoupper($_POST ['segundoApellido'],'UTF-8');
+				$data['nombres']=ucwords($_POST ['nombres'],'UTF-8');
+				$data['primerApellido']=ucwords($_POST ['primerApellido'],'UTF-8');
+				$data['segundoApellido']=ucwords($_POST ['segundoApellido'],'UTF-8');
 				$data['ci']=$_POST ['ci'];
 				$data['expedicion']=$_POST ['expedicion'];
 				$data['celular']=$_POST ['celular'];

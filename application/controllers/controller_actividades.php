@@ -513,10 +513,11 @@ class controller_actividades extends CI_Controller {
 		}
 	}
 
+
 	public function reporteporempleadopdf()
 	{
 		
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		if($this->session->userdata('tipo')=='jefe')
 		{
 			$empleado=$_POST['idEmpleado'];
 			$estado=$_POST['estadoEjecucion'];
@@ -556,7 +557,7 @@ class controller_actividades extends CI_Controller {
 				$countnombre=strlen($nombre);
 				$countinforme=strlen($informe);
 
-				if ($countnombre<=21 && $countinforme<=61) {
+				if ($countnombre<=28 && $countinforme<=61) {
 		          $this->pdf->SetFont('Arial','',10);
 		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
@@ -565,11 +566,11 @@ class controller_actividades extends CI_Controller {
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
 	          	} else
-	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+	          	if (($countnombre>=29 && $countnombre<=56) || ($countinforme>=62 && $countinforme<=124)) {
 
 	          	  $this->pdf->SetFont('Arial','',10);
 		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
-		          $nombre1=substr($nombre,0,21);
+		          $nombre1=substr($nombre,0,28);
 		          $informe1=substr($informe,0,61);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
@@ -577,7 +578,7 @@ class controller_actividades extends CI_Controller {
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
 		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
-	         	  $nombre2=substr($nombre,21,$countnombre);
+	         	  $nombre2=substr($nombre,28,$countnombre);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
 		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
 	         	  $informe2=substr($informe,61,$countinforme);
@@ -595,7 +596,7 @@ class controller_actividades extends CI_Controller {
 			}
 
 
-			if ($estado=='2') {
+			if ($estado=='3') {
 
 			$req=$this->PlanAnualTrabajo_Model->ejecutadasporestado($estado,$empleado);
 			$req=$req->result();
@@ -630,7 +631,7 @@ class controller_actividades extends CI_Controller {
 				$countnombre=strlen($nombre);
 				$countinforme=strlen($informe);
 
-				if ($countnombre<=21 && $countinforme<=61) {
+				if ($countnombre<=28 && $countinforme<=61) {
 		          $this->pdf->SetFont('Arial','',10);
 		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
@@ -639,11 +640,11 @@ class controller_actividades extends CI_Controller {
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
 	          	} else
-	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+	          	if (($countnombre>=29 && $countnombre<=56) || ($countinforme>=62 && $countinforme<=124)) {
 
 	          	  $this->pdf->SetFont('Arial','',10);
 		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
-		          $nombre1=substr($nombre,0,21);
+		          $nombre1=substr($nombre,0,28);
 		          $informe1=substr($informe,0,61);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
@@ -651,7 +652,7 @@ class controller_actividades extends CI_Controller {
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
 		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
-	         	  $nombre2=substr($nombre,21,$countnombre);
+	         	  $nombre2=substr($nombre,28,$countnombre);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
 		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
 	         	  $informe2=substr($informe,61,$countinforme);
@@ -703,7 +704,7 @@ class controller_actividades extends CI_Controller {
 				$countnombre=strlen($nombre);
 				$countinforme=strlen($informe);
 
-				if ($countnombre<=21 && $countinforme<=61) {
+				if ($countnombre<=28 && $countinforme<=61) {
 		          $this->pdf->SetFont('Arial','',10);
 		          $this->pdf->Cell(10,7,$num,1,0,'C',0);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre),1,0,'L',false);
@@ -712,19 +713,19 @@ class controller_actividades extends CI_Controller {
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),1,0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),1,0,'C',false);
 	          	} else
-	          	if (($countnombre>=22 && $countnombre<=44) || ($countinforme>=62 && $countinforme<=124)) {
+	          	if (($countnombre>=29 && $countnombre<=56) || ($countinforme>=62 && $countinforme<=124)) {
 
 	          	  $this->pdf->SetFont('Arial','',10);
-		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
-		          $nombre1=substr($nombre,0,21);
+	          	  $nombre1=substr($nombre,0,28);
 		          $informe1=substr($informe,0,61);
+		          $this->pdf->Cell(10,7,$num,'TLR',0,'C',0);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre1),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode($nroinforme),'TLR',0,'C',false);
 		          $this->pdf->Cell(100,7,utf8_decode($informe1),'TLR',0,'L',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($inicio)),'TLR',0,'C',false);
 		          $this->pdf->Cell(30,7,utf8_decode(formatearFecha($conclusion)),'TLR',1,'C',false);
 		          $this->pdf->Cell(10,7,'','BLR',0,'C',0);
-	         	  $nombre2=substr($nombre,21,$countnombre);
+	         	  $nombre2=substr($nombre,29,$countnombre);
 		          $this->pdf->Cell(50,7,utf8_decode($nombre2),'BLR',0,'L',false);
 		          $this->pdf->Cell(30,7,'','BLR',0,'C',false);
 	         	  $informe2=substr($informe,61,$countinforme);

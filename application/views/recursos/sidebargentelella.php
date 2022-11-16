@@ -84,37 +84,17 @@
                     <?php if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
                     <li>
                       <?php echo form_open_multipart('controller_hallazgos/pendiente');?>
-                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">En Proceso</button>
+                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Hallazgos</button>
                       <?php echo form_close();?>
                     </li>
                     <?php } 
-                      if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {
-                      ?>
-                    <li>
-                      <?php echo form_open_multipart('controller_hallazgos/enrevision');?>
-                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">En Revisión</button>
-                      <?php echo form_close();?>
-                    </li>
-                    <?php }
                      if ($this->session->userdata('tipo')=='auditado') {?>
                     <li>
                       <?php echo form_open_multipart('controller_hallazgos/enviado');?>
                         <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Pendientes de Descargos</button>
                       <?php echo form_close();?>
                     </li>
-                    <?php } 
-                     if ($this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='jefe') {?>
-                      <li>
-                      <?php echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
-                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Enviados a Descargos</button>
-                      <?php echo form_close();?>
-                    </li>
-                    <li>
-                      <?php echo form_open_multipart('controller_hallazgos/concluidos');?>
-                        <button  type="submit" class="btn btn-dark btn-sm text-left w-100" style="background-color: transparent; border: none;">Concluidos</button>
-                      <?php echo form_close();?>
-                    </li>
-                  <?php } ?>
+                    <?php }  ?>
                   </ul>
                 </li>
             </div>

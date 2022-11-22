@@ -111,7 +111,6 @@ class controller_empleados extends CI_Controller {
 			{
 				redirect('usuarios/panel','refresh');
 			}
-
 	}
 
 	public function modificar()

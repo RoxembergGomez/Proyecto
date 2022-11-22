@@ -67,14 +67,12 @@ class MemorandumPlanificacion_Model extends CI_Model {
 
 	public function misactividades()
     {
-      $this->db->from('memorandumplanificacion');
-      $this->db->where('idEmpleado',$this->session->userdata('idUsuario'));
-      $this->db->where('estadoProceso','1');
-
-      $this->db->or_where('idEmpleado',$this->session->userdata('idUsuario'));
-      $this->db->where('estadoProceso','2');
-      $this->db->or_where('idEmpleado',$this->session->userdata('idUsuario'));
-      $this->db->where('estadoProceso','3');
+      $this->db->from('plananualtrabajo p');
+      $this->db->where('m.idEmpleado',$this->session->userdata('idUsuario'));
+      $this->db->where('p.estado','1');
+      $this->db->where('p.estadoEjecucion','1');
+      $this->db->or_where('p.estadoEjecucion','2');
+      $this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
      return $this->db->count_all_results();
     }
 }

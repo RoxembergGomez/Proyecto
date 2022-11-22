@@ -32,7 +32,7 @@ class controller_hallazgos extends CI_Controller {
 			$hallazgos=$this->Observaciones_Model->recuperarobservaciones($_POST ['idhallazgo']);
 			$data['info']=$hallazgos;
 
-			$listampa=$this->Empleados_Model->empleados();
+			$listampa=$this->Observaciones_Model->empleados();
 			$data['seleccion']=$listampa;
 
 			$this->load->view('recursos/headergentelella');
@@ -411,6 +411,84 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 		}
 
 	}
+
+
+	public function observacioneseliminadas()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+			$data['observaciones']=$listaobs;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_observacionesEliminadas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+
+			} 
+			
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+
+	}
+
+	// MÉTODO PARA LA VISTA PREVIA DE RECUPARCIÓN DE LA OBSERVACIÓN ELIMINADA
+
+	public function recupararobs()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+			$data['observaciones']=$listaobs;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_recuperarobservacion',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+
+			} 
+			
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+
+	}
+
+	// MÉTODO PARA ACTUALIZAR LA OBSERVACIÓN ELIMINADA
+
+	public function recupararobservacion()
+	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+			$data['observaciones']=$listaobs;
+
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('delete/view_observacionesEliminadas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+
+			} 
+			
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+
+	}
+
+
+
+
 
 
 	public function reportepdf()

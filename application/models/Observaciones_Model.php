@@ -159,14 +159,6 @@ class Observaciones_Model extends CI_Model {
 	}
 
 
-	public function recuperarid($idmpa)
-	{
-		$this->db->select('*');
-		$this->db->from('memorandumplanificacion');
-		$this->db->where('estado','1');
-		$this->db->where('idMemorandumPlanificacion',$idmpa);
-		return $this->db->get();
-	}
 
 	public function selectsubproceso($plan)
 	{
@@ -218,6 +210,19 @@ class Observaciones_Model extends CI_Model {
 	{
 		$this->db->where('idHallazgo',$idhallazgo); 
 		$this->db->update('hallazgo',$data);
+	}
+
+	public function observacioneseliminadas($idmpa)
+	{
+		$this->db->select('*');
+		$this->db->from('hallazgo h');
+		$this->db->where('h.estado','0');
+		$this->db->where('m.idMemorandumPlanificacion',$idmpa);
+		$this->db->join('empleado em','em.idEmpleado=h.idEmpleado');
+		$this->db->join('programatrabajo p','p.idProgramaTrabajo=h.idProgramaTrabajo');
+		$this->db->join('memorandumplanificacion m','m.idMemorandumPlanificacion=p.idMemorandumPlanificacion');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
+		return $this->db->get();
 	}
 
 	public function agregarobservacion($dataobs)

@@ -14,10 +14,10 @@
                 <button  type="submit" class="btn btn-info btn-sm" style="margin-left: 5px; border-color:black;"><i class="fa fa-eye"></i> Enviado a Descargo</button>
               <?php echo form_close();?>
               <?php echo form_open_multipart('controller_hallazgos/revisiondescargo');?>
-                <button  type="submit" class="btn btn-info btn-sm text-left"><i class="fa fa-check-square"></i> Revisión Descargos</button>
+                <button  type="submit" class="btn btn-info btn-sm text-left" style=" border-color:black;"><i class="fa fa-check-square"></i> Revisión Descargos</button>
               <?php echo form_close();?>
               <?php echo form_open_multipart('controller_hallazgos/concluidos');?>
-                <button  type="submit" class="btn btn-info btn-sm text-left"><i class="fa fa-check-square"></i> Concluidos</button>
+                <button  type="submit" class="btn btn-info btn-sm text-left" style=" border-color:black;"><i class="fa fa-check-square"></i> Concluidos</button>
               <?php echo form_close();?>
         </div>
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">

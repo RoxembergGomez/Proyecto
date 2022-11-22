@@ -4,9 +4,9 @@
     <div class="x_title">
       <div class="row float-left " >
       <?php 
-        echo form_open_multipart('controller_hallazgos/enrevision');?>
-                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
-                            <i class="glyphicon glyphicon-arrow-left"></i>
+        echo form_open_multipart('controller_hallazgos/pendiente');?>
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder" style="background: black;">
+          <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
         <h5 class="text-center" >HALLAZGOS</h5> 
@@ -14,6 +14,12 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12"> 
+          <?php echo form_open_multipart('controller_hallazgos/observacioneseliminadas');?>
+                  <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
+                  <input type="hidden" name="estadoProceso" value="<?php echo $_POST ['estadoProceso'];?>">
+                  <button  type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-trash"></i>  Eliminados</button>
+                <?php echo form_close();
+                ?>
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>

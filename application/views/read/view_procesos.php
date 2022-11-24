@@ -4,7 +4,7 @@
       <div class="row float-left " >
       <?php 
         echo form_open_multipart('controller_actividades/index');?>
-          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de Actividades">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de Actividades" style="background: black;">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

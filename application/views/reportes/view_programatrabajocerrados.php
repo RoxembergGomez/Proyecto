@@ -4,11 +4,11 @@
       <div class="row float-left " >
       <?php 
         echo form_open_multipart('controller_programas/index');?>
-        <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+        <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder" style="background: black;">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
-        <h5 >PROGRMAS DE AUDITORÍAS CONCLUIDOS</h5> 
+        <h5 >PROGRAMAS DE AUDITORÍAS CONCLUIDOS</h5> 
     </div>
     <div class="x_content">
       <div class="row">

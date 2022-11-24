@@ -6,7 +6,7 @@
         echo form_open_multipart('controller_subprocesos/index');?>
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
           <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
-          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de subprocesos">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de subprocesos" style="background: black;">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

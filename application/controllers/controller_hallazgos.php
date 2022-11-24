@@ -322,7 +322,7 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 
 	public function eliminarbd()
 	{
-		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado')
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
@@ -442,8 +442,8 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
-			$data['observaciones']=$listaobs;
+			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+			$data['actividades']=$listaactividades;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
@@ -452,7 +452,7 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 
-			} 
+		} 
 			
 		else
 		{
@@ -467,23 +467,91 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
-			$data['observaciones']=$listaobs;
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
+
+			if ($this->form_validation->run()==FALSE) {
+
+			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+			$data['actividades']=$listaactividades;
 
 			$this->load->view('recursos/headergentelella');
 			$this->load->view('recursos/sidebargentelella');
 			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_observacionesEliminadas',$data);
+			$this->load->view('delete/view_recuperarobservacion',$data);
 			$this->load->view('recursos/creditosgentelella');
 			$this->load->view('recursos/footergentelella');
 
-			} 
+			} else
+			{
+				$idprograma=$_POST ['idprograma'];
+
+				$nombrearchivo=$idprograma.".pdf";	
+				$config['upload_path']='./uploads/respaldoPrograma';
+				$config['file_name']=$nombrearchivo;
+				$direccion="./uploads/respaldoPrograma/".$nombrearchivo;
+				if (file_exists($direccion)) {
+					unlink($direccion);
+				}
+
+				$config['allowed_types']='pdf|xlsx|zip|rar|jpg|png';
+				$this->load->library('upload',$config);
+				
+		        if (!$this->upload->do_upload()) {
+		            $data['verificacionActividad']=$_POST ['verificacion'];
+		            $data['respaldo'] = 'Sin Respaldo';
+		            $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+
+					$this->Programas_Model->modificarprograma($idprograma,$data);
+
+					$data2['estado']='1';
+					$data2['idUsuario']=$this->session->userdata('idUsuario');
+					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+
+			        $listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+					$data['observaciones']=$listaobs;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('delete/view_observacionesEliminadas',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+
+		       	}
+				else {
+			        $data['verificacionActividad']=$_POST ['verificacion'];
+			        $data['respaldo'] = $nombrearchivo;
+			        $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+
+			        $this->Programas_Model->modificarprograma($idprograma,$data);
+			        $this->upload->data();
+
+			      	$data2['estado']='1';
+					$data2['idUsuario']=$this->session->userdata('idUsuario');
+					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+
+			       	$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+					$data['observaciones']=$listaobs;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('delete/view_observacionesEliminadas',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
+			}
+		}
 			
 		else
 		{
 			redirect('usuarios/panel','refresh');
 		}
-
 	}
 
 

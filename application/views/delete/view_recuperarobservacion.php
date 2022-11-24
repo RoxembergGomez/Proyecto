@@ -4,7 +4,7 @@
         <h5 >MODIFICAR PROGRAMA DE TRABAJO</h5>
       </div> <br>
       <?php 
-      echo form_open_multipart('controller_hallazgos/eliminarbd');
+      echo form_open_multipart('controller_hallazgos/recupararobservacion');
       ?>
       <?php 
         foreach ($actividades->result() as $row) {
@@ -37,9 +37,9 @@
                id="txtNombres" name="verificacion" value="<?php echo set_value('verificacion'); ?>">
                 <option value="">Seleccione...</option>
                 <
-                <option value="1">SI</option>
-                <option value="4">N/A</option>
-            </select><br>
+                <option value="2">PARCIALMENTE</option>
+                <option value="3">NO</option>
+            </select>
             <p style="color: red;"><?php echo form_error('verificacion');?></p>
           </div>
           <div class="col-md-6">
@@ -49,23 +49,23 @@
       </div> <br> 
       <hr>
       <div class="row float-right"> 
-      <button type="button" name="ejecutar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalConfirmacion"><i class="fa fa-trash"></i>  Eliminar</button>
+      <button type="button" name="ejecutar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalConfirmacion"><i class="fa fa-database"></i>  Recuperar</button>
        <!-- ALERTA PARA ACCIONES-->
           <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title text-right" id="exampleModalLongTitle">ELIMINAR</h5>
+                  <h5 class="modal-title text-right" id="exampleModalLongTitle">MODIFICAR</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                   <p style="font-size: 20px;">Con las modificaciones de los atributos se eliminará la observación</p>
+                   <p style="font-size: 20px;">Con las modificaciones de los atributos se recuperará la observación eliminada</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
-                  <button type="submit" name="ejecutar"  class="btn btn-primary btn-sm"><i class="fa fa-trash"></i>  Eliminar</button>
+                  <button type="submit" name="ejecutar"  class="btn btn-primary btn-sm"><i class="fa fa-database"></i>  Recuperar</button>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@
       <?php 
     }
       echo form_close();
-      echo form_open_multipart('controller_hallazgos/observaciones');
+      echo form_open_multipart('controller_hallazgos/observacioneseliminadas');
           ?>
           <input type="hidden" name="idprograma" value="<?php echo $_POST ['idprograma'];?>">
           <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">

@@ -84,7 +84,7 @@
                     <td ><?php echo $row->informe;?></td>
                     <td class="text-center"><?php echo formatearFecha($row->fechaInicio);?></td>
                     <td class="text-center"><?php echo formatearFecha ($row->fechaConclusion);?></td>
-                    <td>
+                    <td class="text-center">
                       <div class="btn-group" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i></button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">

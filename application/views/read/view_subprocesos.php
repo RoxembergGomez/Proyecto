@@ -5,7 +5,7 @@
       <?php 
         echo form_open_multipart('controller_procesos/index');?>
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
-          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de procesos">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Lista de procesos" style="background: black;">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

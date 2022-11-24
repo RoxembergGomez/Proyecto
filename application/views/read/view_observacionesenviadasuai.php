@@ -5,7 +5,7 @@
       <div class="row float-left " >
       <?php 
         echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
-                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+                    <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder" style="background: black;">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

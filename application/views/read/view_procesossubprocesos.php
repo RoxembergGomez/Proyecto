@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >LISTA DE PROCESOS</h5> 
+        <h5 >LISTA DE PROCESOS</h5> 
     </div>
     
     <div class="x_content">

@@ -6,7 +6,7 @@
         echo form_open_multipart('controller_programas/actividades');?>
             <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
             <input type="hidden" name="estadoPrograma" value="<?php echo $_POST  ['estadoPrograma'];?>">
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de actividades activas"><i class="glyphicon glyphicon-arrow-left"></i>
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de actividades activas" style="background: black;"><i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
         <h5 >EJECUCIÓN DE ACTIVIDADES</h5> 

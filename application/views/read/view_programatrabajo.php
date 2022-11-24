@@ -6,24 +6,10 @@
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div class="btn-group row float-right" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver Programas</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <?php echo form_open_multipart('controller_programas/programasrevision');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> En revisión</button>
-                <?php echo form_close();
-                ?>
-                <?php echo form_open_multipart('controller_programas/programasaprobados');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Aprobados</button>
-                <?php echo form_close();
-                ?>
                 <?php echo form_open_multipart('controller_programas/programascerrados');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Cerrados</button>
+                    <button  type="submit" class="btn btn-info btn-sm text-left float-right"><i class="fa fa-desktop"></i> Cerrados</button>
                 <?php echo form_close();
-                ?>
-                </div>
-          </div> <br> <br>
-    
+                ?>      
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr>

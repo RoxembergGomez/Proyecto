@@ -59,8 +59,10 @@
       <?php 
       echo form_close();
       }
-       echo form_open_multipart('controller_memorandumplanificacion/index');
+       echo form_open_multipart('controller_procesos/index');
           ?>
+          <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idplan']; ?>">
           <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
         <?php echo form_close();?>
       

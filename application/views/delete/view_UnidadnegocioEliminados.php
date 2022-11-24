@@ -4,7 +4,7 @@
       <div class="row float-left" >
       <?php 
         echo form_open_multipart('controller_unidadnegocio/index');?>
-          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Volver a la lista unidades de negocio activos" id="atras">
+          <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Volver a la lista unidades de negocio activos" id="atras" style="background: black;">
             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

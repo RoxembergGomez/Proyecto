@@ -50,7 +50,7 @@
                   {
                   ?> 
                   <td class="text-center">
-                      <?php echo form_open_multipart('controller_hallazgos/recuperarbd');?>
+                      <?php echo form_open_multipart('controller_hallazgos/recupararobs');?>
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                           <input type="hidden" name="idhallazgo" value="<?php echo $row->idHallazgo;?>">
                           <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">

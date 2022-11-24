@@ -13,13 +13,14 @@
     </div>
     <div class="x_content">
       <div class="row">
-        <div class="col-sm-12"> 
+        <div class="col-sm-12">
+          <?php if ($_POST['estadoProceso']=='1' || $this->session->userdata('tipo')=='jefe') {?>
           <?php echo form_open_multipart('controller_hallazgos/observacioneseliminadas');?>
                   <input type="hidden" name="idmpa" value="<?php echo $_POST ['idmpa'];?>">
                   <input type="hidden" name="estadoProceso" value="<?php echo $_POST ['estadoProceso'];?>">
                   <button  type="submit" class="btn btn-info btn-sm float-right"><i class="fa fa-trash"></i>  Eliminados</button>
                 <?php echo form_close();
-                ?>
+                }?>
     
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>

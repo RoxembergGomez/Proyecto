@@ -7,7 +7,7 @@
         <input type="hidden" name="idunidad" value="<?php echo $_POST['idunidad'];?>">
         <input type="hidden" name="idmpa" value="<?php echo $_POST['idmpa'];?>">
         <input type="hidden" name="requerimiento" value="<?php echo $_POST['requerimiento'];?>">
-        <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de requerimientos">
+        <button class="btn btn-primary float-center" data-toggle="tooltip" data-placement="top" title="Lista de requerimientos" style="background: black;">
           <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>

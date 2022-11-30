@@ -16,7 +16,7 @@
        break;
       
       default:
-        $mensaje="Vacío, ingrese el usuario y contraseña";
+        $mensaje="Ingrese el usuario y contraseña";
         break;
     }
   ?>

@@ -34,9 +34,6 @@
           <label class="float-left" style="font-weight: bold;">CONTRASEÑA:</label>
           <input type="password" name="contrasena" class="col-md-12 form-control"><br>
           <p style="color: red;"><?php echo form_error('contrasena');?></p>
-          <?php if($msg==''){?>
-              <p>  (*) Agregue otra contraseña </p>
-          <?php } ?>
         </div>
       </div>
       <hr>

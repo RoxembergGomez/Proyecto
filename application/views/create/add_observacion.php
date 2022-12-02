@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-4">
           <label>EMPLEADO RESPONSABLE:</label>
-           <select name="idEmpleado" class="col-md-12 form-control" required autocomplete="off" value="<?php echo set_value('idEmpleado'); ?>">
+           <select name="idEmpleado" class="col-md-12 form-control" autocomplete="off" value="<?php echo set_value('idEmpleado'); ?>">
             <option value="">Seleccione un responsable</option>
                 <?php
                  foreach ($seleccion->result() as  $row)

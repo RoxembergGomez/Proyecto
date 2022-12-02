@@ -32,7 +32,7 @@
         <div class="col-md-12">
           <label class="float-left">REQUERIMIENTO DE INFORMACIÓN:</label>
           <input type="text" name="suproceso" class="col-md-12 form-control" value="<?php echo $row->requerimientoInformacion; ?>" autocomplete="off"><br>
-          <p><?php echo form_error('subproceso');?></p>
+          <p><?php echo form_error('suproceso');?></p>
         </div>
       </div><hr>
       <div class="row float-right"> 

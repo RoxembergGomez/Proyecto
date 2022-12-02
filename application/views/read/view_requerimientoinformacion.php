@@ -52,7 +52,7 @@
                           <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                           <?php if(($row->estadoRequerimiento=='2' || $row->estadoRequerimiento=='3') && $this->session->userdata('tipo')=='ejecutor'){?>
                           <select name="proceso" class="col-sm-9 form-control" disabled="true" value="<?php echo set_value('proceso'); ?>" >
-                            <option value="">Selecc...</option>
+                            <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoRequerimiento!='1'){?>
                             <option value="1">Devolver</option>
                             <option value="3">Aprobado</option>
@@ -65,7 +65,7 @@
                           <?php } ?>
                           <?php if(($row->estadoRequerimiento=='2' || $row->estadoRequerimiento=='3') && $this->session->userdata('tipo')=='jefe'){?>
                           <select name="proceso" class="col-sm-9 form-control" value="<?php echo set_value('proceso'); ?>">
-                            <option value="">Selecc...</option>
+                            <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoRequerimiento!='1'){?>
                             <option value="1">Devolver</option>
                             <option value="3">Aprobado</option>
@@ -79,7 +79,7 @@
           
                         <?php if($row->estadoRequerimiento=='1'){?>
                           <select name="proceso" class="col-sm-9 form-control" value="<?php echo set_value('proceso'); ?>" >
-                            <option value="">Selecc...</option>
+                            <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoRequerimiento!='1'){?>
                             <option value="1">Devolver</option>
                             <option value="3">Aprobado</option>

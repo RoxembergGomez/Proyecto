@@ -51,7 +51,7 @@
                       <div class="btn-group">
                         <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <input type="hidden" name="idpat" value="<?php echo $row->idPlanAnualTrabajo;?>">
-                        <select name="proceso" class="col-sm-10 form-control" >
+                        <select name="proceso" class="col-sm-10 form-control" value="<?php echo set_value('proceso'); ?>" >
                           <option value="">Seleccione...</option>
                           <option value="2">Revisión</option>
                         </select>
@@ -75,7 +75,7 @@
                         </div>
                         <?php echo form_close();?>
               				<?php 
-              				echo form_open_multipart('controller_hallazgos/reportepdf');
+              				echo form_open_multipart('controller_hallazgos/reportepdfprevio');
               				?>
               				  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">

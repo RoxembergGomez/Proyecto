@@ -1,0 +1,6 @@
+
+USUARIOS
+
+1. usuario: pcanedo --- Contraseña: Cbba1 --- Tipo: Jefe
+2. usuario: rgomez  --- Contraseña: Cbba2 --- Tipo: Ejecutor
+3. usuario: rmamani --- Contraseña: Cbba3 --- Tipo: Auditado

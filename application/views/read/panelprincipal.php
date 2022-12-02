@@ -14,7 +14,7 @@
   <div class="x_panel">
     <div class="x_content">
       <div class="row">
-        <?php if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
+        <?php if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado') {?>
           <div class="col-xl-3">
             <?php if ($this->session->userdata('tipo')=='jefe') {?>
             <a class="btn btn-primary col-md-12" href="<?php echo base_url()."index.php/controller_memorandumplanificacion/index";?>" id="reporte" style=" border-radius:10px;">
@@ -34,11 +34,12 @@
         <?php if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
         <div class="col-xl-3">  
             <a class="btn btn-warning col-md-12" href="<?php echo base_url()."index.php/controller_actividades/pendientes";?>" id="reporte" style=" border-radius:10px;">
-                <h1 class="text-left" ><?php echo $this->PlanAnualTrabajo_Model->actividadespendientes(); ?></h1>
+                <h1 class="text-left" >
+                  <?php echo $this->PlanAnualTrabajo_Model->actividadespendientes(); ?>
+                  </h1>
                 <h2 class="text-left">Actividades Pendientes</h2>
             </a>
       </div>
-
       <div class="col-xl-3">  
             <a class="btn btn-success col-md-12" href="<?php echo base_url()."index.php/controller_actividades/ejecutadas";?>" id="reporte" style=" border-radius:10px;">
                 <h1 class="text-left" ><?php echo $this->PlanAnualTrabajo_Model->actividadescerradas(); ?></h1>
@@ -99,7 +100,7 @@
      <div class="row">
         <?php if ($this->session->userdata('tipo')=='jefe') {?>
         <div class="col-xl-3" style=" border-radius:10px;">  
-            <a class="btn btn-info col-md-12" href="<?php echo base_url()."index.php/controller_memorandumplanificacion/index";?>" id="reporte" style=" border-radius:10px;">
+            <a class="btn btn-primary col-md-12" href="<?php echo base_url()."index.php/controller_memorandumplanificacion/index";?>" id="reporte" style=" border-radius:10px;">
                 <h1 class="text-left" ><?php echo $this->MemorandumPlanificacion_Model->misactividades(); ?></h1>
                 <h2 class="text-left">Mis Actividades</h2>
             </a>

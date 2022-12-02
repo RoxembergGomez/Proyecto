@@ -76,7 +76,7 @@
                         </div>
                         <?php echo form_close();?>
               				<?php 
-              				echo form_open_multipart('controller_hallazgos/reportepdf');
+              				echo form_open_multipart('controller_hallazgos/reportepdfprevio');
               				?>
               				  <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                         <input type="hidden" name="estadoProceso" value="<?php echo $row->estadoProceso;?>">

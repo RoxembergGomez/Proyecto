@@ -32,9 +32,11 @@
                     <th class="text-center">Comentario del Responsable y Acción Correctiva </th>
                     <th class="text-center">Plazo Propuesto</th>
                     <th class="text-center">Responsable</th>
+                    <th class="text-center">Anexo</th>
                       <?php }
                       if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') { ?>
                           <th class="text-center">Responsable Proceso</th>
+                          <th class="text-center">Anexo</th>
                       <?php  }  
                     if ($_POST['estadoProceso']=='3' || $_POST['estadoProceso']=='1' || $this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='auditado') {?>
                     <th class="text-center">Acciones</th> 
@@ -55,6 +57,24 @@
                     <?php
                       if ($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor') {?>
                     <td class="text-center"><?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?></td>
+                     <td class="text-center">
+                    <?php 
+                      $docRespaldo=$row->anexo;
+                      if ($docRespaldo=="Sin Anexo") 
+                      {
+                        ?>
+                        <p id="anaranjado">Sin Anexo</p>
+                    <?php  
+                      }
+                      else
+                      {
+                    ?>
+                        <a href="<?php echo base_url();?>/uploads/anexosObservaciones/<?php echo $docRespaldo?>" download> <p id="verde">Anexo</p> 
+                        </a>
+                    <?php  
+                      }
+                    ?>
+                  </td>
                     <?php } if ($_POST['estadoProceso']=='3' && $this->session->userdata('tipo')=='auditado') {?>
                     <td>
                       <?php if($row->comentarioResponsable==''){

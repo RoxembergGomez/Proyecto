@@ -655,7 +655,7 @@ class controller_programas extends CI_Controller {
 		{
 
 		error_reporting(0);
-		if ($_POST ['proceso']=='') {
+		if ($_POST ['idmpa']=='') {
 			redirect('controller_panelprincipal/index','refresh');
 		} else
 		{

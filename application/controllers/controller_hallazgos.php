@@ -28,19 +28,23 @@ class controller_hallazgos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
+			error_reporting(0);
+			if ($_POST ['idhallazgo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$hallazgos=$this->Observaciones_Model->recuperarobservaciones($_POST ['idhallazgo']);
+				$data['info']=$hallazgos;
 
-			$hallazgos=$this->Observaciones_Model->recuperarobservaciones($_POST ['idhallazgo']);
-			$data['info']=$hallazgos;
+				$listampa=$this->Observaciones_Model->empleados();
+				$data['seleccion']=$listampa;
 
-			$listampa=$this->Observaciones_Model->empleados();
-			$data['seleccion']=$listampa;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('update/modificar_hallazgo',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_hallazgo',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -49,70 +53,96 @@ class controller_hallazgos extends CI_Controller {
 	}
 
 	public function modificarbd()
-	{	
-		
-		$idprograma=$_POST ['idhallazgo'];
+	{	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
+		{
+			error_reporting(0);
+			if ($_POST ['idhallazgo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('observacion','observacion','required',array('required'=>'(*) Se requiere llenar este campo'));
+				if ($this->form_validation->run()==FALSE) {
+					$hallazgos=$this->Observaciones_Model->recuperarobservaciones($_POST ['idhallazgo']);
+					$data['info']=$hallazgos;
 
-		$anexo=$idprograma.".xlsx";
-		$config2['upload_path']='./uploads/anexosObservacion';
-		$config2['file_name']=$anexo;
-		$direccion2="./uploads/anexosObservacion/".$anexo;
-		if (file_exists($direccion2)) {
-			unlink($direccion2);
-			}
-		$config2['allowed_types']='xlsx';
-		$this->load->library('upload',$config2);
-        
-           	if (!$this->upload->do_upload()) {
+					$listampa=$this->Observaciones_Model->empleados();
+					$data['seleccion']=$listampa;
 
-	        	$data['descripcionHallazgo']=$_POST ['observacion'];
-            	$data['prioridadAtencion'] = $_POST ['prioridad'];
-            	$data['anexo'] = 'Sin Anexo';
-            	$data['idUsuario']=$this->session->userdata('idUsuario');
-            	$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
-            	$data['idEmpleado'] = $_POST ['idEmpleado'];
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('update/modificar_hallazgo',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				} else
+				{
+			
+				$idprograma=$_POST ['idhallazgo'];
+
+				$anexo=$idprograma.".xlsx";
+				$config2['upload_path']='./uploads/anexosObservacion';
+				$config2['file_name']=$anexo;
+				$direccion2="./uploads/anexosObservacion/".$anexo;
+				if (file_exists($direccion2)) {
+					unlink($direccion2);
+					}
+				$config2['allowed_types']='xlsx';
+				$this->load->library('upload',$config2);
+		        
+		           	if (!$this->upload->do_upload()) {
+
+			        	$data['descripcionHallazgo']=$_POST ['observacion'];
+		            	$data['prioridadAtencion'] = $_POST ['prioridad'];
+		            	$data['anexo'] = 'Sin Anexo';
+		            	$data['idUsuario']=$this->session->userdata('idUsuario');
+		            	$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+		            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
+		            	$data['idEmpleado'] = $_POST ['idEmpleado'];
 
 
-            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
+		            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
 
-            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-				$data['observaciones']=$listaobservaciones;
+		            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+						$data['observaciones']=$listaobservaciones;
 
-				$this->load->view('recursos/headergentelella');
-				$this->load->view('recursos/sidebargentelella');
-				$this->load->view('recursos/topbargentelella');
-				$this->load->view('read/view_observaciones',$data);
-				$this->load->view('recursos/creditosgentelella');
-				$this->load->view('recursos/footergentelella');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('read/view_observaciones',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
 
-            	} else {
+		            	} else {
 
-            	$data['descripcionHallazgo']=$_POST ['observacion'];
-            	$data['prioridadAtencion'] = $_POST ['prioridad'];
-            	$data['anexo'] = $anexo;
-            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
-            	$data['idEmpleado'] = $_POST ['idEmpleado'];
-            	$data['idUsuario']=$this->session->userdata('idUsuario');
+		            	$data['descripcionHallazgo']=$_POST ['observacion'];
+		            	$data['prioridadAtencion'] = $_POST ['prioridad'];
+		            	$data['anexo'] = $anexo;
+		            	$data['idProgramaTrabajo'] = $_POST ['idprograma'];
+		            	$data['idEmpleado'] = $_POST ['idEmpleado'];
+		            	$data['idUsuario']=$this->session->userdata('idUsuario');
 
-            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
-            	$this->upload->data();
+		            	$this->Observaciones_Model->modificarobservacion($_POST['idhallazgo'],$data);
+		            	$this->upload->data();
 
-            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-				$data['observaciones']=$listaobservaciones;
+		            	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+						$data['observaciones']=$listaobservaciones;
 
-				$this->load->view('recursos/headergentelella');
-				$this->load->view('recursos/sidebargentelella');
-				$this->load->view('recursos/topbargentelella');
-				$this->load->view('read/view_observaciones',$data);
-				$this->load->view('recursos/creditosgentelella');
-				$this->load->view('recursos/footergentelella');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('read/view_observaciones',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
 
+		            	}
+		            }
+	        	}
             }
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
-
-
-
 
 
 	public function enrevision()
@@ -182,16 +212,28 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 
 	public function observacionesenviadasdescargos()
 	{
+		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+		{
 
-		$listaobservaciones=$this->Observaciones_Model->observacionesenviadasdescargos($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
+			error_reporting(0);
+			if ($_POST ['idmpa']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaobservaciones=$this->Observaciones_Model->observacionesenviadasdescargos($_POST ['idmpa']);
+				$data['observaciones']=$listaobservaciones;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observacionesenviadasuai',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_observacionesenviadasuai',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
 	}
 
 
@@ -240,60 +282,77 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 
 	public function observaciones()
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+			$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+			$data['observaciones']=$listaobservaciones;
 
-		$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observaciones',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_observaciones',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
 	}
 
 
 	public function observacionesenviadas()
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+			$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
+			$data['observaciones']=$listaobservaciones;
 
-		$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observacionesenviadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_observacionesenviadas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
 	}
 
 	public function observacionesconcluidas()
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+			$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+			$data['observaciones']=$listaobservaciones;
 
-		$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
-
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observacionesConcluidas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_observacionesConcluidas',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
 	}
 
 
 	public function observacionerevisiondescargos()
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
 
-		$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
+			$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+			$data['observaciones']=$listaobservaciones;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observacionesrevisiondescargos',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+			$this->load->view('recursos/headergentelella');
+			$this->load->view('recursos/sidebargentelella');
+			$this->load->view('recursos/topbargentelella');
+			$this->load->view('read/view_observacionesrevisiondescargos',$data);
+			$this->load->view('recursos/creditosgentelella');
+			$this->load->view('recursos/footergentelella');
+		}
 	}
 
 
@@ -302,16 +361,20 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
+			error_reporting(0);
+			if ($_POST ['idprograma']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+				$data['actividades']=$listaactividades;
 
-			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
-			$data['actividades']=$listaactividades;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_eliminarobservacion',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_eliminarobservacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -324,83 +387,89 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
+			error_reporting(0);
+			if ($_POST ['idprograma']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
 
-			if ($this->form_validation->run()==FALSE) {
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
 
-			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
-			$data['actividades']=$listaactividades;
+				if ($this->form_validation->run()==FALSE) {
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_eliminarobservacion',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+				$data['actividades']=$listaactividades;
 
-			} else
-			{
-				$idprograma=$_POST ['idprograma'];
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_eliminarobservacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
 
-				$nombrearchivo=$idprograma.".pdf";	
-				$config['upload_path']='./uploads/respaldoPrograma';
-				$config['file_name']=$nombrearchivo;
-				$direccion="./uploads/respaldoPrograma/".$nombrearchivo;
-				if (file_exists($direccion)) {
-					unlink($direccion);
-				}
+				} else
+				{
+					$idprograma=$_POST ['idprograma'];
 
-				$config['allowed_types']='pdf|xlsx|zip|rar|jpg|png';
-				$this->load->library('upload',$config);
-				
-		        if (!$this->upload->do_upload()) {
-		            $data['verificacionActividad']=$_POST ['verificacion'];
-		            $data['respaldo'] = 'Sin Respaldo';
-		            $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$data['idUsuario']=$this->session->userdata('idUsuario');
+					$nombrearchivo=$idprograma.".pdf";	
+					$config['upload_path']='./uploads/respaldoPrograma';
+					$config['file_name']=$nombrearchivo;
+					$direccion="./uploads/respaldoPrograma/".$nombrearchivo;
+					if (file_exists($direccion)) {
+						unlink($direccion);
+					}
 
-					$this->Programas_Model->modificarprograma($idprograma,$data);
+					$config['allowed_types']='pdf|xlsx|zip|rar|jpg|png';
+					$this->load->library('upload',$config);
+					
+			        if (!$this->upload->do_upload()) {
+			            $data['verificacionActividad']=$_POST ['verificacion'];
+			            $data['respaldo'] = 'Sin Respaldo';
+			            $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$data['idUsuario']=$this->session->userdata('idUsuario');
 
-					$data2['estado']='0';
-					$data2['idUsuario']=$this->session->userdata('idUsuario');
-					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+						$this->Programas_Model->modificarprograma($idprograma,$data);
 
-			        $listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-					$data['observaciones']=$listaobservaciones;
+						$data2['estado']='0';
+						$data2['idUsuario']=$this->session->userdata('idUsuario');
+						$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
 
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('read/view_observaciones',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
+				        $listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+						$data['observaciones']=$listaobservaciones;
 
-		       	}
-				else {
-			        $data['verificacionActividad']=$_POST ['verificacion'];
-			        $data['respaldo'] = $nombrearchivo;
-			        $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$data['idUsuario']=$this->session->userdata('idUsuario');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('read/view_observaciones',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
 
-			        $this->Programas_Model->modificarprograma($idprograma,$data);
-			        $this->upload->data();
+			       	}
+					else {
+				        $data['verificacionActividad']=$_POST ['verificacion'];
+				        $data['respaldo'] = $nombrearchivo;
+				        $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			      	$data2['estado']='0';
-					$data2['idUsuario']=$this->session->userdata('idUsuario');
-					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+				        $this->Programas_Model->modificarprograma($idprograma,$data);
+				        $this->upload->data();
 
-			       	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-					$data['observaciones']=$listaobservaciones;
+				      	$data2['estado']='0';
+						$data2['idUsuario']=$this->session->userdata('idUsuario');
+						$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
 
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('read/view_observaciones',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
+				       	$listaobservaciones=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+						$data['observaciones']=$listaobservaciones;
+
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('read/view_observaciones',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
+					}
 				}
 			}
 		}
@@ -417,17 +486,21 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
-			$data['observaciones']=$listaobs;
+			error_reporting(0);
+			if ($_POST ['idmpa']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+				$data['observaciones']=$listaobs;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_observacionesEliminadas',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-
-			} 
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_observacionesEliminadas',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+		} 
 			
 		else
 		{
@@ -442,15 +515,20 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
-			$data['actividades']=$listaactividades;
+			error_reporting(0);
+			if ($_POST ['idprograma']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+				$data['actividades']=$listaactividades;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_recuperarobservacion',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_recuperarobservacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 
 		} 
 			
@@ -467,83 +545,88 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor')
 		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
+			error_reporting(0);
+			if ($_POST ['idprograma']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('verificacion','verificacion','required',array('required'=>'(*) Seleccione una opción'));
 
-			if ($this->form_validation->run()==FALSE) {
+				if ($this->form_validation->run()==FALSE) {
 
-			$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
-			$data['actividades']=$listaactividades;
+				$listaactividades=$this->Programas_Model->recuperarprograma($_POST ['idprograma']);
+				$data['actividades']=$listaactividades;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_recuperarobservacion',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_recuperarobservacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
 
-			} else
-			{
-				$idprograma=$_POST ['idprograma'];
+				} else
+				{
+					$idprograma=$_POST ['idprograma'];
 
-				$nombrearchivo=$idprograma.".pdf";	
-				$config['upload_path']='./uploads/respaldoPrograma';
-				$config['file_name']=$nombrearchivo;
-				$direccion="./uploads/respaldoPrograma/".$nombrearchivo;
-				if (file_exists($direccion)) {
-					unlink($direccion);
-				}
+					$nombrearchivo=$idprograma.".pdf";	
+					$config['upload_path']='./uploads/respaldoPrograma';
+					$config['file_name']=$nombrearchivo;
+					$direccion="./uploads/respaldoPrograma/".$nombrearchivo;
+					if (file_exists($direccion)) {
+						unlink($direccion);
+					}
 
-				$config['allowed_types']='pdf|xlsx|zip|rar|jpg|png';
-				$this->load->library('upload',$config);
-				
-		        if (!$this->upload->do_upload()) {
-		            $data['verificacionActividad']=$_POST ['verificacion'];
-		            $data['respaldo'] = 'Sin Respaldo';
-		            $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$data['idUsuario']=$this->session->userdata('idUsuario');
+					$config['allowed_types']='pdf|xlsx|zip|rar|jpg|png';
+					$this->load->library('upload',$config);
+					
+			        if (!$this->upload->do_upload()) {
+			            $data['verificacionActividad']=$_POST ['verificacion'];
+			            $data['respaldo'] = 'Sin Respaldo';
+			            $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$data['idUsuario']=$this->session->userdata('idUsuario');
 
-					$this->Programas_Model->modificarprograma($idprograma,$data);
+						$this->Programas_Model->modificarprograma($idprograma,$data);
 
-					$data2['estado']='1';
-					$data2['idUsuario']=$this->session->userdata('idUsuario');
-					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+						$data2['estado']='1';
+						$data2['idUsuario']=$this->session->userdata('idUsuario');
+						$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
 
-			        $listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
-					$data['observaciones']=$listaobs;
+				        $listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+						$data['observaciones']=$listaobs;
 
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('delete/view_observacionesEliminadas',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('delete/view_observacionesEliminadas',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
 
-		       	}
-				else {
-			        $data['verificacionActividad']=$_POST ['verificacion'];
-			        $data['respaldo'] = $nombrearchivo;
-			        $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$data['idUsuario']=$this->session->userdata('idUsuario');
+			       	}
+					else {
+				        $data['verificacionActividad']=$_POST ['verificacion'];
+				        $data['respaldo'] = $nombrearchivo;
+				        $data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			        $this->Programas_Model->modificarprograma($idprograma,$data);
-			        $this->upload->data();
+				        $this->Programas_Model->modificarprograma($idprograma,$data);
+				        $this->upload->data();
 
-			      	$data2['estado']='1';
-					$data2['idUsuario']=$this->session->userdata('idUsuario');
-					$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
+				      	$data2['estado']='1';
+						$data2['idUsuario']=$this->session->userdata('idUsuario');
+						$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$this->Observaciones_Model->modificarobservacion($_POST ['idhallazgo'],$data2);
 
-			       	$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
-					$data['observaciones']=$listaobs;
+				       	$listaobs=$this->Observaciones_Model->observacioneseliminadas($_POST ['idmpa']);
+						$data['observaciones']=$listaobs;
 
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('delete/view_observacionesEliminadas',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('delete/view_observacionesEliminadas',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
+					}
 				}
 			}
 		}
@@ -554,76 +637,74 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 		}
 	}
 
-
-
-
-
-
 	public function reportepdf()
 	{
 		
 	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+			$obs=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+			$obs=$obs->result();
 
-		$obs=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$obs=$obs->result();
+			$this->pdf=new Pdf();
+			$this->pdf->addPage('L','letter');
+			$this->pdf->AliasNbPages();
+			$this->pdf->SetTitle("Observaciones");
+			
+			$this->pdf->SetLeftMargin(20);
+			$this->pdf->SetRightMargin(20);
+			$this->pdf->SetFillColor(210,210,210);
+			$this->pdf->SetFont('Arial','B',11);
+			$this->pdf->Ln(14);
+			$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+			$actividad=$actividad->result();
+			foreach ($actividad as $rowa) {
+				$numeroInforme=$rowa->informe;
+			}
+			$this->pdf->Cell(0,10,utf8_decode($numeroInforme),0,0,'C',1);
+			$this->pdf->Ln(15);
+			$this->pdf->Cell(0,5,utf8_decode('DETALLE DE OBSERVACIONES DE AUDITORÍA INTERNA'),0,0,'C',false);
 
-		$this->pdf=new Pdf();
-		$this->pdf->addPage('L','letter');
-		$this->pdf->AliasNbPages();
-		$this->pdf->SetTitle("Observaciones");
-		
-		$this->pdf->SetLeftMargin(20);
-		$this->pdf->SetRightMargin(20);
-		$this->pdf->SetFillColor(210,210,210);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Ln(14);
-		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$actividad=$actividad->result();
-		foreach ($actividad as $rowa) {
-			$numeroInforme=$rowa->informe;
-		}
-		$this->pdf->Cell(0,10,utf8_decode($numeroInforme),0,0,'C',1);
-		$this->pdf->Ln(15);
-		$this->pdf->Cell(0,5,utf8_decode('DETALLE DE OBSERVACIONES DE AUDITORÍA INTERNA'),0,0,'C',false);
+			$this->pdf->Ln(8); //margin para el espaciado
+			$this->pdf->SetFont('Arial','B',10);
 
-		$this->pdf->Ln(8); //margin para el espaciado
-		$this->pdf->SetFont('Arial','B',10);
+			$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+			$this->pdf->Cell(70,8,utf8_decode('Detalle Observación'),'LTBR',0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Atención'),'LTBR',0,'C',0);
+			$this->pdf->Cell(60,8,utf8_decode('Acción Correctiva'),'LTBR',0,'C',0);
+			$this->pdf->Cell(30,8,utf8_decode('Plazo Propuesto'),'LTBR',0,'C',0);
+			$this->pdf->Cell(40,8,utf8_decode('Responsable'),'TBLR',1,'C',0);
+			
+			$num=1;
+			foreach ($obs as $row) {
+				$descripcion=$row->descripcionHallazgo;
+	      		$priorizacion=$row->prioridadAtencion;
+	      		$accionCorrectiva=$row->comentarioResponsable;
+	      		$plazo=formatearFecha($row->plazoAccionCorrectiva);
+	          	$responsable=$row->responsable;
 
-		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
-		$this->pdf->Cell(70,8,utf8_decode('Detalle Observación'),'LTBR',0,'C',0);
-		$this->pdf->Cell(30,8,utf8_decode('Atención'),'LTBR',0,'C',0);
-		$this->pdf->Cell(60,8,utf8_decode('Acción Correctiva'),'LTBR',0,'C',0);
-		$this->pdf->Cell(30,8,utf8_decode('Plazo Propuesto'),'LTBR',0,'C',0);
-		$this->pdf->Cell(40,8,utf8_decode('Responsable'),'TBLR',1,'C',0);
-		
-		$num=1;
-		foreach ($obs as $row) {
-			$descripcion=$row->descripcionHallazgo;
-      		$priorizacion=$row->prioridadAtencion;
-      		$accionCorrectiva=$row->comentarioResponsable;
-      		$plazo=formatearFecha($row->plazoAccionCorrectiva);
-          	$responsable=$row->responsable;
+	          	$empleados=$this->Observaciones_Model->empleadoresponsable($responsable);
+	            $empleado=$empleados->result();
+	            foreach ($empleado as $rowa) {
+	              $empleado= $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;
+	            }
+	          $this->pdf->SetFont('Arial','',10);
+	          $this->pdf->Cell(10,5,$num,'TBLR',0,'C',0);
+	          $this->pdf->Cell(70,5,utf8_decode($descripcion),'TBLR',0,'L',false);
+	          $this->pdf->Cell(30,5,utf8_decode($priorizacion),'TBLR',0,'C',false);
+	          $this->pdf->Cell(60,5,utf8_decode($accionCorrectiva),'TBLR',0,'L',false);
+	          $this->pdf->Cell(30,5,utf8_decode($plazo),'TBLR',0,'C',false);
+	          $this->pdf->Cell(40,5,utf8_decode($empleado),'TBLR',0,'L',false);
+	          $this->pdf->Ln();
 
-          	$empleados=$this->Observaciones_Model->empleadoresponsable($responsable);
-            $empleado=$empleados->result();
-            foreach ($empleado as $rowa) {
-              $empleado= $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;
-            }
-          $this->pdf->SetFont('Arial','',10);
-          $this->pdf->Cell(10,5,$num,'TBLR',0,'C',0);
-          $this->pdf->Cell(70,5,utf8_decode($descripcion),'TBLR',0,'L',false);
-          $this->pdf->Cell(30,5,utf8_decode($priorizacion),'TBLR',0,'C',false);
-          $this->pdf->Cell(60,5,utf8_decode($accionCorrectiva),'TBLR',0,'L',false);
-          $this->pdf->Cell(30,5,utf8_decode($plazo),'TBLR',0,'C',false);
-          $this->pdf->Cell(40,5,utf8_decode($empleado),'TBLR',0,'L',false);
-                   
-          $this->pdf->Ln();
+	          $num++;
+			}
 
-          $num++;
-		}
-
-		$this->pdf->Output("DetalleObservaciones.pdf","I");
+			$this->pdf->Output("DetalleObservaciones.pdf","I");
+			}
 		}
 		else
 		{
@@ -638,68 +719,57 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 	public function reportepdfprevio()
 	{
 		
-	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+	if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' || $this->session->userdata('tipo')=='auditado')
 	{
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+				$obs=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+				$obs=$obs->result();
 
-		$obs=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$obs=$obs->result();
+				$this->pdf=new Pdf();
+				$this->pdf->addPage('L','letter');
+				$this->pdf->AliasNbPages();
+				$this->pdf->SetTitle("Observaciones");
+				
+				$this->pdf->SetLeftMargin(20);
+				$this->pdf->SetRightMargin(20);
+				$this->pdf->SetFillColor(210,210,210);
+				$this->pdf->SetFont('Arial','B',11);
+				$this->pdf->Ln(14);
+				$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
+				$actividad=$actividad->result();
+				foreach ($actividad as $rowa) {
+					$numeroInforme=$rowa->informe;
+				}
+				$this->pdf->Cell(0,10,utf8_decode($numeroInforme),0,0,'C',1);
+				$this->pdf->Ln(15);
+				$this->pdf->Cell(0,5,utf8_decode('DETALLE DE OBSERVACIONES DE AUDITORÍA INTERNA'),0,0,'C',false);
 
-		$this->pdf=new Pdf();
-		$this->pdf->addPage('L','letter');
-		$this->pdf->AliasNbPages();
-		$this->pdf->SetTitle("Observaciones");
-		
-		$this->pdf->SetLeftMargin(20);
-		$this->pdf->SetRightMargin(20);
-		$this->pdf->SetFillColor(210,210,210);
-		$this->pdf->SetFont('Arial','B',11);
-		$this->pdf->Ln(14);
-		$actividad=$this->Observaciones_Model->observaciones($_POST ['idmpa']);
-		$actividad=$actividad->result();
-		foreach ($actividad as $rowa) {
-			$numeroInforme=$rowa->informe;
-		}
-		$this->pdf->Cell(0,10,utf8_decode($numeroInforme),0,0,'C',1);
-		$this->pdf->Ln(15);
-		$this->pdf->Cell(0,5,utf8_decode('DETALLE DE OBSERVACIONES DE AUDITORÍA INTERNA'),0,0,'C',false);
+				$this->pdf->Ln(8); //margin para el espaciado
+				$this->pdf->SetFont('Arial','B',10);
 
-		$this->pdf->Ln(8); //margin para el espaciado
-		$this->pdf->SetFont('Arial','B',10);
+				$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
+				$this->pdf->Cell(199,8,utf8_decode('Detalle Observación'),'LTBR',0,'C',0);
+				$this->pdf->Cell(30,8,utf8_decode('Atención'),'LTBR',1,'C',0);
+				
+				$num=1;
+				foreach ($obs as $row) {
+					$descripcion=$row->descripcionHallazgo;
+		      		$priorizacion=$row->prioridadAtencion;
+		          $this->pdf->SetFont('Arial','',10);
+		          $this->pdf->Cell(10,5,$num,'TBLR',0,'C',0);
+		          $this->pdf->Cell(199,5,utf8_decode($descripcion),'TBLR',0,'L',false);
+		          $this->pdf->Cell(30,5,utf8_decode($priorizacion),'TBLR',0,'C',false);
+		                   
+		          $this->pdf->Ln();
 
-		$this->pdf->Cell(10,8,'Nro.','LTRB',0,'C',0);
-		$this->pdf->Cell(70,8,utf8_decode('Detalle Observación'),'LTBR',0,'C',0);
-		$this->pdf->Cell(30,8,utf8_decode('Atención'),'LTBR',0,'C',0);
-		$this->pdf->Cell(60,8,utf8_decode('Acción Correctiva'),'LTBR',0,'C',0);
-		$this->pdf->Cell(30,8,utf8_decode('Plazo Propuesto'),'LTBR',0,'C',0);
-		$this->pdf->Cell(40,8,utf8_decode('Responsable'),'TBLR',1,'C',0);
-		
-		$num=1;
-		foreach ($obs as $row) {
-			$descripcion=$row->descripcionHallazgo;
-      		$priorizacion=$row->prioridadAtencion;
-      		$accionCorrectiva=$row->comentarioResponsable;
-      		$plazo=formatearFecha($row->plazoAccionCorrectiva);
-          	$responsable=$row->responsable;
+		          $num++;
+				}
 
-          	$empleados=$this->Observaciones_Model->empleadoresponsable($responsable);
-            $empleado=$empleados->result();
-            foreach ($empleado as $rowa) {
-              $empleado= $rowa->nombres.' '.$rowa->primerApellido.' '.$rowa->segundoApellido;
-            }
-          $this->pdf->SetFont('Arial','',10);
-          $this->pdf->Cell(10,5,$num,'TBLR',0,'C',0);
-          $this->pdf->Cell(70,5,utf8_decode($descripcion),'TBLR',0,'L',false);
-          $this->pdf->Cell(30,5,utf8_decode($priorizacion),'TBLR',0,'C',false);
-          $this->pdf->Cell(60,5,utf8_decode($accionCorrectiva),'TBLR',0,'L',false);
-          $this->pdf->Cell(30,5,utf8_decode($plazo),'TBLR',0,'C',false);
-          $this->pdf->Cell(40,5,utf8_decode($empleado),'TBLR',0,'L',false);
-                   
-          $this->pdf->Ln();
-
-          $num++;
-		}
-
-		$this->pdf->Output("DetalleObservaciones.pdf","I");
+				$this->pdf->Output("DetalleObservaciones.pdf","I");
+			}
 		}
 		else
 		{
@@ -711,41 +781,84 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 
 	public function comentario()
 	{
-		$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
+		if($this->session->userdata('tipo')=='auditado' )
+		{
+		error_reporting(0);
+		if ($_POST ['idhallazgo']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else{
+				$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
 
-		$empleados=$this->Observaciones_Model->empleados();
-		$data['empleado']=$empleados;
+				$empleados=$this->Observaciones_Model->empleados();
+				$data['empleado']=$empleados;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('update/modificar_observacion',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_observacion',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
+		}
+		else
+		{
+			redirect('controller_hallazgos/index','refresh');
+		}
 	}
-
 
 
 	public function insertarcomentario()
 	{
+		if($this->session->userdata('tipo')=='auditado' )
+		{
+			error_reporting(0);
+			if ($_POST ['idhallazgo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else
+			{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('comentario','comentario','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('fecha','fecha','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('responsable','responsable','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-		$data['comentarioResponsable']=$_POST ['comentario'];
-		$data['plazoAccionCorrectiva']=$_POST ['fecha'];
-		$data['responsable']=$_POST ['responsable'];
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		
-		$this->Observaciones_Model->comentarios($_POST ['idhallazgo'],$data);
+				if ($this->form_validation->run()==FALSE) {
+					$data['info']=$this->Observaciones_Model->vistaobservaciones($_POST ['idhallazgo']);
 
-		$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
-		$data['observaciones']=$listaobservaciones;
+					$empleados=$this->Observaciones_Model->empleados();
+					$data['empleado']=$empleados;
 
-		$this->load->view('recursos/headergentelella');
-		$this->load->view('recursos/sidebargentelella');
-		$this->load->view('recursos/topbargentelella');
-		$this->load->view('read/view_observacionesenviadas',$data);
-		$this->load->view('recursos/creditosgentelella');
-		$this->load->view('recursos/footergentelella');
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('update/modificar_observacion',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}else
+				{
+					$data['comentarioResponsable']=$_POST ['comentario'];
+					$data['plazoAccionCorrectiva']=$_POST ['fecha'];
+					$data['responsable']=$_POST ['responsable'];
+					$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+					
+					$this->Observaciones_Model->comentarios($_POST ['idhallazgo'],$data);
+
+					$listaobservaciones=$this->Observaciones_Model->observacionesenviadas($_POST ['idmpa']);
+					$data['observaciones']=$listaobservaciones;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('read/view_observacionesenviadas',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
+			}
+		}
+		else
+		{
+			redirect('controller_hallazgos/index','refresh');
+		}
 
 		
 	}
@@ -754,67 +867,102 @@ if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=
 
 	public function revision()
 	{
-		$estado= $_POST ['proceso'];
-		switch ($estado) {
-      case '1':
-        $data['estadoProceso']='1';
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+		error_reporting(0);
+		if ($_POST ['idmpa']=='') {
+			redirect('controller_panelprincipal/index','refresh');
+		} else
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
+			if ($this->form_validation->run()==FALSE) {
+				if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
+				{
+					$hallazgos=$this->Observaciones_Model->pendientes();
+					$data['programatrabajo']=$hallazgos;
 
-		redirect('controller_hallazgos/enrevision','refresh');
-        break;
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('read/view_hallazgos',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				} else{
+					$hallazgos=$this->Observaciones_Model->enviados();
+					$data['programatrabajo']=$hallazgos;
 
-      case '2':
-        $data['estadoProceso']='2';
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('read/view_hallazgosenviados',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
 
-		redirect('controller_hallazgos/pendiente','refresh');
-        break;
-      case '3':
-        $data['estadoProceso']='3';
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+			} else {
+				$estado= $_POST ['proceso'];
+				switch ($estado) {
+		      case '1':
+		        $data['estadoProceso']='1';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enrevision','refresh');
-        break;
-      case '4':
-        $data['estadoProceso']='4';
-        $data['estadoPrograma']='4';
-        $data['estadoRequerimiento']='4';
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+				redirect('controller_hallazgos/enrevision','refresh');
+		        break;
 
-		$data2['estadoEjecucion']='3';
-		$data2['idUsuario']=$this->session->userdata('idUsuario');
-		$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idpat'],$data2);
+		      case '2':
+		        $data['estadoProceso']='2';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enrevision','refresh');
-       break;
-       case '5':
-        $data['estadoProceso']='5';
-		$data['idUsuario']=$this->session->userdata('idUsuario');
-		$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-		
-		$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+				redirect('controller_hallazgos/pendiente','refresh');
+		        break;
+		      case '3':
+		        $data['estadoProceso']='3';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
 
-		redirect('controller_hallazgos/enviado','refresh');
-        break;
-      
-      default:
-        break;
-    }
+				redirect('controller_hallazgos/enrevision','refresh');
+		        break;
+		      case '4':
+		        $data['estadoProceso']='4';
+		        $data['estadoPrograma']='4';
+		        $data['estadoRequerimiento']='4';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+				$data2['estadoEjecucion']='3';
+				$data2['idUsuario']=$this->session->userdata('idUsuario');
+				$data2['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->PlanAnualTrabajo_Model->modificaractividad($_POST ['idpat'],$data2);
+
+				redirect('controller_hallazgos/enrevision','refresh');
+		       break;
+		       case '5':
+		        $data['estadoProceso']='5';
+				$data['idUsuario']=$this->session->userdata('idUsuario');
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				
+				$this->MemorandumPlanificacion_Model->modificarmpa($_POST ['idmpa'],$data);
+
+				redirect('controller_hallazgos/enviado','refresh');
+		        break;
+		      
+		      default:
+		        break;
+		    }
 		
+		}
+		}
+
 	}
 
 

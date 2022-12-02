@@ -8,6 +8,9 @@ class controller_panelprincipal extends CI_Controller {
 		$porempleado=$this->PlanAnualTrabajo_Model->enprocesoporempleado();
 		$data['proceso']=$porempleado;
 
+		$auditado=$this->MemorandumPlanificacion_Model->misactividadesauditado();
+		$data['cont']=$auditado;
+
 		$this->load->view('recursos/headergentelella');
 		$this->load->view('recursos/sidebargentelella');
 		$this->load->view('recursos/topbargentelella');

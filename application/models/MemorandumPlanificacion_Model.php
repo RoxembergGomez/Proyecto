@@ -83,4 +83,15 @@ class MemorandumPlanificacion_Model extends CI_Model {
       $this->db->join('memorandumplanificacion m','p.idPlanAnualTrabajo=m.idPlanAnualTrabajo');
      return $this->db->count_all_results();
     }
+
+    public function misactividadesauditado()
+    {
+      $this->db->select('count(m.estadoProceso)');
+      $this->db->from('memorandumplanificacion m');
+      $this->db->where('m.estadoProceso','3');
+      $this->db->where('h.idEmpleado',$this->session->userdata('idUsuario'));
+      $this->db->join('programatrabajo pt','m.idMemorandumPlanificacion=pt.idMemorandumPlanificacion');
+      $this->db->join('hallazgo h','pt.idProgramaTrabajo=h.idProgramaTrabajo');
+      return $this->db->get();
+    }
 }

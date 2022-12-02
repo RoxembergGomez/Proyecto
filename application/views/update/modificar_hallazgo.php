@@ -37,8 +37,9 @@
         <div class="row">
           <div class="col-md-12">
             <label>HALLAZGO:</label>
-            <input type="text" class="form-control input-lg" value="<?php echo $row->descripcionHallazgo;?>" name="observacion"></input>
-          </div>
+            <input type="text" class="form-control input-lg" value="<?php echo $row->descripcionHallazgo;?>" name="observacion" autocomplete="off"></input>
+          </div><br>
+          <p><?php echo form_error('observacion');?></p>
         </div> <br>
         <div class="row">
         <div class="col-md-4">

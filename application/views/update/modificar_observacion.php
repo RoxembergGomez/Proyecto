@@ -6,14 +6,14 @@
        <?php 
         foreach ($info->result() as $row) {
       ?>
-      <h5 style="font-weight: bold; color: #000000; " >DATOS</h5>
+      <h5 style="font-weight: bold; color: #000000; " >DATOS</h5> <br>
       <div class="row">
         <div class="col-md-10">
-          <label class="float-left">OBSERVACIÓN</label>
+          <label class="float-left">OBSERVACIÓN:</label>
           <input type="text" class="col-md-12 form-control" value="<?php echo $row->descripcionHallazgo; ?>" disabled >
         </div>
         <div class="col-md-2">
-          <label class="float-left">ATENCIÓN</label>
+          <label class="float-left">ATENCIÓN:</label>
           <input type="text" class="col-md-12 form-control" value="<?php echo $row->prioridadAtencion; ?>" disabled  >
         </div> 
       </div><br>
@@ -30,13 +30,15 @@
         <div class="row">
           <div class="col-md-12">
             <label>ACCIÓN CORRECTIVA:</label>
-            <input type="text" class="form-control input-lg" placeholder="Redacte su acción correctiva" name="comentario" value="<?php echo $row->comentarioResponsable;?>" autocomplete="off" ></input>
+            <input type="text" class="form-control input-lg" placeholder="Redacte su acción correctiva" name="comentario" value="<?php echo $row->comentarioResponsable;?>" autocomplete="off" >
+             <p><?php echo form_error('comentario');?></p>
           </div>
         </div> <br>
         <div class="row">
         <div class="col-md-6">
           <label>PLAZO PROPUESTO:</label>
-          <input type="date" class="col-md-12 form-control" name="fecha" value="<?php echo $row->plazoAccionCorrectiva;?>"> 
+          <input type="date" class="col-md-12 form-control" name="fecha" value="<?php echo $row->plazoAccionCorrectiva;?>">
+          <p><?php echo form_error('fecha');?></p>
         </div>
         <div class="col-md-6">
           <label>RESPONSABLES:</label>
@@ -52,6 +54,7 @@
                     </option><?php
                     } }?>
               </select><br>
+              <p><?php echo form_error('responsable');?></p>
         </div>
         </div>
         <hr>

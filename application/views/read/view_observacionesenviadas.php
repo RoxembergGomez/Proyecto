@@ -7,7 +7,7 @@
         echo form_open_multipart('controller_hallazgos/enviadosdescargosuai');?>
           <input type="hidden" name="idmpa" value="<?php echo $_POST['idmpa'];?>">
           <input type="hidden" name="estadoProceso" value="<?php echo $_POST['estadoProceso'];?>">
-                    <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder">
+          <button class="btn btn-secondary float-center" data-toggle="tooltip" data-placement="top" title="Retroceder" style="background: black;">
                             <i class="glyphicon glyphicon-arrow-left"></i>
       <?php echo form_close();?>
       </div>
@@ -27,6 +27,7 @@
                     <th class="text-center">Comentario del Responsable y Acción Correctiva </th>
                     <th class="text-center">Plazo Propuesto</th>
                     <th class="text-center">Responsable</th>
+                    <th class="text-center">Anexo</th>
                       <?php } 
                       if ($_POST['estadoProceso']=='3' || $this->session->userdata('tipo')=='auditado') {?>
                     <th class="text-center">Acciones</th> 
@@ -69,6 +70,24 @@
                         
                       } ?>
                     </td> 
+                    <td class="text-center">
+                    <?php 
+                      $docRespaldo=$row->anexo;
+                      if ($docRespaldo=="Sin Anexo") 
+                      {
+                        ?>
+                        <p id="verde">Sin Anexo</p>
+                    <?php  
+                      }
+                      else
+                      {
+                    ?>
+                        <a href="<?php echo base_url();?>/uploads/anexosObservaciones/<?php echo $docRespaldo.".xlsx"?>" download> <p id="anaranjado">Anexo</p> 
+                        </a>
+                    <?php  
+                      }
+                    ?>
+                  </td>
                   <?php } if ($_POST['estadoProceso']=='3' || $this->session->userdata('tipo')=='auditado') {?>
                     <td class="text-center">
                       <div class="btn-group" role="group">

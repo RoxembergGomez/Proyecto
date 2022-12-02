@@ -4,7 +4,22 @@
       <h5>AGREGAR SUBPROCESOS</h5>              
     </div> <hr>
 
-    <?php echo form_open_multipart('controller_subprocesos/agregarbdd');
+    <?php foreach ($proceso->result() as $row) {?>
+      <div class="row">
+        <div class="col-md-12">
+          <label >ACTIVIDAD:</label>
+          <input type="text" class="col-md-12 form-control" value="<?php echo $row->informe;?>" disabled> <br>
+        </div> 
+      </div> <br>
+       <div class="row">
+        <div class="col-md-12">
+          <label >PROCESO:</label>
+          <input type="text" class="col-md-12 form-control" value="<?php echo $row->descripcionProceso;?>" disabled> <br>
+        </div>
+      </div> <br>
+      <?php }
+
+    echo form_open_multipart('controller_subprocesos/agregarbdd');
           ?>
       <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso'];?>">
       <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">

@@ -7,15 +7,20 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
-			$data['proceso']=$listaproceso;
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+				$data['proceso']=$listaproceso;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_procesos',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_procesos',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -27,15 +32,22 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$listaun=$this->UnidadNegocio_Model->unidadnegocio();
-			$data['unidadnegocio']=$listaun;
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($_POST ['idPlan']);
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('create/add_proceso',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+				$data['unidadnegocio']=$listaun;
+
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('create/add_proceso',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -47,41 +59,49 @@ class controller_procesos extends CI_Controller {
 	{	
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('idUnidadNegocio','idUnidadNegocio','required',array('required'=>'(*) Seleccione una opción'));
-			$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('idUnidadNegocio','idUnidadNegocio','required',array('required'=>'(*) Seleccione una opción'));
+				$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-			if ($this->form_validation->run()==FALSE) {
-				$listaun=$this->UnidadNegocio_Model->unidadnegocio();
-				$data['unidadnegocio']=$listaun;
+				if ($this->form_validation->run()==FALSE) {
 
-				$this->load->view('recursos/headergentelella');
-				$this->load->view('recursos/sidebargentelella');
-				$this->load->view('recursos/topbargentelella');
-				$this->load->view('create/add_proceso',$data);
-				$this->load->view('recursos/creditosgentelella');
-				$this->load->view('recursos/footergentelella');
-			}
-			else{
+					$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($_POST ['idPlan']);
 
-				$data['descripcionProceso']=mb_strtoupper($_POST ['proceso'],'UTF-8');
-				$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
-				$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
-				$data['idUsuario']=$this->session->userdata('idUsuario');
+					$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+					$data['unidadnegocio']=$listaun;
 
-				$this->Proceso_Model->agregarproceso($data);
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('create/add_proceso',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}
+				else{
 
-				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
-				$data['proceso']=$listaproceso;
+					$data['descripcionProceso']=$_POST ['proceso'];
+					$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+					$data['idPlanAnualTrabajo']=$_POST ['idPlan'];
+					$data['idUsuario']=$this->session->userdata('idUsuario');
 
-				$this->load->view('recursos/headergentelella');
-				$this->load->view('recursos/sidebargentelella');
-				$this->load->view('recursos/topbargentelella');
-				$this->load->view('read/view_procesos',$data);
-				$this->load->view('recursos/creditosgentelella');
-				$this->load->view('recursos/footergentelella');
+					$this->Proceso_Model->agregarproceso($data);
+
+					$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+					$data['proceso']=$listaproceso;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('read/view_procesos',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
 
 
+				}
 			}
 		}
 		else
@@ -95,17 +115,23 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe' || $this->session->userdata('tipo')=='ejecutor' )
 		{
-			$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
+			error_reporting(0);
+			if ($_POST ['idproceso']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($_POST ['idPlan']);
+				$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
 
-			$listaun=$this->UnidadNegocio_Model->unidadnegocio();
-			$data['unidadnegocio']=$listaun;
+				$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+				$data['unidadnegocio']=$listaun;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('update/modificar_proceso',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_proceso',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -117,41 +143,48 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
+			error_reporting(0);
+			if ($_POST ['idproceso']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('proceso','proceso','required',array('required'=>'(*) Se requiere llenar este campo'));
 
-			if ($this->form_validation->run()==FALSE) {
-					$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
+				if ($this->form_validation->run()==FALSE) {
 
-					$listaun=$this->UnidadNegocio_Model->unidadnegocio();
-					$data['unidadnegocio']=$listaun;
+						$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($_POST ['idPlan']);
+						$data['infoproceso']=$this->Proceso_Model->recuperarproceso($_POST ['idproceso']);
 
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('update/modificar_proceso',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
-			}
-			else{
+						$listaun=$this->UnidadNegocio_Model->unidadnegocio();
+						$data['unidadnegocio']=$listaun;
 
-					$data['descripcionProceso']=$_POST ['proceso'];
-					$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-					$data['idUsuario']=$this->session->userdata('idUsuario');
-					$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
-
-					$this->Proceso_Model->modificarproceso($_POST['idproceso'],$data);	
-
-					$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
-					$data['proceso']=$listaproceso;
-
-					$this->load->view('recursos/headergentelella');
-					$this->load->view('recursos/sidebargentelella');
-					$this->load->view('recursos/topbargentelella');
-					$this->load->view('read/view_procesos',$data);
-					$this->load->view('recursos/creditosgentelella');
-					$this->load->view('recursos/footergentelella');
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('update/modificar_proceso',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
 				}
+				else{
+
+						$data['descripcionProceso']=$_POST ['proceso'];
+						$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+						$data['idUsuario']=$this->session->userdata('idUsuario');
+						$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+
+						$this->Proceso_Model->modificarproceso($_POST['idproceso'],$data);	
+
+						$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+						$data['proceso']=$listaproceso;
+
+						$this->load->view('recursos/headergentelella');
+						$this->load->view('recursos/sidebargentelella');
+						$this->load->view('recursos/topbargentelella');
+						$this->load->view('read/view_procesos',$data);
+						$this->load->view('recursos/creditosgentelella');
+						$this->load->view('recursos/footergentelella');
+					}
+			}
 		}
 		else
 		{
@@ -164,22 +197,26 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
+			error_reporting(0);
+			if ($_POST['idproceso']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$data['estado']='0';
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			$data['estado']='0';
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-			$data['idUsuario']=$this->session->userdata('idUsuario');
+				$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
 
-			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+				$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
+				$data['proceso']=$listaproceso;
 
-			$listaproceso=$this->Proceso_Model->listaprocesos($_POST['idPlan']);
-			$data['proceso']=$listaproceso;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('read/view_procesos',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');	
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('read/view_procesos',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');	
+			}
 		}
 		else
 		{
@@ -191,15 +228,20 @@ class controller_procesos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
-			$data['proceso']=$listaproceso;
+			error_reporting(0);
+			if ($_POST['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
+				$data['proceso']=$listaproceso;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_procesosEliminados',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_procesosEliminados',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -212,22 +254,26 @@ class controller_procesos extends CI_Controller {
 
 		if($this->session->userdata('tipo')=='jefe')
 		{
-		
-			$data['estado']='1';
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-			$data['idUsuario']=$this->session->userdata('idUsuario');
+			error_reporting(0);
+			if ($_POST['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$data['estado']='1';
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
+				$this->Proceso_Model->modificarproceso($_POST ['idproceso'],$data);
 
-			$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
-			$data['proceso']=$listaproceso;
+				$listaproceso=$this->Proceso_Model->procesoseliminados($_POST['idPlan']);
+				$data['proceso']=$listaproceso;
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('delete/view_procesosEliminados',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('delete/view_procesosEliminados',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{

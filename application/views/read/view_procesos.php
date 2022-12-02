@@ -76,7 +76,7 @@
 
                           echo form_open_multipart('controller_procesos/modificar');?>        
                             <input type="hidden" name="idproceso" value="<?php echo $row->idProceso;?>" >
-                            <input type="hidden" name="idplan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
+                            <input type="hidden" name="idPlan" value="<?php echo $row->idPlanAnualTrabajo;?>" >
                             <button type="submit" class="dropdown-item" ><i class="fa fa-edit (alias)"></i>  Modificar</button>
                           <?php echo form_close();?>
 

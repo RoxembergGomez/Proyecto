@@ -10,6 +10,16 @@ class Subprocesos_Model extends CI_Model {
 		$this->db->where('s.estado','1');
 		$this->db->where('s.idProceso',$idproceso);
 		$this->db->join('proceso p','p.idProceso=s.idProceso');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=p.idPlanAnualTrabajo');
+		return $this->db->get();
+	}
+
+	public function subprocesoslist($idproceso)
+	{
+		$this->db->select('*');
+		$this->db->from('proceso p');
+		$this->db->where('p.idProceso',$idproceso);
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=p.idPlanAnualTrabajo');
 		return $this->db->get();
 	}
 
@@ -35,8 +45,10 @@ class Subprocesos_Model extends CI_Model {
 	public function recuperarsubproceso($idsub)
 	{
 		$this->db->select('*');
-		$this->db->from('subproceso');
-		$this->db->where('idSubProceso',$idsub);
+		$this->db->from('subproceso s');
+		$this->db->where('s.idSubProceso',$idsub);
+		$this->db->join('proceso p','p.idProceso=s.idProceso');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=p.idPlanAnualTrabajo');
 		return $this->db->get();
 	}
 
@@ -53,6 +65,7 @@ class Subprocesos_Model extends CI_Model {
 		$this->db->where('s.estado','0');
 		$this->db->where('s.idProceso',$idproceso);
 		$this->db->join('proceso p','p.idProceso=s.idProceso');
+		$this->db->join('plananualtrabajo pt','pt.idPlanAnualTrabajo=p.idPlanAnualTrabajo');
 		return $this->db->get();
 	}
 }

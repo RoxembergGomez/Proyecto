@@ -16,33 +16,33 @@
         <div class="col-md-12">
           <label>INFORME:</label>
           <input type="text" name="informe" class="col-md-12 form-control" value="<?php echo $row->informe; ?>" > <br>
-
+          <p style="color: red;"><?php echo form_error('informe');?></p>
         </div>
       </div> <br>
       <div class="row">
         <div class="col-md-12">
          <label>OBJETIVO:</label>
           <input type="text" name="objetivo" class="col-md-12 form-control" value="<?php echo $row->objetivo; ?>" > <br>
-
+          <p style="color: red;"><?php echo form_error('objetivo');?></p>
         </div>
       </div> <br>
       <div class="row">
         <div class="col-md-12">
          <label >NORMATIVA:</label>
           <input type="text" name="normativa" class="col-md-12 form-control" value="<?php echo $row->normativa; ?>" > <br>
-
+          <p style="color: red;"><?php echo form_error('normativa');?></p>
         </div>
       </div> <br>
       <div class="row">
         <div class="col-md-4">
           <label >FECHA DE INICIO:</label>
           <input type="date" name="fechaInicio" class="col-md-12 form-control" value="<?php echo $row->fechaInicio; ?>"  > <br>
-
+          <p style="color: red;"><?php echo form_error('fechaInicio');?></p>
         </div>
         <div class="col-md-4">
           <label >FECHA DE CONCLUSIÓN:</label>
           <input type="date" name="fechaConclusion" class="col-md-12 form-control" value="<?php echo $row->fechaInicio;?>" > <br>
-
+          <p style="color: red;"><?php echo form_error('fechaConclusion');?></p>
         </div>
         <div class="col-md-4">
           <label >GRADO DE PRIRIZACIÓN:</label>
@@ -51,7 +51,8 @@
             <option value="Alta">Alta</option>
             <option value="Media">Media</option>
             <option value="Baja">Baja</option>
-          </select>
+          </select><br>
+          <p style="color: red;"><?php echo form_error('gradoPriorizacion');?></p>
         </div>
       </div>
        <hr>

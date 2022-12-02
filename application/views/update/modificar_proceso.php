@@ -1,14 +1,24 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-      <h5>MODIFICAR CARGO</h5>              
+      <h5>MODIFICAR PROCESO</h5>              
     </div> <hr>
+
     <?php 
+      foreach ($infoactividad->result() as $row) {?>
+      <div class="row">
+        <div class="col-md-12">
+          <label >ACTIVIDAD:</label>
+          <input type="text" class="col-md-12 form-control" value="<?php echo $row->informe;?>" disabled> <br>
+        </div>
+      </div> <br>
+      <?php }
+
         foreach ($infoproceso->result() as $row) {
         echo form_open_multipart('controller_procesos/modificarbd');
         ?>
         <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
-        <input type="hidden" name="idPlan" value="<?php echo $_POST['idplan']; ?>">
+        <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
           <div class="row">
             <div class="col-md-12">
               <label >UNIDAD DE NEGOCIO:</label>
@@ -62,7 +72,7 @@
        echo form_open_multipart('controller_procesos/index');
           ?>
           <input type="hidden" name="idproceso" value="<?php echo $_POST['idproceso']; ?>">
-          <input type="hidden" name="idPlan" value="<?php echo $_POST['idplan']; ?>">
+          <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan']; ?>">
           <button type="submit" class="btn btn-secondary btn-sm" id="botright"><i class="fa fa-remove (alias)"></i>  Cancelar</button>
         <?php echo form_close();?>
       

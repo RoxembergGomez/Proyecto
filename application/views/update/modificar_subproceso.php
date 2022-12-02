@@ -12,6 +12,18 @@
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
           <div class="row">
             <div class="col-md-12">
+              <label >ACTIVIDAD:</label>
+              <input type="text" class="col-md-12 form-control" value="<?php echo $row->informe;?>" disabled> <br>
+            </div>
+          </div> <br>
+          <div class="row">
+            <div class="col-md-12">
+              <label >PROCESO:</label>
+              <input type="text" class="col-md-12 form-control" value="<?php echo $row->descripcionProceso;?>" disabled> <br>
+            </div>
+          </div> <br>
+          <div class="row">
+            <div class="col-md-12">
               <label>DESCRIPCIÓN DEL SUBPROCESO:</label>
               <input type="text" name="subproceso" class="col-md-12 form-control" placeholder="Describa el subproceso" autocomplete="off" value="<?php echo $row->descripcionSubProceso;?>" > <br>
               <p style="color: red;"><?php echo form_error('subproceso');?></p>

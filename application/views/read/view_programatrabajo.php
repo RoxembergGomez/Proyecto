@@ -43,7 +43,7 @@
                         <div class="btn-group">
                           <input type="hidden" name="idmpa" value="<?php echo $row->idMemorandumPlanificacion;?>">
                           <?php if(($row->estadoPrograma=='2' || $row->estadoPrograma=='3') && $this->session->userdata('tipo')=='ejecutor'){?>
-                          <select name="proceso" class="col-sm-9 form-control" disabled="true" >
+                          <select name="proceso" class="col-sm-9 form-control" disabled="true" value="<?php echo set_value('proceso'); ?>">
                             <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoPrograma!='1'){?>
                             <option value="1">Devolver</option>
@@ -56,7 +56,7 @@
                           <button type="submit" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Enviar" disabled="true" ><i class="fa fa-sign-out"></i></button>
                           <?php } ?>
                           <?php if(($row->estadoPrograma=='2' || $row->estadoPrograma=='3') && $this->session->userdata('tipo')=='jefe'){?>
-                          <select name="proceso" class="col-sm-9 form-control">
+                          <select name="proceso" class="col-sm-9 form-control" value="<?php echo set_value('proceso'); ?>">
                             <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoPrograma!='1'){?>
                             <option value="1">Devolver</option>
@@ -70,7 +70,7 @@
                           <?php } ?>
           
                         <?php if($row->estadoPrograma=='1'){?>
-                          <select name="proceso" class="col-sm-9 form-control" >
+                          <select name="proceso" class="col-sm-9 form-control" value="<?php echo set_value('proceso'); ?>">
                             <option value=" ">Selecc...</option>
                             <?php if($this->session->userdata('tipo')=='jefe' && $row->estadoPrograma!='1'){?>
                             <option value="1">Devolver</option>

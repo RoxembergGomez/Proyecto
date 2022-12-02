@@ -15,6 +15,9 @@
         <div class="col-md-8">
           <input type="text" name="numeroInforme" class="col-md-12 form-control" placeholder="Ingrese Nro. de Informe" autocomplete="off" value="UAI-P000/2022" > <br>
           <p style="color: red;"><?php echo form_error('numeroInforme');?></p>
+          <?php if($msg==''){?>
+              <p>  (*) Cambie el número de informe y no puede ser repetido</p>
+          <?php }?>
         </div>
       </div><br>
       <div class="row">

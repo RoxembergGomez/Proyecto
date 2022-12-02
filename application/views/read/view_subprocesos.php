@@ -37,6 +37,8 @@
               <thead>
                 <tr>
                   <th class="text-center">Nro.</th>
+                  <th class="text-center">Informe</th>
+                  <th class="text-center">Proceso</th>
                   <th class="text-center">SubProcesos</th>
                   <th class="text-center">Clasificación Criticidad</th>
                   
@@ -59,6 +61,8 @@
               ?>
     	           <tr>
               		<td class="text-center" ><?php echo $indice;?></td>
+                  <td ><?php echo $row->informe;?></td>
+                  <td ><?php echo $row->descripcionProceso;?></td>
                   <td ><?php echo $row->descripcionSubProceso;?></td>
               		<td class="text-center"><?php echo $row->clasificacionCriticidad;?></td>
               		<?php

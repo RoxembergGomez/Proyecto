@@ -16,6 +16,14 @@ class MemorandumPlanificacion_Model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function validar($numeroInforme)
+	{
+		$this->db->select('*');
+		$this->db->from('memorandumplanificacion');
+		$this->db->where('numeroInforme',$numeroInforme);
+		return $this->db->get();
+	}
+
 
 	public function empleado()
 	{

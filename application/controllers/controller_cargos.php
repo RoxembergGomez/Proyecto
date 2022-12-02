@@ -80,35 +80,10 @@ class controller_cargos extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$idCargo=$_POST ['idCargo'];
-			$data['infocargo']=$this->Cargo_Model->recuperarcargo($idCargo);
-
-			$listaunidadnegocio=$this->UnidadNegocio_Model->unidadnegocio();
-			$data['seleccion']=$listaunidadnegocio;
-
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('update/modificar_cargo',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
-			$this->load->view('recursos/footergentelella');
-		}
-		else
-		{
-			redirect('usuarios/panel','refresh');
-		}
-	}
-
-	public function modificarbd()
-	{
-		if($this->session->userdata('tipo')=='jefe')
-		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('cargo','cargo','required',array('required'=>'(*) Se requiere llenar este campo'));
-			$this->form_validation->set_rules('idUnidadNegocio','idUnidadNegocio','required',array('required'=>'(*) Seleccione una unidad de negocio'));
-
-			if ($this->form_validation->run()==FALSE) {
+			error_reporting(0);
+			if ($_POST ['idCargo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
 				$idCargo=$_POST ['idCargo'];
 				$data['infocargo']=$this->Cargo_Model->recuperarcargo($idCargo);
 
@@ -121,17 +96,52 @@ class controller_cargos extends CI_Controller {
 				$this->load->view('update/modificar_cargo',$data);
 				$this->load->view('recursos/creditosgentelella');
 				$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/footergentelella');
 			}
-			else{
-				$idCargo=$_POST ['idCargo'];
-				$data['denominacionCargo']=$_POST ['cargo'];
-				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-				$data['idUsuario']=$this->session->userdata('idUsuario');
-				$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+		}
+		else
+		{
+			redirect('usuarios/panel','refresh');
+		}
+	}
 
-				$this->Cargo_Model->modificarcargo($idCargo,$data);
-				redirect('controller_cargos/index','refresh');	
+	public function modificarbd()
+	{
+		if($this->session->userdata('tipo')=='jefe')
+		{
+			error_reporting(0);
+			if ($_POST ['idCargo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('cargo','cargo','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('idUnidadNegocio','idUnidadNegocio','required',array('required'=>'(*) Seleccione una unidad de negocio'));
+
+				if ($this->form_validation->run()==FALSE) {
+					$idCargo=$_POST ['idCargo'];
+					$data['infocargo']=$this->Cargo_Model->recuperarcargo($idCargo);
+
+					$listaunidadnegocio=$this->UnidadNegocio_Model->unidadnegocio();
+					$data['seleccion']=$listaunidadnegocio;
+
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('update/modificar_cargo',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
 				}
+				else{
+					$idCargo=$_POST ['idCargo'];
+					$data['denominacionCargo']=$_POST ['cargo'];
+					$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+					$data['idUnidadNegocio']=$_POST ['idUnidadNegocio'];
+
+					$this->Cargo_Model->modificarcargo($idCargo,$data);
+					redirect('controller_cargos/index','refresh');	
+					}
+			}
 		}
 		else
 		{
@@ -140,29 +150,10 @@ class controller_cargos extends CI_Controller {
 		
 	}
 
-	public function eliminarbd1($idCargo)
-	{
-		if($this->session->userdata('tipo')=='jefe')
-		{
-			$data['estado']='0';
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-			$data['idUsuario']=$this->session->userdata('idUsuario');
-
-			$this->Cargo_Model->modificarcargo($idCargo,$data);
-			redirect('controller_cargos/index','refresh');
-		}
-		else
-		{
-			redirect('usuarios/panel','refresh');
-		}
-
-	}
-
 	public function eliminarbd($idCargo)
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			//$idCargo=$_POST ['idCargo'];
 			$data['estado']='0';
 			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 			$data['idUsuario']=$this->session->userdata('idUsuario');
@@ -200,14 +191,18 @@ class controller_cargos extends CI_Controller {
 	public function recuperarbd()
 	{
 		if($this->session->userdata('tipo')=='jefe')
-		{
-			$idCargo=$_POST ['idCargo'];
-			$data['estado']='1';
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-			$data['idUsuario']=$this->session->userdata('idUsuario');
+		{error_reporting(0);
+			if ($_POST ['idCargo']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$idCargo=$_POST ['idCargo'];
+				$data['estado']='1';
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+				$data['idUsuario']=$this->session->userdata('idUsuario');
 
-			$this->Cargo_Model->modificarcargo($idCargo,$data);
-			redirect('controller_cargos/eliminados','refresh');
+				$this->Cargo_Model->modificarcargo($idCargo,$data);
+				redirect('controller_cargos/eliminados','refresh');	
+			}
 		}
 		else
 		{

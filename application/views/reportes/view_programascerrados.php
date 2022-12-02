@@ -31,19 +31,19 @@
                   <tr>
                     <td class="text-center" ><?php echo $indice;?></td>
                     <td ><?php echo $row->actividad;?></td>
-                    <td>
+                    <td class="text-center">
                     <?php 
                       $docRespaldo=$row->respaldo;
                       if ($docRespaldo=="Sin Respaldo") 
                       {
                         ?>
-                        <p>Sin Respaldo</p>
+                        <p id="anaranjado">Sin Respaldo</p>
                     <?php  
                       }
                       else
                       {
                     ?>
-                        <a href="<?php echo base_url();?>/uploads/respaldoPrograma/<?php echo $docRespaldo?>" target="_blank"> Respaldo
+                        <a href="<?php echo base_url();?>/uploads/respaldoPrograma/<?php echo $docRespaldo?>" target="_blank"> <p id="verde"> Respaldo </p>
                           <!--- <img src="<?php echo base_url();?>/uploads/logopdf.png" width="50px">-->
                         </a>
                     <?php  

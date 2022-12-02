@@ -37,30 +37,33 @@
         <div class="row">
           <div class="col-md-12">
             <label>HALLAZGO:</label>
-            <textarea type="text" class="form-control input-lg" placeholder="Redacte la observación" name="observacion"></textarea>
+            <textarea type="text" class="form-control input-lg" placeholder="Redacte la observación" name="observacion" value="<?php echo set_value('observacion'); ?>" ></textarea>
+            <p style="color: red;"><?php echo form_error('observacion');?></p>
           </div>
         </div> <br>
         <div class="row">
         <div class="col-md-4">
           <label>PRIORIDAD ATENCIÓN:</label>
-          <select type="text" class="form-control input-xlg" name="prioridad">
+          <select type="text" class="form-control input-xlg" name="prioridad" value="<?php echo set_value('prioridad'); ?>">
               <option value="">Seleccione</option>
               <option value="ALTA">ALTA</option>
               <option value="MEDIA">MEDIA</option>
                <option value="BAJA">BAJA</option>
           </select>
+          <p style="color: red;"><?php echo form_error('prioridad');?></p>
         </div>
         <div class="col-md-4">
           <label>EMPLEADO RESPONSABLE:</label>
-           <select name="idEmpleado" class="col-md-12 form-control" required autocomplete="off">
-            <option>Selecione un responsable</option>
+           <select name="idEmpleado" class="col-md-12 form-control" required autocomplete="off" value="<?php echo set_value('idEmpleado'); ?>">
+            <option value="">Seleccione un responsable</option>
                 <?php
                  foreach ($seleccion->result() as  $row)
               {?> <option value="<?php echo $row->idEmpleado;?>">
                 <?php echo $row->nombres.' '.$row->primerApellido.' '.$row->segundoApellido;?>
                 </option><?php
                 }?>
-          </select> <br><br><br>  
+          </select> <br><br><br>
+          <p style="color: red;"><?php echo form_error('idEmpleado');?></p> 
         </div>
         <div class="col-md-4">
           <label>ANEXO:</label>

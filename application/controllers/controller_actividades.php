@@ -89,15 +89,20 @@ class controller_actividades extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$idPlan=$_POST ['idPlan'];
-			$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$idPlan=$_POST ['idPlan'];
+				$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
 
-			$this->load->view('recursos/headergentelella');
-			$this->load->view('recursos/sidebargentelella');
-			$this->load->view('recursos/topbargentelella');
-			$this->load->view('update/modificar_actividad',$data);
-			$this->load->view('recursos/creditosgentelella');
-			$this->load->view('recursos/footergentelella');
+				$this->load->view('recursos/headergentelella');
+				$this->load->view('recursos/sidebargentelella');
+				$this->load->view('recursos/topbargentelella');
+				$this->load->view('update/modificar_actividad',$data);
+				$this->load->view('recursos/creditosgentelella');
+				$this->load->view('recursos/footergentelella');
+			}
 		}
 		else
 		{
@@ -109,19 +114,44 @@ class controller_actividades extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$idPlan=$_POST ['idPlan'];
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('informe','informe','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('objetivo','objetivo','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('normativa','normativa','required',array('required'=>'(*) Se requiere llenar este campo'));
+				$this->form_validation->set_rules('fechaInicio','fechaInicio','required',array('required'=>'(*) Inserte una fecha'));
+				$this->form_validation->set_rules('fechaConclusion','fechaConclusion','required',array('required'=>'(*) Inserte una fecha'));
+				$this->form_validation->set_rules('gradoPriorizacion','gradoPriorizacion','required',array('required'=>'(*) Seleccione un grado de priorización'));
+				if ($this->form_validation->run()==FALSE) {
+					$idPlan=$_POST ['idPlan'];
+					$data['infoactividad']=$this->PlanAnualTrabajo_Model->recuperaractividad($idPlan);
 
-			$data['informe']=$_POST ['informe'];
-			$data['objetivo']=$_POST ['objetivo'];
-			$data['normativa']=$_POST ['normativa'];
-			$data['fechaInicio']=$_POST ['fechaInicio'];
-			$data['fechaConclusion']=$_POST ['fechaConclusion'];
-			$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
-			$data['idUsuario']=$this->session->userdata('idUsuario');
-			
-			$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
-			redirect('controller_actividades/index','refresh');
+					$this->load->view('recursos/headergentelella');
+					$this->load->view('recursos/sidebargentelella');
+					$this->load->view('recursos/topbargentelella');
+					$this->load->view('update/modificar_actividad',$data);
+					$this->load->view('recursos/creditosgentelella');
+					$this->load->view('recursos/footergentelella');
+				}else{
+
+					$idPlan=$_POST ['idPlan'];
+
+					$data['informe']=$_POST ['informe'];
+					$data['objetivo']=$_POST ['objetivo'];
+					$data['normativa']=$_POST ['normativa'];
+					$data['fechaInicio']=$_POST ['fechaInicio'];
+					$data['fechaConclusion']=$_POST ['fechaConclusion'];
+					$data['gradoPriorizacion']=$_POST ['gradoPriorizacion'];
+					$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+					$data['idUsuario']=$this->session->userdata('idUsuario');
+					
+					$this->PlanAnualTrabajo_Model->modificaractividad($idPlan,$data);
+					redirect('controller_actividades/index','refresh');
+				}
+			}
 		}
 		else
 		{
@@ -169,12 +199,17 @@ class controller_actividades extends CI_Controller {
 	{
 		if($this->session->userdata('tipo')=='jefe')
 		{
-			$IdPlan=$_POST ['idPlan'];
-			$data['estado']='1';
-			$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
+			error_reporting(0);
+			if ($_POST ['idPlan']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
+				$IdPlan=$_POST ['idPlan'];
+				$data['estado']='1';
+				$data['fechaActualizacion']=date("Y-m-d (H:i:s)");
 
-			$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
-			redirect('controller_actividades/eliminados','refresh');
+				$this->PlanAnualTrabajo_Model->modificaractividad($IdPlan,$data);
+				redirect('controller_actividades/eliminados','refresh');
+			}
 		}
 		else
 		{
@@ -519,6 +554,10 @@ class controller_actividades extends CI_Controller {
 		
 		if($this->session->userdata('tipo')=='jefe')
 		{
+			error_reporting(0);
+			if ($_POST['idEmpleado']=='') {
+				redirect('controller_panelprincipal/index','refresh');
+			} else{
 			$empleado=$_POST['idEmpleado'];
 			$estado=$_POST['estadoEjecucion'];
 
@@ -740,7 +779,7 @@ class controller_actividades extends CI_Controller {
 
 			$this->pdf->Output("Detalle_de_Actividades_Ejecutadas_por_Empleados.pdf","I");
 			}
-
+			}
 
 		}
 		else

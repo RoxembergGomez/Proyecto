@@ -16,14 +16,14 @@
         </div>
         <div class="col-md-6">
          <label > NOMBRE DE USUARIO:</label>
-          <input type="text" name="usuario" class="col-md-12 form-control" value="<?php echo $row->usuario; ?>"><br>
+          <input type="text" name="usuario" class="col-md-12 form-control" autocomplete="off" value="<?php echo $row->usuario; ?>"><br>
           <p style="color: red;"><?php echo form_error('usuario');?></p>
         </div>
       </div><br>
       <div class="row">
         <div class="col-md-6">
          <label >ROL:</label>
-          <select name="tipo" class="col-md-12 form-control">
+          <select name="tipo" class="col-md-12 form-control" autocomplete="off">
             <option><?php echo $row->tipo; ?></option>
             <option value="jefe">Jefe</option>
             <option value="ejecutor">Ejecutor</option>
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-6">
           <label class="float-left" style="font-weight: bold;">CONTRASEÑA:</label>
-          <input type="password" name="contrasena" class="col-md-12 form-control"><br>
+          <input type="password" name="contrasena" class="col-md-12 form-control" autocomplete="off"><br>
           <p style="color: red;"><?php echo form_error('contrasena');?></p>
         </div>
       </div>

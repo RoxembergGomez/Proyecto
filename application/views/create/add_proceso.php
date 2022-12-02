@@ -1,12 +1,20 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-      <h5>AGREGAR PROCESOS</h5>              
-      <?php
+      <h5>AGREGAR PROCESOS</h5>
+
+    </div> <hr>
+      <?php 
+      foreach ($infoactividad->result() as $row) {?>
+      <div class="row">
+        <div class="col-md-12">
+          <label >ACTIVIDAD:</label>
+          <input type="text" class="col-md-12 form-control" value="<?php echo $row->informe;?>" disabled> <br>
+        </div>
+      </div> <br>
+      <?php }
       echo form_open_multipart('controller_procesos/agregarbdd');
       ?>
-    </div> <hr>
-
       <div class="row">
           <input type="hidden" name="idPlan" value="<?php echo $_POST['idPlan'];?>">
         <div class="col-md-12">

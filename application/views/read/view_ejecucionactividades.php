@@ -57,20 +57,19 @@
                       if (($row->verificacionActividad)=='3'){?> <p id="rojo"  >No</p><?php }
                       if (($row->verificacionActividad)=='4'){?> <p id="anaranjado">N/A</p><?php }?>
                     </td>
-                    <td>
+                    <td class="text-center">
                     <?php 
                       $docRespaldo=$row->respaldo;
                       if ($docRespaldo=="Sin Respaldo") 
                       {
                         ?>
-                        <p>Sin Respaldo</p>
+                        <p id="anaranjado">Sin Respaldo</p>
                     <?php  
                       }
                       else
                       {
                     ?>
-                        <a href="<?php echo base_url();?>/uploads/respaldoPrograma/<?php echo $docRespaldo?>"> Respaldo
-                          <!--- <img src="<?php echo base_url();?>/uploads/logopdf.png" width="50px">-->
+                        <a href="<?php echo base_url();?>/uploads/respaldoPrograma/<?php echo $docRespaldo?>" target="_blank"> <p id="verde">Respaldo</p> 
                         </a>
                     <?php  
                       }

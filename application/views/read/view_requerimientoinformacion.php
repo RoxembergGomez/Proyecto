@@ -1,23 +1,16 @@
 <div class="col-md-12 col-sm-12 ">
   <div class="x_panel">
     <div class="x_title text-center">
-        <h5 style="font-weight: bold; color: #000000; " >VISTA GENERAL DE REQUERIMIENTO DE INFORMACIÓN </h5> 
+        <h5>VISTA GENERAL DE REQUERIMIENTO DE INFORMACIÓN </h5> 
     </div>
     <div class="x_content">
       <div class="row">
         <div class="col-sm-12">
-          <div>
 
-        <div class="btn-group row float-right" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver Requerimientos</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <?php echo form_open_multipart('controller_requerimientoinformacion/cerrados');?>
-                    <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-desktop"></i> Cerrados</button>
+                    <button  type="submit" class="btn btn-info btn-sm text-left float-right"><i class="fa fa-desktop"></i> Cerrados</button>
                 <?php echo form_close();
                 ?>
-                </div>
-          </div> 
-          </div><br> <br>
 
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>

@@ -68,7 +68,7 @@ class Programas_Model extends CI_Model {
 	public function selectsubproceso($plan)
 	{
 		$this->db->select('p.idProceso,p.idPlanAnualTrabajo,s.idSubProceso,
-			s.descripcionSubProceso,s.estado,s.idProceso');
+			s.descripcionSubProceso,s.clasificacionCriticidad,s.estado,s.idProceso');
 		$this->db->from('proceso p');
 		$this->db->where('p.idPlanAnualTrabajo',$plan);
 		$this->db->where('s.estado','1');

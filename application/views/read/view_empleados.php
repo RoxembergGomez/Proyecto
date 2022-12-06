@@ -7,14 +7,9 @@
       <?php echo form_open_multipart('controller_empleados/agregar');?>
         <button type="submit" class="btn btn-primary btn-sm" id="botleft"><i class="fa fa-database"></i> Agregar</button>
       <?php echo form_close();?>
-        <div class="btn-group" role="group" id="botright">
-          <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list"></i>  Ver Empleados</button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
               <?php echo form_open_multipart('controller_empleados/eliminados');?>
-                <button  type="submit" class="btn btn-outline-info btn-sm col-sm-12 text-left"><i class="fa fa-trash"></i> Eliminados</button>
+                <button  type="submit" class="btn btn-info btn-sm text-left float-right"><i class="fa fa-trash"></i> Inactivos</button>
               <?php echo form_close();?>
-            </div>
-        </div>
     </div>  <hr>
     <div class="x_content">
       <div class="row">

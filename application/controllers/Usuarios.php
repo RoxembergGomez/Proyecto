@@ -48,7 +48,7 @@ class Usuarios extends CI_Controller {
 		if($consulta2->num_rows()>0)
 		{
 			
-			$this->form_validation->set_rules('nuevacontrasena', 'nuevacontrasena', 'required');
+			$this->form_validation->set_rules('nuevacontrasena', 'nuevacontrasena', 'required|min_length[4]|max_length[8]',array('required'=>'(*) Se requiere llenar este campo','min_length'=>'(*) Se requiere al menos 4 caracteres','max_length'=>'(*) Se requiere máximo 8 caracteres'));
 			$this->form_validation->set_rules('repitacontrasena','repitacontrasena','required|matches[nuevacontrasena]');
 
 			if ($this->form_validation->run()==FALSE) { 

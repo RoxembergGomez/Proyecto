@@ -43,7 +43,7 @@
               <i id="novi2" class="fa fa-eye"></i>
           </span>
           <?php if($msg=='2'){?>
-              <p style="margin:0px;" >  (*) Contraseñas nuevas no coiciden </p>
+              <p style="margin:0px;" >  (*) Contraseñas nuevas no coiciden y se requiere un mínimo de 4 y máximo de 8 caracteres </p>
           <?php } ?>
           </div>
         

@@ -36,7 +36,7 @@ table tr td:first-child::before
                 <?php
                  foreach ($infoidplan->result() as  $row)
               {?> <option value="<?php echo $row->idSubProceso;?>">
-                <?php echo $row->descripcionSubProceso;?>
+                <?php echo $row->descripcionSubProceso.'  (ATENCIÓN - '.$row->clasificacionCriticidad;?>
                 </option><?php
                 }?>
           </select>

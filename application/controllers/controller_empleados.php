@@ -56,8 +56,8 @@ class controller_empleados extends CI_Controller {
 			$this->form_validation->set_rules('segundoApellido','segundoApellido','alpha',array('alpha'=>'(*) El campo no permite números'));
 			$this->form_validation->set_rules('ci','ci','required',array('required'=>'(*) Se requiere llenar este campo'));
 			$this->form_validation->set_rules('expedicion','expedicion','required',array('required'=>'(*) Selecione un apción'));
-			$this->form_validation->set_rules('celular','celular','numeric',array('numeric'=>'(*) valores no permitos, ingrese solo números'));
-			$this->form_validation->set_rules('telefonoInterno','telefonoInterno','numeric',array('numeric'=>'(*) valores no permitos, ingrese solo números'));
+			$this->form_validation->set_rules('celular','celular','numeric',array('numeric'=>'(*) valores no permitidos, ingrese solo números'));
+			$this->form_validation->set_rules('telefonoInterno','telefonoInterno','numeric',array('numeric'=>'(*) valores no permitidos, ingrese solo números'));
 			$this->form_validation->set_rules('correoInstitucional','correoInstitucional','required|valid_email',array('required'=>'(*) Se requiere llenar este campo','valid_email'=>'(*) Este campo requiere los parámetros de un email'));
 			$this->form_validation->set_rules('idCargo','idCargo','required',array('required'=>'(*) Seleccione una opción'));
 			$this->form_validation->set_rules('usuario','usuario','required|min_length[4]|alpha_numeric',array('required'=>'(*) Se requiere llenar este campo','min_length'=>'(*) Se requiere al menos 4 carateres','alpha_numeric'=>'(*) Se requiere solo letras o números'));
@@ -155,8 +155,8 @@ class controller_empleados extends CI_Controller {
 				$this->form_validation->set_rules('primerApellido','primerApellido','required|alpha',array('required'=>'(*) Se requiere llenar este campo','alpha'=>'(*) El campo no permite números'));
 				$this->form_validation->set_rules('segundoApellido','segundoApellido','alpha',array('alpha'=>'(*) El campo no permite números'));
 				$this->form_validation->set_rules('ci','ci','required',array('required'=>'(*) Se requiere llenar este campo'));
-				$this->form_validation->set_rules('celular','celular','numeric',array('numeric'=>'(*) valores no permitos, ingrese solo números'));
-				$this->form_validation->set_rules('telefonoInterno','telefonoInterno','numeric',array('numeric'=>'(*) valores no permitos, ingrese solo números'));
+				$this->form_validation->set_rules('celular','celular','numeric',array('numeric'=>'(*) valores no permitidos, ingrese solo números'));
+				$this->form_validation->set_rules('telefonoInterno','telefonoInterno','numeric',array('numeric'=>'(*) valores no permitidos, ingrese solo números'));
 				$this->form_validation->set_rules('correoInstitucional','correoInstitucional','required|valid_email',array('required'=>'(*) Se requiere llenar este campo','valid_email'=>'(*) Este campo requiere los parámetros de un email'));
 				$this->form_validation->set_rules('idCargo','idCargo','required',array('required'=>'(*) Seleccione una opción'));
 
